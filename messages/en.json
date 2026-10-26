@@ -211,7 +211,9 @@
     },
     "picked": "Picked from the library",
     "pickedEmptyTitle": "Content is on the way",
-    "pickedEmptyHint": "We'll collect content here as it's checked."
+    "pickedEmptyHint": "We'll collect content here as it's checked.",
+    "seeAll": "See all",
+    "toRadar": "Open Game Radar"
   },
   "library": {
     "title": "Content Library",

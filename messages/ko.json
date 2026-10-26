@@ -211,7 +211,9 @@
     },
     "picked": "라이브러리에서 골라 봤어요",
     "pickedEmptyTitle": "컨텐츠를 준비하고 있어요",
-    "pickedEmptyHint": "검수가 끝난 컨텐츠부터 이곳에 모아 둘게요."
+    "pickedEmptyHint": "검수가 끝난 컨텐츠부터 이곳에 모아 둘게요.",
+    "seeAll": "전체 보기",
+    "toRadar": "게임 레이더 보기"
   },
   "library": {
     "title": "컨텐츠 라이브러리",

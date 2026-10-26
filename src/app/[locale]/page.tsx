@@ -6,6 +6,7 @@ import { ContentCard } from "@/components/cards/ContentCard";
 import { GameCard } from "@/components/cards/GameCard";
 import { gameCardProps } from "@/components/cards/cardProps";
 import { ButtonLink } from "@/components/ui/Button";
+import { SectionHead } from "@/components/ui/SectionHead";
 import { EmptyState } from "@/components/ui/States";
 import { SITE_NAME } from "@/config/site";
 import { getContents } from "@/lib/data/contents";
@@ -83,37 +84,49 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
         <p className="ow-eyebrow">{SITE_NAME}</p>
         <h1 className="ow-display">{meta("tagline")}</h1>
         <p className="ow-lead">{t("lead")}</p>
-        <ButtonLink href="/recommend">{t("cta")}</ButtonLink>
+        <div className="ow-hero-actions">
+          <ButtonLink href="/recommend">{t("cta")}</ButtonLink>
+          <ButtonLink href="/radar" variant="ghost">{t("toRadar")}</ButtonLink>
+        </div>
       </section>
 
-      <h2 className="ow-h2">{t("trending")}</h2>
-      <Suspense fallback={loading}>
-        <TrendingGames locale={locale} />
-      </Suspense>
+      <section className="ow-section">
+        <SectionHead title={t("trending")} href="/radar" />
+        <Suspense fallback={loading}>
+          <TrendingGames locale={locale} />
+        </Suspense>
+      </section>
 
-      <h2 className="ow-h2">{t("upcoming")}</h2>
-      <Suspense fallback={loading}>
-        <UpcomingGames locale={locale} />
-      </Suspense>
+      <section className="ow-section">
+        <SectionHead title={t("upcoming")} href="/radar" />
+        <Suspense fallback={loading}>
+          <UpcomingGames locale={locale} />
+        </Suspense>
+      </section>
 
-      <h2 className="ow-h2">{t("byPlayers")}</h2>
-      <div className="ow-grid">
-        {(["solo", "small", "large"] as PlayerTier[]).map((tier) => (
-          <article key={tier} className="ow-card">
-            <h3 className="ow-card-title">
-              <Link href={`/library?tier=${tier}`} className="ow-card-link">
-                {labels.tier[tier]}
-              </Link>
-            </h3>
-            <p className="ow-card-text">{t(`tierIntro.${tier}`)}</p>
-          </article>
-        ))}
-      </div>
+      <section className="ow-section">
+        <SectionHead title={t("byPlayers")} />
+        <div className="ow-grid ow-grid-tier">
+          {(["solo", "small", "large"] as PlayerTier[]).map((tier) => (
+            <article key={tier} className="ow-card ow-tier-card">
+              <h3 className="ow-tier-title">
+                <Link href={`/library?tier=${tier}`} className="ow-card-link">
+                  {labels.tier[tier]}
+                </Link>
+              </h3>
+              <p className="ow-card-text">{t(`tierIntro.${tier}`)}</p>
+              <span className="ow-tier-arrow" aria-hidden="true">→</span>
+            </article>
+          ))}
+        </div>
+      </section>
 
-      <h2 className="ow-h2">{t("picked")}</h2>
-      <Suspense fallback={loading}>
-        <PickedContents locale={locale} />
-      </Suspense>
+      <section className="ow-section">
+        <SectionHead title={t("picked")} href="/library" />
+        <Suspense fallback={loading}>
+          <PickedContents locale={locale} />
+        </Suspense>
+      </section>
     </>
   );
 }

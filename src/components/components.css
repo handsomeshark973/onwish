@@ -139,7 +139,7 @@
 .ow-chart { color: var(--accent); }
 .ow-chart-empty { color: var(--text-muted); font-size: var(--fs-caption); }
 .ow-grid { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr)); }
-.ow-scroll-row { display: flex; gap: var(--space-4); overflow-x: auto; padding-bottom: var(--space-2); scroll-snap-type: x proximity; }
+.ow-scroll-row { display: flex; gap: var(--space-4); overflow-x: auto; padding-bottom: var(--space-3); scroll-snap-type: x proximity; scrollbar-width: thin; }
 .ow-scroll-row > * { flex: 0 0 var(--card-rail); scroll-snap-align: start; }
 
 /* 추천 카드 접기·펼치기 */
@@ -165,7 +165,20 @@
 .ow-mt { margin-top: var(--space-4); }
 
 /* 홈 */
-.ow-hero { padding: var(--space-7) 0 var(--space-5); display: grid; gap: var(--space-4); justify-items: start; }
+.ow-hero { padding: var(--space-7) var(--space-5); margin-bottom: var(--space-7); display: grid; gap: var(--space-4); justify-items: start; background: linear-gradient(135deg, var(--surface-2), var(--surface) 60%, var(--bg)); border: var(--bw) solid var(--line); border-radius: var(--radius-md); }
+.ow-hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+@media (min-width: 900px) { .ow-hero { padding: var(--space-8) var(--space-7); } }
+/* 구역: 제목 줄 + 내용. 구역 사이 간격은 모든 페이지가 같다 */
+.ow-section { margin-bottom: var(--space-7); display: grid; gap: var(--space-4); }
+.ow-section-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.ow-section-link { color: var(--text-muted); font-size: var(--fs-caption); font-weight: var(--fw-semibold); white-space: nowrap; }
+.ow-section-link:hover { color: var(--text); }
+.ow-visually-hidden { position: absolute; width: var(--bw); height: var(--bw); overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.ow-grid-tier { grid-template-columns: 1fr; }
+@media (min-width: 640px) { .ow-grid-tier { grid-template-columns: repeat(3, 1fr); } }
+.ow-tier-card { padding: var(--space-5); min-height: calc(var(--control) * 3); gap: var(--space-3); }
+.ow-tier-title { margin: 0; font-size: var(--fs-h2); line-height: var(--lh-tight); }
+.ow-tier-arrow { margin-top: auto; font-size: var(--fs-h3); color: var(--accent); }
 .ow-report-form { margin-top: var(--space-3); max-width: var(--form-w); }
 .ow-eyebrow { margin: 0; color: var(--accent); font-weight: var(--fw-bold); letter-spacing: var(--ls-eyebrow); }
 .ow-display { margin: 0; font-family: var(--font-display); font-size: var(--fs-display); line-height: var(--lh-tight); }
