@@ -73,7 +73,7 @@ export function RadarBrowser({ games }: { games: GameSummary[] }) {
           return (
             <section key={key} className="ow-bundle" aria-label={t(`${key}Title`)}>
               <div className="ow-bundle-head">
-                <h2 className="ow-h2" style={{ margin: 0 }}>{t(`${key}Title`)}</h2>
+                <h2 className="ow-h2 ow-h2-flush">{t(`${key}Title`)}</h2>
                 <p>{t(`${key}Desc`)}</p>
               </div>
               {key === "upcoming" ? (

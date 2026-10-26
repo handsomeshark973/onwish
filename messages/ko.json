@@ -25,7 +25,8 @@
     "logout": "로그아웃",
     "myAccount": "내 계정",
     "goProfile": "프로필로 이동",
-    "loggedInAs": "{name} 님으로 로그인됨"
+    "loggedInAs": "{name} 님으로 로그인됨",
+    "theme": "화면 모드"
   },
   "footer": {
     "note": "게임 정보는 출처와 확인일을 함께 표시합니다. 틀린 정보는 각 페이지의 오류 신고로 알려 주세요.",
@@ -745,6 +746,20 @@
     "label": "화면 모드",
     "system": "시스템 설정 따르기",
     "dark": "다크",
-    "light": "라이트"
+    "light": "라이트",
+    "toggle": "화면 모드 바꾸기 (지금: {current})"
+  },
+  "states": {
+    "loadingTitle": "불러오는 중이에요",
+    "loadingHint": "잠시만 기다려 주세요. 오래 걸리면 새로고침해 보세요.",
+    "emptyTitle": "아직 보여 드릴 게 없어요",
+    "emptyHint": "조건을 줄이거나 다른 메뉴에서 찾아보세요.",
+    "errorTitle": "문제가 생겼어요",
+    "errorHint": "잠시 뒤에 다시 시도해 주세요. 계속되면 정보 오류 신고로 알려 주세요.",
+    "retry": "다시 시도",
+    "home": "홈으로"
+  },
+  "gameImage": {
+    "pending": "이미지 준비 중"
   }
 }

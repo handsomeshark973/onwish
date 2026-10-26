@@ -33,3 +33,29 @@ export function ThemeToggle() {
     </div>
   );
 }
+
+// 헤더용 작은 버튼: 누를 때마다 시스템 → 다크 → 라이트 순으로 바뀐다. 아이콘은 직접 그린 단순 도형이다.
+export function ThemeCycle() {
+  const t = useTranslations("theme");
+  const current = useSyncExternalStore(subscribe, read, () => "system" as Theme);
+  const next = ORDER[(ORDER.indexOf(current) + 1) % ORDER.length];
+  return (
+    <button type="button" className="ow-icon-btn" aria-label={t("toggle", { current: t(current) })} title={t(current)} onClick={() => applyTheme(next)}>
+      <svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        {current === "dark" && <path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z" />}
+        {current === "light" && (
+          <>
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </>
+        )}
+        {current === "system" && (
+          <>
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" />
+          </>
+        )}
+      </svg>
+    </button>
+  );
+}

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { AppealBadge, SizeBadge, StageBadge } from "@/components/ui/Badge";
+import { routing } from "@/i18n/routing";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { contrastRows, loadThemes } from "@/styles/contrast";
+import { ComponentShowcase } from "../ComponentShowcase";
 import "./preview.css";
 
 export const metadata: Metadata = { title: "토큰 확인" };
@@ -25,8 +28,11 @@ const TYPE = [
 const SPACES = [1, 2, 3, 4, 5, 6, 7, 8];
 
 // 개발 중 토큰을 한눈에 보는 화면. 배포(production)에서는 열리지 않는다.
-export default function TokensPage() {
+export default async function TokensPage({ params }: PageProps<"/[locale]/dev/tokens">) {
   if (process.env.NODE_ENV === "production") notFound();
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
   const themes = loadThemes();
   const rows = contrastRows();
   const failed = rows.filter((r) => !r.pass).length;
@@ -55,17 +61,6 @@ export default function TokensPage() {
         </section>
       ))}
 
-      <h2 className="ow-h2">배지(색 + 글자)</h2>
-      <div className="tk-row">
-        <AppealBadge appeal="visual" /><AppealBadge appeal="audio" /><AppealBadge appeal="audiovisual" />
-      </div>
-      <div className="tk-row">
-        <StageBadge stage="upcoming" /><StageBadge stage="golden" /><StageBadge stage="hot" /><StageBadge stage="cooling" /><StageBadge stage="evergreen" />
-      </div>
-      <div className="tk-row">
-        <SizeBadge size="s" /><SizeBadge size="m" /><SizeBadge size="l" />
-      </div>
-
       <h2 className="ow-h2">글자 크기</h2>
       {TYPE.map(([name, size, weight]) => (
         <p key={name} style={{ fontSize: `var(${size})`, fontWeight: `var(${weight})`, lineHeight: "var(--lh-heading)", margin: 0 }}>
@@ -90,6 +85,11 @@ export default function TokensPage() {
           <div className="tk-box" key={s} style={{ boxShadow: `var(${s})`, borderRadius: "var(--radius-sm)" }}>{s}</div>
         ))}
       </div>
+
+      <h2 className="ow-h2">공통 부품 목록</h2>
+      <p>헤더(메뉴·언어·화면 모드·로그인)와 푸터는 이 화면의 위아래에 그대로 보입니다. 아래는 나머지 부품입니다.</p>
+      <ThemeToggle />
+      <ComponentShowcase />
 
       <h2 className="ow-h2">명암비 표(글자 4.5:1, 포커스 링 3:1)</h2>
       <p>조합 {rows.length}개 중 기준 미달 <strong className={failed ? "tk-fail" : "tk-pass"}>{failed}개</strong>. 계산은 tokens.css를 직접 읽습니다.</p>

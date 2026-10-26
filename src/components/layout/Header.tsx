@@ -5,6 +5,7 @@ import { useState, type ReactNode } from "react";
 import { NAV_ITEMS } from "@/config/nav";
 import { SITE_NAME } from "@/config/site";
 import { Link, usePathname } from "@/i18n/navigation";
+import { ThemeCycle } from "@/components/ui/ThemeToggle";
 import { LanguageSwitch } from "./LanguageSwitch";
 
 // 헤더는 세 구역으로 나뉜다: [로고] [페이지 이동 메뉴] ┃ [언어 전환] [계정]
@@ -45,6 +46,10 @@ export function Header({ account }: { account: ReactNode }) {
             <section className="ow-util-block" aria-label={t("language")}>
               <p className="ow-panel-label">{t("language")}</p>
               <LanguageSwitch />
+            </section>
+            <section className="ow-util-block ow-util-theme" aria-label={t("theme")}>
+              <p className="ow-panel-label">{t("theme")}</p>
+              <ThemeCycle />
             </section>
             <section className="ow-util-block ow-account" aria-label={t("account")} onClick={(e) => { if ((e.target as HTMLElement).closest("a")) close(); }}>
               <p className="ow-panel-label">{t("account")}</p>

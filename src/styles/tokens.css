@@ -58,6 +58,27 @@
   --lh-heading: 1.4;
   --lh-body: 1.6;
   --measure: 38em; /* 읽기 글 폭 */
+  --ls-wide: 0.04em;
+  --ls-eyebrow: 0.08em;
+
+  /* 크기: 조작 요소 높이(터치 44px 이상), 아이콘, 폭 */
+  --bw: 1px;
+  --bw-strong: 3px; /* 포커스 링, 선택된 탭 밑줄 */
+  --control: 2.75rem;
+  --control-sm: 2.5rem;
+  --control-xs: 2rem;
+  --icon: 1.25rem;
+  --avatar: 2rem;
+  --header-h: 3.75rem;
+  --container: 70rem;
+  --form-w: 27.5rem;
+  --sheet-w: 35rem;
+  --card-min: 16.25rem;
+  --card-rail: 15rem;
+  --ratio-thumb: 16 / 9;
+  --ratio-hero: 16 / 7;
+  --ratio-poster: 2 / 3;
+  /* 화면 폭 기준(미디어 쿼리는 변수를 못 쓰므로 여기 적어 둔다): 모바일 ~639px, 태블릿 640px~, 헤더 가로 배치 900px~, 2단 레이아웃 960px~ */
 
   /* 간격: 4px 단위 */
   --space-1: 4px;
@@ -81,6 +102,8 @@
   /* 움직임 */
   --dur-fast: 120ms;
   --dur-base: 200ms;
+  --dur-spin: 900ms;
+  --name-max: 14em; /* 헤더 사용자 이름 말줄임 폭 */
 
   color-scheme: dark;
 }

@@ -35,6 +35,9 @@ export function HeaderFallback() {
                 ))}
               </div>
             </section>
+            <section className="ow-util-block ow-util-theme" aria-label={t("theme")}>
+              <span className="ow-icon-btn" aria-hidden="true" />
+            </section>
             <section className="ow-util-block ow-account" aria-label={t("account")}>
               <LoginButton />
             </section>

@@ -160,7 +160,7 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
 
             {isGroup && (
               <>
-                <h2 className="ow-h2" style={{ margin: 0 }}>{t("groupInfo")}</h2>
+                <h2 className="ow-h2 ow-h2-flush">{t("groupInfo")}</h2>
                 <p className="ow-hint">{t("groupHint")}</p>
                 {members.map((m, idx) => (
                   <div key={idx} className="ow-member">
@@ -190,7 +190,7 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
               </>
             )}
 
-            <h2 className="ow-h2" style={{ margin: 0 }}>{t("exclude")}</h2>
+            <h2 className="ow-h2 ow-h2-flush">{t("exclude")}</h2>
             <fieldset className="ow-field">
               <legend>{t("avoid")}</legend>
               <ChipGroup label={t("avoid")} multiple options={[{ value: "horror", label: t("avoidHorror") }, { value: "motion", label: t("avoidMotion") }, { value: "spoiler", label: t("avoidSpoiler") }]} value={avoid} onChange={setAvoid} />
@@ -220,7 +220,7 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
         ) : (
           <div className="ow-form">
             {state.result.source === "rule" && <p className="ow-note"><strong>{t("basicTag")}</strong> · {state.result.notice ? noticeText(state.result.notice, state.result.quota) : t("basicDefault")}</p>}
-            {state.result.summary && <p className="ow-lead" style={{ fontSize: "var(--fs-body)" }}>{state.result.summary}</p>}
+            {state.result.summary && <p className="ow-lead ow-lead-sm">{state.result.summary}</p>}
             {state.result.picks.length === 0 ? (
               <EmptyState title={t("noneTitle")} hint={t("noneHint")} />
             ) : (

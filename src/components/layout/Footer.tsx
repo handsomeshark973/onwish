@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import { NAV_ITEMS } from "@/config/nav";
 import { SITE_DOMAIN, SITE_NAME } from "@/config/site";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { Link } from "@/i18n/navigation";
 
 export function Footer() {
@@ -24,6 +25,7 @@ export function Footer() {
           <li><Link href="/privacy">{f("privacy")}</Link></li>
           <li><Link href="/terms">{f("terms")}</Link></li>
         </ul>
+        <ThemeToggle />
         <p className="ow-footer-note">{f("note")}</p>
       </div>
     </footer>

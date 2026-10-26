@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { GameImage } from "@/components/ui/GameImage";
 import { MiniChart } from "@/components/ui/MiniChart";
 import { AppealBadge, StageBadge } from "@/components/ui/Badge";
 import { formatPlayers } from "@/lib/format";
@@ -22,22 +23,12 @@ type Props = {
 };
 
 export function GameCard({ href, name, developer, stage, appeals, dateLabel, players, platforms, imageUrl, imageAlt, imageSource, metric }: Props) {
-  const t = useTranslations("game");
   const tf = useTranslations("format");
   const tm = useTranslations("gameDetail");
   const fixed = players.fixed === true;
   return (
     <article className="ow-card ow-game-card">
-      <div className="ow-game-thumb">
-        {imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={imageUrl} alt={imageAlt ?? t("imageAlt", { name })} loading="lazy" />
-        ) : (
-          <span className="ow-game-placeholder" role="img" aria-label={t("imagePending", { name })}>
-            {name.slice(0, 1)}
-          </span>
-        )}
-      </div>
+      <GameImage name={name} src={imageUrl} alt={imageAlt} source={imageSource} />
       <div className="ow-card-badges">
         <StageBadge stage={stage} />
       </div>
@@ -58,7 +49,6 @@ export function GameCard({ href, name, developer, stage, appeals, dateLabel, pla
         </div>
       )}
       {metric && <MiniChart values={metric.values} label={`${tm(`metric.${metric.kind}`)} ${tm("metric.last30")}`} />}
-      {imageUrl && imageSource && <p className="ow-meta">{t("imageSource", { source: imageSource })}</p>}
     </article>
   );
 }

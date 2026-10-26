@@ -28,9 +28,8 @@ export function ReportButton({ targetType, targetId, label, loginNext }: Props) 
       <Button variant="ghost" onClick={() => setOpen((v) => !v)} aria-expanded={open}>{t("button")}</Button>
       {open && (
         <form
-          className="ow-form"
+          className="ow-form ow-report-form"
           method="post"
-          style={{ marginTop: "var(--space-3)", maxWidth: 480 }}
           onSubmit={(e) => {
             e.preventDefault();
             start(async () => {

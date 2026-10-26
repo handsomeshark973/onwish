@@ -25,7 +25,8 @@
     "logout": "Log out",
     "myAccount": "My account",
     "goProfile": "Go to profile",
-    "loggedInAs": "Logged in as {name}"
+    "loggedInAs": "Logged in as {name}",
+    "theme": "Color theme"
   },
   "footer": {
     "note": "Game info is shown with its source and the date it was checked. If something is wrong, tell us with the error report on each page.",
@@ -745,6 +746,20 @@
     "label": "Color theme",
     "system": "Match system",
     "dark": "Dark",
-    "light": "Light"
+    "light": "Light",
+    "toggle": "Change color theme (now: {current})"
+  },
+  "states": {
+    "loadingTitle": "Loading",
+    "loadingHint": "One moment. If it takes too long, try refreshing.",
+    "emptyTitle": "Nothing to show yet",
+    "emptyHint": "Loosen your filters or look in another section.",
+    "errorTitle": "Something went wrong",
+    "errorHint": "Please try again in a moment. If it keeps happening, let us know.",
+    "retry": "Try again",
+    "home": "Back to home"
+  },
+  "gameImage": {
+    "pending": "Image coming soon"
   }
 }

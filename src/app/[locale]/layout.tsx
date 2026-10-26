@@ -18,7 +18,7 @@ import "../globals.css";
 import "@/components/components.css";
 
 // 클라이언트 컴포넌트(src/components, src/i18n/labels)가 useTranslations로 쓰는 묶음. 새 묶음을 클라이언트에서 쓰면 여기에 추가한다.
-const CLIENT_NAMESPACES = ["auth", "common", "contentCard", "filter", "footer", "format", "game", "gameDetail", "library", "nav", "radar", "reco", "recoErrors", "recommend", "report", "taxonomy", "theme"];
+const CLIENT_NAMESPACES = ["auth", "common", "contentCard", "filter", "footer", "format", "game", "gameDetail", "gameImage", "library", "nav", "radar", "reco", "recoErrors", "recommend", "report", "states", "taxonomy", "theme"];
 
 // 글꼴: Paperlogy(OFL). 파일은 src/fonts/paperlogy, 라이선스 안내는 같은 폴더의 LICENSE-NOTE.txt
 const paperlogy = localFont({
