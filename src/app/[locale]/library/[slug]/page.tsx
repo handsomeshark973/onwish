@@ -41,7 +41,7 @@ async function Detail({ params }: { params: PageProps<"/[locale]/library/[slug]"
         <span className="ow-meta">{l.watch[c.watchMode]}</span>
         <span className="ow-meta">{l.tier[c.playerTier]}</span>
       </div>
-      <h1 className="ow-h1" style={{ marginTop: "var(--space-3)" }}>{c.title}</h1>
+      <h1 className="ow-h1 ow-h1-article">{c.title}</h1>
       <p className="ow-article-lead">{c.appealText}</p>
       {c.appealPoints.length > 0 && <p className="ow-meta">{c.appealPoints.map((p) => l.appealPoint[p] ?? p).join(" · ")}</p>}
 
@@ -74,7 +74,7 @@ async function Detail({ params }: { params: PageProps<"/[locale]/library/[slug]"
       {c.modsOrSetup && (<><h2>{t("setup")}</h2><p>{c.modsOrSetup}</p></>)}
       {c.cautions && (<><h2>{t("cautions")}</h2><p>{c.cautions}</p></>)}
 
-      <p className="ow-meta" style={{ marginTop: "var(--space-6)" }}>
+      <p className="ow-meta ow-article-source">
         {l.origin[c.origin]}
         {c.structures.length > 0 && ` · ${c.structures.map((s) => l.structure[s]).join(", ")}`}
         {c.borrowedFrom && ` · ${t("referenceFrom", { name: c.borrowedFrom })}`}
@@ -83,15 +83,15 @@ async function Detail({ params }: { params: PageProps<"/[locale]/library/[slug]"
       {c.games.length > 0 && (
         <>
           <h2>{t("linkedGames")}</h2>
-          <ul>{c.games.map((g) => (<li key={g.slug}><Link href={`/radar/${g.slug}`}>{g.name}</Link></li>))}</ul>
+          <ul className="ow-chips ow-link-chips">{c.games.map((g) => (<li key={g.slug}><Link href={`/radar/${g.slug}`} className="ow-chip ow-chip-link">{g.name}</Link></li>))}</ul>
         </>
       )}
       {c.games.length === 0 && c.gamesText && (<><h2>{t("gamesText")}</h2><p>{c.gamesText}</p></>)}
 
-      <div style={{ marginTop: "var(--space-6)" }}>
+      <div className="ow-article-cta">
         <ButtonLink href="/recommend">{t("recommendThis")}</ButtonLink>
       </div>
-      <div style={{ marginTop: "var(--space-4)" }}>
+      <div className="ow-mt">
         <ReportButton targetType="content" targetId={c.id} label={c.title} loginNext={`/library/${c.slug}`} />
       </div>
     </article>

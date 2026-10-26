@@ -241,6 +241,12 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 
 /* 상세 */
 .ow-article { max-width: var(--measure); }
+.ow-h1-article { margin: var(--space-3) 0 var(--space-4); }
+.ow-article-source { margin-top: var(--space-6); }
+.ow-article-cta { margin-top: var(--space-6); padding-top: var(--space-5); border-top: var(--bw) solid var(--line); }
+.ow-link-chips { list-style: none; padding: 0; margin: 0; }
+.ow-chip-link { display: inline-flex; align-items: center; text-decoration: none; }
+.ow-chip-link:hover { border-color: var(--accent); }
 .ow-article-wide { max-width: none; }
 /* 게임 상세 첫 화면: 큰 이미지 + 소개. 넓은 화면에서는 좌우로 나눈다 */
 .ow-game-hero { display: grid; gap: var(--space-5); margin-bottom: var(--space-5); }
@@ -248,7 +254,8 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 @media (min-width: 900px) { .ow-game-hero { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: center; gap: var(--space-6); } }
 .ow-game-media .ow-media-frame { aspect-ratio: var(--ratio-thumb); }
 .ow-grid-metrics { grid-template-columns: repeat(auto-fit, minmax(var(--card-min), 1fr)); }
-.ow-article h2 { font-size: var(--fs-h2); margin: var(--space-6) 0 var(--space-2); }
+.ow-article h2 { font-size: var(--fs-h2); line-height: var(--lh-heading); margin: var(--space-7) 0 var(--space-3); }
+.ow-article :where(p) { margin: 0 0 var(--space-4); }
 .ow-article-lead { font-size: var(--fs-h3); line-height: var(--lh-body); margin: var(--space-4) 0; }
 .ow-article p, .ow-article li { line-height: var(--lh-body); }
 .ow-article ol { padding-left: var(--space-5); }
