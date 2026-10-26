@@ -183,6 +183,7 @@
 .ow-eyebrow { margin: 0; color: var(--accent); font-weight: var(--fw-bold); letter-spacing: var(--ls-eyebrow); }
 .ow-display { margin: 0; font-family: var(--font-display); font-size: var(--fs-display); line-height: var(--lh-tight); }
 .ow-lead { margin: 0; max-width: var(--measure); color: var(--text-muted); font-size: var(--fs-h3); }
+.ow-lead-block { margin-bottom: var(--space-5); }
 .ow-lead-sm { font-size: var(--fs-body); }
 
 /* 목록 보조 */
@@ -235,6 +236,8 @@
 /* 추천 폼 */
 .ow-reco-layout { display: grid; gap: var(--space-6); }
 @media (min-width: 960px) { .ow-reco-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } }
+.ow-reco-layout > form { background: var(--surface); border: var(--bw) solid var(--line); border-radius: var(--radius-md); padding: var(--space-5); }
+.ow-reco-layout > :last-child { min-width: 0; }
 .ow-form { display: grid; gap: var(--space-5); }
 .ow-member { display: grid; gap: var(--space-2); padding: var(--space-3); border: var(--bw) solid var(--line); border-radius: var(--radius-sm); }
 .ow-sample-banner { background: var(--surface-2); border: var(--bw) dashed var(--accent); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); margin-bottom: var(--space-4); font-size: var(--fs-caption); }

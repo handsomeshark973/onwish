@@ -43,7 +43,7 @@ export default async function RecommendPage({ params }: PageProps<"/[locale]/rec
   return (
     <>
       <h1 className="ow-h1">{t("title")}</h1>
-      <p className="ow-lead" style={{ marginBottom: "var(--space-5)" }}>{t("lead")}</p>
+      <p className="ow-lead ow-lead-block">{t("lead")}</p>
       <Suspense fallback={<p className="ow-meta">…</p>}>
         <Recommend locale={locale} />
       </Suspense>

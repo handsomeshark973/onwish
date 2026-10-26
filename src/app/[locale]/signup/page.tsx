@@ -19,7 +19,7 @@ export default async function SignupPage({ params }: PageProps<"/[locale]/signup
   return (
     <div className="ow-auth">
       <h1 className="ow-h1">{t("title")}</h1>
-      <p className="ow-lead" style={{ marginBottom: "var(--space-5)" }}>{t("lead")}</p>
+      <p className="ow-lead ow-lead-block">{t("lead")}</p>
       <SignupForm />
     </div>
   );

@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
 import { PickCard } from "@/components/recommend/PickCard";
 import { RecommendForm } from "@/components/recommend/RecommendForm";
 import { SAMPLE_CONTENTS, SAMPLE_GAMES } from "@/data/samples";
@@ -10,8 +13,11 @@ import { profileSchema } from "@/lib/recommend/schema";
 export const metadata: Metadata = { title: "추천 화면 확인" };
 
 // 로그인 없이 추천 화면 모양을 보는 개발용 페이지. 배포에서는 열리지 않는다. 값은 모두 가짜 예시다.
-export default function DevRecommend() {
+export default async function DevRecommend({ params }: PageProps<"/[locale]/dev/recommend">) {
   if (process.env.NODE_ENV === "production") notFound();
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
   const profile = profileSchema.parse({
     mode: "small", strengths: ["chemistry"], persona: "", usesCam: true, audience: "m", devices: ["PC"], length: "series",
     timeSlot: "evening", goal: "both", hasCommunity: true, allowRotation: false, allowLeague: false, excludedGameIds: [],
