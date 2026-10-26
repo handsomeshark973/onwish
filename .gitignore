@@ -9,3 +9,7 @@ Thumbs.db
 
 # Vercel에 붙여 넣기용 임시 파일(비밀 값 포함). 절대 올리지 않는다
 .env.vercel
+.vercel
+.env
+.env.*
+!.env.example

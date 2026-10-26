@@ -17,3 +17,5 @@
 2026-10-26 | GitHub에 올리기 | 저장소 handsomeshark973/onwish에 main 브랜치 첫 커밋 push 완료(.env 등 비밀 값 제외). 다음: Vercel에서 가져오기·환경변수 입력
 2026-10-27 | Vercel 배포 | 사용자가 Vercel에서 onwish 저장소를 가져와 환경변수 5개(Supabase 3개, ONWISH_AI=off, 도메인) 입력 후 배포. 임시 파일 .env.vercel 삭제. 다음: 배포 주소 점검, Supabase 주소 설정, 도메인 연결
 2026-10-27 | 언어 전환 지연·로그인 버튼 사라짐 원인 분석과 수정 | 원인: 프록시·헤더가 로그인 사용자마다 Supabase에 확인(평균 166ms), 로그인 구역 Suspense 대체 화면이 null이라 첫 HTML에 버튼 없음, 헤더 대체 화면이 로고뿐. 수정: 쿠키만 읽는 세션 갱신(getSession), 로그인 버튼 기본 표시·같은 모양 임시 헤더, 반대 언어 미리 불러오기, 클라이언트 번역 42% 축소, 모바일 헤더를 한 줄(언어·로그인 항상 표시)로 변경. 운영 빌드에서 전환 14~16ms·헤더 누락 0프레임 확인
+2026-10-27 | 수정 내용 커밋·GitHub 올리기 | e6676d3 커밋(10개 파일)을 main에 push. Vercel이 GitHub 연결로 자동 재배포
+2026-10-27 | Vercel CLI로 직접 배포 | GitHub 자동 연결이 없어 수정이 반영되지 않던 문제를 CLI 배포로 해결(프로젝트 onwish-app-3mhv, https://onwish-app-3mhv.vercel.app). 서버 함수 지역을 서울(icn1)로 고정(vercel.json)해 게임 상세 2.7~3.9초→0.6~0.8초. 배포 사이트에서 언어 전환 11~22ms, 헤더 누락 0 확인. 남은 것: Supabase 로그인 주소 설정, onwish.live 연결
