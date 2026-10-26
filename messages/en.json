@@ -325,7 +325,10 @@
       "official_players": "Officially announced players",
       "wishlist": "Wishlists",
       "last30": "last 30 days"
-    }
+    },
+    "viewerTrend": "Stream viewers over time",
+    "viewerTrendEmpty": "We are not tracking stream viewer counts yet. They will appear here once available.",
+    "metricsTitle": "Metrics"
   },
   "notFound": {
     "title": "Page not found",

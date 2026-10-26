@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { ContentCard } from "@/components/cards/ContentCard";
 import { ReportButton } from "@/components/report/ReportButton";
 import { AppealBadge, StageBadge } from "@/components/ui/Badge";
+import { GameImage } from "@/components/ui/GameImage";
 import { MiniChart } from "@/components/ui/MiniChart";
 import { getLabels } from "@/i18n/labels";
 import { Link } from "@/i18n/navigation";
@@ -36,27 +37,25 @@ async function Detail({ params }: { params: PageProps<"/[locale]/radar/[slug]">[
   const dateOnly = (iso: string | null) => (iso ? iso.slice(0, 10) : tc("check"));
 
   return (
-    <article className="ow-article" style={{ maxWidth: "none" }}>
+    <article className="ow-article ow-article-wide">
       <Link href="/radar" className="ow-backlink">{t("back")}</Link>
 
-      {/* 첫 화면: 대표 이미지. 영상은 쓰지 않는다(자동재생·데이터 부담 없음). 권리를 확인하지 못한 이미지는 비워 둔다 */}
-      <div className="ow-hero-media">
-        {g.imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={g.imageUrl} alt={tg("imageAlt", { name })} />
-        ) : (
-          <span role="img" aria-label={tg("imagePending", { name })}>{name.slice(0, 1)}</span>
-        )}
+      {/* 첫 화면: 대표 이미지(왼쪽)와 게임 소개(오른쪽). 좁은 화면에서는 이미지가 먼저 나온다.
+          영상 자리: 트레일러 데이터가 생기면 이 칸에 넣는다(자동재생하지 않거나 음소거 자동재생, 모션 줄이기 설정에서는 정지). 지금은 이미지만 쓴다. */}
+      <div className="ow-game-hero">
+        <div className="ow-game-media">
+          <GameImage variant="hero" name={name} src={g.imageUrl ?? undefined} source={g.imageSource ?? undefined} />
+        </div>
+        <div className="ow-game-intro">
+          <div className="ow-card-badges">
+            <StageBadge stage={g.heatStage} />
+            {g.infoStale && <span className="ow-stale">{t("stale")}</span>}
+          </div>
+          <h1 className="ow-h1 ow-h1-flush">{name}</h1>
+          <p className="ow-meta">{g.developer}{g.publisher ? ` · ${g.publisher}` : ""}</p>
+          {g.streamPoint && <p className="ow-article-lead ow-lead-flush">{g.streamPoint}</p>}
+        </div>
       </div>
-      {g.imageUrl && g.imageSource && <p className="ow-meta">{tg("imageSource", { source: g.imageSource })}</p>}
-
-      <div className="ow-card-badges">
-        <StageBadge stage={g.heatStage} />
-        {g.infoStale && <span className="ow-stale">{t("stale")}</span>}
-      </div>
-      <h1 className="ow-h1" style={{ marginTop: "var(--space-3)" }}>{name}</h1>
-      <p className="ow-meta">{g.developer}{g.publisher ? ` · ${g.publisher}` : ""}</p>
-      {g.streamPoint && <p className="ow-article-lead">{g.streamPoint}</p>}
 
       <dl className="ow-facts">
         <div className="ow-fact"><dt>{t("factRelease")}</dt><dd>{release ? release.date : tc("check")}</dd></div>
@@ -87,22 +86,29 @@ async function Detail({ params }: { params: PageProps<"/[locale]/radar/[slug]">[
         </div>
       )}
 
-      <h2 className="ow-h2">{t("trend")}</h2>
-      {g.metricKind && g.metricSeries.length ? (
-        <div className="ow-card" style={{ maxWidth: 360 }}>
-          {(() => {
-            const label = `${t(`metric.${g.metricKind}`)} ${t("metric.last30")}`;
-            return (
-              <>
-                <MiniChart values={g.metricSeries} label={label} width={320} height={80} />
-                <p className="ow-meta">{t("trendNote", { label })}</p>
-              </>
-            );
-          })()}
+      <h2 className="ow-h2">{t("metricsTitle")}</h2>
+      <div className="ow-grid ow-grid-metrics">
+        <div className="ow-card">
+          <h3 className="ow-card-title">{t("trend")}</h3>
+          {g.metricKind && g.metricSeries.length ? (
+            (() => {
+              const label = `${t(`metric.${g.metricKind}`)} ${t("metric.last30")}`;
+              return (
+                <>
+                  <MiniChart values={g.metricSeries} label={label} width={320} height={80} />
+                  <p className="ow-meta">{t("trendNote", { label })}</p>
+                </>
+              );
+            })()
+          ) : (
+            <p className="ow-meta">{t("trendEmpty")}</p>
+          )}
         </div>
-      ) : (
-        <p className="ow-meta">{t("trendEmpty")}</p>
-      )}
+        <div className="ow-card">
+          <h3 className="ow-card-title">{t("viewerTrend")}</h3>
+          <p className="ow-meta">{t("viewerTrendEmpty")}</p>
+        </div>
+      </div>
 
       {g.relatedContents.length > 0 && (
         <>
@@ -128,7 +134,7 @@ async function Detail({ params }: { params: PageProps<"/[locale]/radar/[slug]">[
         </ul>
       )}
       <p className="ow-meta">{t("lastChecked", { date: dateOnly(g.lastCheckedAt) })}</p>
-      <div style={{ marginTop: "var(--space-4)" }}>
+      <div className="ow-mt">
         <ReportButton targetType="game" targetId={g.id} label={name} loginNext={`/radar/${g.slug}`} />
       </div>
     </article>

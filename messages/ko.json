@@ -325,7 +325,10 @@
       "official_players": "공식 발표 플레이어 수",
       "wishlist": "위시리스트",
       "last30": "최근 30일"
-    }
+    },
+    "viewerTrend": "방송 시청자 추이",
+    "viewerTrendEmpty": "방송 시청자 수는 아직 모으고 있지 않아요. 준비되면 이 자리에 보여 드릴게요.",
+    "metricsTitle": "지표"
   },
   "notFound": {
     "title": "페이지를 찾을 수 없어요",

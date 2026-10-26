@@ -162,6 +162,8 @@
 .ow-h1 { font-size: var(--fs-h1); margin: 0 0 var(--space-4); line-height: var(--lh-tight); }
 .ow-h2 { font-size: var(--fs-h2); margin: var(--space-7) 0 var(--space-4); }
 .ow-h2-flush { margin: 0; }
+.ow-h1-flush { margin: 0; }
+.ow-lead-flush { margin: 0; }
 .ow-mt { margin-top: var(--space-4); }
 
 /* 홈 */
@@ -239,17 +241,22 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 
 /* 상세 */
 .ow-article { max-width: var(--measure); }
+.ow-article-wide { max-width: none; }
+/* 게임 상세 첫 화면: 큰 이미지 + 소개. 넓은 화면에서는 좌우로 나눈다 */
+.ow-game-hero { display: grid; gap: var(--space-5); margin-bottom: var(--space-5); }
+.ow-game-intro { display: grid; gap: var(--space-3); align-content: start; }
+@media (min-width: 900px) { .ow-game-hero { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: center; gap: var(--space-6); } }
+.ow-game-media .ow-media-frame { aspect-ratio: var(--ratio-thumb); }
+.ow-grid-metrics { grid-template-columns: repeat(auto-fit, minmax(var(--card-min), 1fr)); }
 .ow-article h2 { font-size: var(--fs-h2); margin: var(--space-6) 0 var(--space-2); }
 .ow-article-lead { font-size: var(--fs-h3); line-height: var(--lh-body); margin: var(--space-4) 0; }
 .ow-article p, .ow-article li { line-height: var(--lh-body); }
 .ow-article ol { padding-left: var(--space-5); }
-.ow-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--card-rail), 1fr)); gap: var(--space-3); margin: var(--space-5) 0; }
+.ow-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(calc(var(--card-rail) * 0.75), 1fr)); gap: var(--space-3); margin: var(--space-5) 0; }
 .ow-fact { background: var(--surface); border: var(--bw) solid var(--line); border-radius: var(--radius-sm); padding: var(--space-3); }
 .ow-fact dt { color: var(--text-muted); font-size: var(--fs-caption); margin: 0; }
 .ow-fact dd { margin: var(--space-1) 0 0; font-weight: var(--fw-bold); }
-.ow-hero-media { aspect-ratio: var(--ratio-hero); border-radius: var(--radius-md); overflow: hidden; background: var(--surface-2); display: grid; place-items: center; margin-bottom: var(--space-4); }
-.ow-hero-media img { width: 100%; height: 100%; object-fit: cover; }
-.ow-hero-media span { font-size: var(--fs-display); font-weight: var(--fw-bold); color: var(--text-muted); }
+
 .ow-backlink { display: inline-block; margin-bottom: var(--space-4); color: var(--text-muted); }
 .ow-sources { padding-left: var(--space-5); }
 .ow-sources li { margin-bottom: var(--space-1); }
