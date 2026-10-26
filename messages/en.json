@@ -389,7 +389,6 @@
     "avoidHorror": "Horror",
     "avoidMotion": "Motion sickness",
     "avoidSpoiler": "Spoilers",
-    "excludeGames": "Games to skip",
     "excludeGenres": "Genres to skip (comma-separated, optional)",
     "disclosureAi": "Only the answers above (strengths, style line, cam & devices, audience size, stream length & time, goal, community, exclusions, and collab members' nicknames, roles, devices and owned games) are sent to the AI. Account details like your email are never sent. Your answers are saved to your profile and only you can see them.",
     "disclosureRule": "We're not using AI right now — your answers are matched against the library with simple rules on our server. They're saved to your profile and only you can see them.",
@@ -604,7 +603,7 @@
         "h": "What we collect",
         "ul": [
           "<b>Email address and name</b> — to create your account and log you in. Your password is stored only as a one-way hash; we can't read it.",
-          "<b>Streamer profile</b> — what you choose or type in the recommendation form: strengths, a one-line style note, face-cam use, audience size, devices, stream length and time, goal, community, games/genres to skip, and whether to avoid horror, motion sickness or spoilers.",
+          "<b>Streamer profile</b> — what you choose or type in the recommendation form: strengths, a one-line style note, face-cam use, audience size, devices, stream length and time, goal, community, genres to skip, and whether to avoid horror, motion sickness or spoilers.",
           "<b>Collab member info</b> — only nicknames, roles on stream, devices and owned games. There is no field for members' real names or contact details.",
           "<b>Saved picks</b> — recommendation cards you pressed “Save” on, with the profile at that time.",
           "<b>Usage records</b> — when you requested recommendations, request IDs, your monthly count, and the results. Used to manage monthly limits and repeated requests.",

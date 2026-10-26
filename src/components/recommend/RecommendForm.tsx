@@ -58,7 +58,6 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
   const [communityActivity, setCommunityActivity] = useState<string>(i?.communityActivity ?? "mid");
   const [allowRotation, setAllowRotation] = useState(yn(i?.allowRotation ?? false));
   const [allowLeague, setAllowLeague] = useState(yn(i?.allowLeague ?? false));
-  const [excludedGames, setExcludedGames] = useState<string[]>(i?.excludedGameIds ?? []);
   const [excludedGenres, setExcludedGenres] = useState((i?.excludedGenres ?? []).join(", "));
   const [avoid, setAvoid] = useState<string[]>([i?.avoidHorror && "horror", i?.avoidMotionSickness && "motion", i?.avoidSpoilers && "spoiler"].filter(Boolean) as string[]);
   const [includeTrend, setIncludeTrend] = useState(yn(i?.includeTrend ?? true));
@@ -92,7 +91,7 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
       communityActivity: hasCommunity === "yes" ? (communityActivity as "low" | "mid" | "high") : undefined,
       allowRotation: isGroup && allowRotation === "yes",
       allowLeague: isGroup && allowLeague === "yes",
-      excludedGameIds: excludedGames,
+      excludedGameIds: [], // 제외할 게임 선택 칸은 없앴다(장르 제외와 공포·멀미·스포일러 회피는 그대로)
       excludedGenres: excludedGenres.split(",").map((s) => s.trim()).filter(Boolean),
       avoidHorror: avoid.includes("horror"),
       avoidMotionSickness: avoid.includes("motion"),
@@ -196,12 +195,6 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
               <legend>{t("avoid")}</legend>
               <ChipGroup label={t("avoid")} multiple options={[{ value: "horror", label: t("avoidHorror") }, { value: "motion", label: t("avoidMotion") }, { value: "spoiler", label: t("avoidSpoiler") }]} value={avoid} onChange={setAvoid} />
             </fieldset>
-            {games.length > 0 && (
-              <fieldset className="ow-field">
-                <legend>{t("excludeGames")}</legend>
-                <ChipGroup label={t("excludeGames")} multiple options={games.map((g) => ({ value: g.id, label: g.name }))} value={excludedGames} onChange={setExcludedGames} />
-              </fieldset>
-            )}
             <div className="ow-field">
               <label className="ow-label" htmlFor="genres">{t("excludeGenres")}</label>
               <input id="genres" className="ow-input" value={excludedGenres} onChange={(e) => setExcludedGenres(e.target.value)} />
