@@ -28,7 +28,6 @@ async function Detail({ params }: { params: PageProps<"/[locale]/radar/[slug]">[
   const g = await getGameDetail(slug, locale);
   if (!g) notFound();
   const t = await getTranslations({ locale, namespace: "gameDetail" });
-  const tg = await getTranslations({ locale, namespace: "game" });
   const tf = await getTranslations({ locale, namespace: "format" });
   const tc = await getTranslations({ locale, namespace: "common" });
   const l = await getLabels(locale);

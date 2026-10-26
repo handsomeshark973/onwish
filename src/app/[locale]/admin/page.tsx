@@ -42,11 +42,11 @@ async function Admin({ locale }: { locale: string }) {
     <tr>
       <td><strong>{summary}</strong><div className="ow-meta">{extra}</div></td>
       <td>
-        <form action={setApproval} className="ow-form" style={{ gap: "var(--space-2)" }}>
+        <form action={setApproval} className="ow-form ow-form-tight">
           <input type="hidden" name="type" value={type} />
           <input type="hidden" name="id" value={row.id} />
           <label className="ow-hint"><input type="checkbox" name="verified" /> {t("verified")}</label>
-          <div className="ow-card-actions" style={{ marginTop: 0 }}>
+          <div className="ow-card-actions ow-actions-flush">
             <Button type="submit" name="status" value="approved">{t("approve")}</Button>
             <Button type="submit" name="status" value="rejected" variant="ghost" formNoValidate>{t("reject")}</Button>
           </div>
@@ -96,7 +96,7 @@ async function Admin({ locale }: { locale: string }) {
                 <div className="ow-meta">{r.target_type}{r.target_id ? ` · ${r.target_id}` : ""} · {day(r.created_at)}</div>
               </td>
               <td>
-                <form action={setReportStatus} className="ow-card-actions" style={{ marginTop: 0 }}>
+                <form action={setReportStatus} className="ow-card-actions ow-actions-flush">
                   <input type="hidden" name="id" value={r.id} />
                   <select name="status" className="ow-select" defaultValue={r.status} aria-label={t("statusLabel")}>
                     {(["open", "in_progress", "resolved", "dismissed"] as const).map((v) => <option key={v} value={v}>{t(`status.${v}`)}</option>)}

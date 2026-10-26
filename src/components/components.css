@@ -52,6 +52,12 @@
 .ow-user { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
 .ow-user form { margin: 0; }
 .ow-user-link { display: inline-flex; align-items: center; gap: var(--space-2); text-decoration: none; min-height: var(--control-sm); }
+.ow-account-head { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
+.ow-account-email { margin: 0; font-size: var(--fs-lg); font-weight: var(--fw-semibold); word-break: break-all; }
+.ow-avatar-lg { width: var(--control); height: var(--control); font-size: var(--fs-lg); }
+.ow-note-block { margin: var(--space-4) 0; }
+.ow-facts-flush { margin: 0; }
+.ow-details-narrow { max-width: var(--form-w); }
 .ow-avatar { width: var(--avatar); height: var(--avatar); border-radius: var(--radius-pill); display: grid; place-items: center; background: var(--surface-2); border: var(--bw) solid var(--line); font-weight: var(--fw-bold); font-size: var(--fs-caption); }
 .ow-user-name { max-width: var(--name-max); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
@@ -161,6 +167,8 @@
 /* 제목 */
 .ow-h1 { font-size: var(--fs-h1); margin: 0 0 var(--space-4); line-height: var(--lh-tight); }
 .ow-h2 { font-size: var(--fs-h2); margin: var(--space-7) 0 var(--space-4); }
+.ow-form-tight { gap: var(--space-2); }
+.ow-actions-flush { margin-top: 0; }
 .ow-h2-flush { margin: 0; }
 .ow-h1-flush { margin: 0; }
 .ow-lead-flush { margin: 0; }
@@ -289,8 +297,10 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 .ow-table th { color: var(--text-muted); font-size: var(--fs-caption); }
 
 /* 인증 화면 */
-.ow-auth { max-width: var(--form-w); }
-.ow-auth-form { max-width: var(--form-w); }
+.ow-auth { max-width: var(--form-w); margin: var(--space-6) auto 0; padding: var(--space-6) var(--space-5); background: var(--surface); border: var(--bw) solid var(--line); border-radius: var(--radius-md); }
+.ow-auth .ow-h1 { font-size: var(--fs-h2); }
+.ow-auth .ow-lead { font-size: var(--fs-body); }
+.ow-auth-form { max-width: none; }
 .ow-pw { position: relative; }
 .ow-pw .ow-input { padding-right: calc(var(--control) + var(--space-2)); }
 .ow-pw-toggle { position: absolute; right: var(--space-1); top: 50%; transform: translateY(-50%); min-width: var(--control); min-height: var(--control); background: none; border: 0; color: var(--text-muted); font-size: var(--fs-lg); cursor: pointer; border-radius: var(--radius-sm); }

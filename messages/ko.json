@@ -472,7 +472,7 @@
       "submitting": "가입 중…",
       "haveAccount": "이미 계정이 있나요?",
       "toLogin": "로그인",
-      "agree": "{terms}과 {privacy}에 동의해요",
+      "agree": "<terms>이용약관</terms>과 <privacy>개인정보 처리방침</privacy>에 동의해요",
       "sentTitle": "메일함을 확인해 주세요",
       "sentHint": "입력한 이메일로 인증 링크를 보냈어요. 링크를 누르면 가입이 끝나요. 몇 분이 지나도 안 오면 스팸함도 확인해 주세요.",
       "sentGeneric": "이미 가입된 이메일이라면 메일이 가지 않을 수 있어요. 그때는 로그인하거나 비밀번호 찾기를 이용해 주세요."

@@ -472,7 +472,7 @@
       "submitting": "Signing up…",
       "haveAccount": "Already have an account?",
       "toLogin": "Log in",
-      "agree": "I agree to the {terms} and the {privacy}",
+      "agree": "I agree to the <terms>Terms of Service</terms> and the <privacy>Privacy Policy</privacy>",
       "sentTitle": "Check your inbox",
       "sentHint": "We sent a verification link to that email address. Click it to finish signing up. If nothing arrives in a few minutes, check your spam folder.",
       "sentGeneric": "If that email is already registered, you may not get a message. In that case, log in or reset your password."

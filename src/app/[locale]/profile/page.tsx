@@ -42,10 +42,13 @@ async function Profile({ locale, searchParams }: { locale: string; searchParams:
 
   return (
     <>
-      <p className="ow-meta">{user.email}</p>
+      <div className="ow-account-head">
+        <span className="ow-avatar ow-avatar-lg" aria-hidden="true">{(user.email ?? "?").slice(0, 1).toUpperCase()}</span>
+        <p className="ow-account-email">{user.email}</p>
+      </div>
 
       {quota && (
-        <p className="ow-note" style={{ margin: "var(--space-4) 0" }}>
+        <p className="ow-note ow-note-block">
           {t("quota", { n: quota.remaining, used: quota.used, limit: quota.limit, date: resetDate(quota.nextReset) })}
         </p>
       )}
@@ -53,7 +56,7 @@ async function Profile({ locale, searchParams }: { locale: string; searchParams:
       <h2 className="ow-h2">{t("saved")}</h2>
       {p ? (
         <div className="ow-card">
-          <dl className="ow-facts" style={{ margin: 0 }}>
+          <dl className="ow-facts ow-facts-flush">
             <div className="ow-fact"><dt>{t("mode")}</dt><dd>{l.tier[p.mode]}{p.member_count ? t("membersN", { n: p.member_count }) : ""}</dd></div>
             <div className="ow-fact"><dt>{t("strengths")}</dt><dd>{(p.strengths as string[]).map((s) => l.strength[s]).join(", ") || t("none")}</dd></div>
             <div className="ow-fact"><dt>{t("audience")}</dt><dd>{l.audience[p.audience]}</dd></div>
@@ -91,14 +94,14 @@ async function Profile({ locale, searchParams }: { locale: string; searchParams:
               />
             ))}
           </div>
-          <form action={deleteAllSaved} style={{ marginTop: "var(--space-4)" }}>
+          <form action={deleteAllSaved} className="ow-mt">
             <Button type="submit" variant="ghost">{t("deleteAll")}</Button>
           </form>
         </>
       )}
 
       <h2 className="ow-h2">{t("withdraw")}</h2>
-      <details className="ow-details" style={{ maxWidth: 520 }}>
+      <details className="ow-details ow-details-narrow">
         <summary>{t("withdrawSummary")}</summary>
         <p>{t("withdrawWarn")}</p>
         <form action={deleteAccount} className="ow-form">

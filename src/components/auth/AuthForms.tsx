@@ -131,7 +131,6 @@ export function LoginForm({ next, notice }: { next: string; notice?: "link" | "r
 export function SignupForm() {
   const t = useTranslations("auth.signup");
   const f = useTranslations("auth.field");
-  const tf = useTranslations("footer");
   const locale = useLocale();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -178,8 +177,8 @@ export function SignupForm() {
           <input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} aria-invalid={r.fieldErrors.terms ? true : undefined} />
           <span>
             {t.rich("agree", {
-              terms: () => <Link href="/terms" target="_blank">{tf("terms")}</Link>,
-              privacy: () => <Link href="/privacy" target="_blank">{tf("privacy")}</Link>,
+              terms: (chunks) => <Link href="/terms" target="_blank">{chunks}</Link>,
+              privacy: (chunks) => <Link href="/privacy" target="_blank">{chunks}</Link>,
             })}
           </span>
         </label>
