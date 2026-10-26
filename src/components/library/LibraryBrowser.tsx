@@ -31,7 +31,7 @@ function matches(c: ContentSummary, f: Filters): boolean {
   );
 }
 
-type Bundle = { key: string; title: string; desc: string; items: ContentSummary[] };
+type Bundle = { key: string; title: string; desc: string; items: ContentSummary[]; sameGame?: boolean };
 
 export function LibraryBrowser({ contents }: { contents: ContentSummary[] }) {
   const t = useTranslations("library");
@@ -61,7 +61,7 @@ export function LibraryBrowser({ contents }: { contents: ContentSummary[] }) {
     }
     for (const [slug, { name, items }] of byGame) {
       if (items.length >= 2 && new Set(items.map((i) => i.mainAppeal)).size >= 2) {
-        list.push({ key: `game-${slug}`, title: t("bundle.sameGameTitle", { game: name }), desc: t("bundle.sameGameDesc"), items });
+        list.push({ key: `game-${slug}`, title: t("bundle.sameGameTitle", { game: name }), desc: t("bundle.sameGameDesc"), items, sameGame: true });
       }
     }
     return list.filter((b) => b.items.length > 0);
@@ -79,8 +79,8 @@ export function LibraryBrowser({ contents }: { contents: ContentSummary[] }) {
     { key: "audience", label: t("fAudience"), options: TAXONOMY_KEYS.audience.map((k) => ({ value: k, label: l.audience[k] })) },
   ];
 
-  const card = (c: ContentSummary) => (
-    <ContentCard key={c.id} href={`/library/${c.slug}`} title={c.title} appeal={c.mainAppeal} appealLine={c.appealText} participation={c.viewerParticipation} tier={c.playerTier} games={c.games.map((g) => g.name).join(", ") || c.gamesText || undefined} />
+  const card = (c: ContentSummary, featured = false) => (
+    <ContentCard featured={featured} key={c.id} href={`/library/${c.slug}`} title={c.title} appeal={c.mainAppeal} appealLine={c.appealText} participation={c.viewerParticipation} tier={c.playerTier} games={c.games.map((g) => g.name).join(", ") || c.gamesText || undefined} />
   );
 
   function changeTier(v: string) {
@@ -107,21 +107,26 @@ export function LibraryBrowser({ contents }: { contents: ContentSummary[] }) {
       ) : activeCount === 0 ? (
         <>
           {bundles.map((b) => (
-            <section key={b.key} className="ow-bundle" aria-label={b.title}>
+            <section key={b.key} className={b.sameGame ? "ow-bundle ow-bundle-versus" : "ow-bundle"} aria-label={b.title}>
               <div className="ow-bundle-head">
                 <h3>{b.title}</h3>
                 <p>{b.desc}</p>
               </div>
-              <div className="ow-grid ow-grid-feature">{b.items.slice(0, 4).map(card)}</div>
+              {b.sameGame ? (
+                // 같은 게임, 다른 진행 방식: 나란히 놓고 비교한다
+                <div className="ow-compare">{b.items.slice(0, 3).map((c) => card(c))}</div>
+              ) : (
+                <div className="ow-grid ow-grid-mag">{b.items.slice(0, 5).map((c, i) => card(c, i === 0))}</div>
+              )}
             </section>
           ))}
           <h2 className="ow-h2">{t("all", { tier: l.tier[tier] })}</h2>
-          <div className="ow-grid">{inTier.map(card)}</div>
+          <div className="ow-grid ow-grid-mag">{inTier.map((c, i) => card(c, i % 7 === 0))}</div>
         </>
       ) : filtered.length === 0 ? (
         <EmptyState title={t("noMatch")} hint={t("noMatchHint")} action={<Button variant="secondary" onClick={() => setFilters(EMPTY)}>{t("resetFilters")}</Button>} />
       ) : (
-        <div className="ow-grid">{filtered.map(card)}</div>
+        <div className="ow-grid">{filtered.map((c) => card(c))}</div>
       )}
     </Tabs>
   );

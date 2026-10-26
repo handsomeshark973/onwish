@@ -193,19 +193,30 @@
 .ow-bundle-head { margin-bottom: var(--space-3); }
 .ow-bundle-head h3 { margin: 0; font-size: var(--fs-h2); }
 .ow-bundle-head p { margin: var(--space-1) 0 0; color: var(--text-muted); }
-@media (min-width: 840px) { .ow-grid-feature > :first-child { grid-column: span 2; } }
+/* 매거진식 그리드: 크기가 다른 카드를 섞는다(큰 카드는 두 칸). 좁은 화면에서는 한 칸씩 쌓인다 */
+.ow-grid-mag { grid-auto-flow: dense; }
+@media (min-width: 840px) { .ow-grid-mag > .ow-card-feature { grid-column: span 2; } }
+.ow-card-feature { padding: var(--space-5); gap: var(--space-3); background: var(--surface-2); }
+.ow-card-feature .ow-card-title { font-size: var(--fs-h2); line-height: var(--lh-tight); }
+.ow-card-feature .ow-card-text { font-size: var(--fs-lg); }
+/* 같은 게임, 다른 진행 방식: 한 패널 안에서 카드를 나란히 */
+.ow-bundle-versus { background: var(--surface); border: var(--bw) solid var(--accent); border-radius: var(--radius-md); padding: var(--space-5); }
+.ow-compare { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(var(--card-min), 1fr)); }
+.ow-compare .ow-card { background: var(--bg); }
 .ow-timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); }
 .ow-timeline li { display: grid; gap: var(--space-2); }
 .ow-timeline-date { font-weight: var(--fw-bold); color: var(--stage-upcoming); }
 @media (min-width: 640px) { .ow-timeline li { grid-template-columns: var(--card-rail) 1fr; align-items: start; } }
 
 /* 필터 시트 */
-.ow-sheet { border: var(--bw) solid var(--line); border-radius: var(--radius-md); background: var(--surface); color: var(--text); padding: 0; width: min(var(--sheet-w), calc(100vw - var(--space-6))); max-height: 85svh; }
+.ow-sheet { overflow: auto; border: var(--bw) solid var(--line); border-radius: var(--radius-md); background: var(--surface); color: var(--text); padding: 0; width: min(var(--sheet-w), calc(100vw - var(--space-6))); max-height: 85svh; }
 .ow-sheet::backdrop { background: var(--scrim); }
 .ow-sheet-inner { display: grid; gap: var(--space-5); padding: var(--space-5) var(--space-4); }
 .ow-sheet-head { display: flex; justify-content: space-between; align-items: center; }
 .ow-sheet-head h2 { margin: 0; font-size: var(--fs-h3); }
-.ow-sheet-foot { display: flex; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; }
+.ow-sheet-foot { display: flex; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; position: sticky; bottom: 0; background: var(--surface); padding: var(--space-3) 0 0; border-top: var(--bw) solid var(--line); }
+@keyframes ow-sheet-up { from { transform: translateY(var(--space-6)); opacity: 0; } to { transform: none; opacity: 1; } }
+.ow-sheet[open] { animation: ow-sheet-up var(--dur-base) ease-out; }
 @media (max-width: 639px) {
   .ow-sheet { margin: auto 0 0; width: 100%; max-width: 100%; border-radius: var(--radius-md) var(--radius-md) 0 0; }
 }

@@ -12,13 +12,14 @@ type Props = {
   participation: ViewerParticipation;
   tier?: PlayerTier;
   games?: string; // 연결된 게임 이름
+  featured?: boolean; // 매거진식 목록에서 크게 보여 줄 카드
 };
 
-export function ContentCard({ href, title, appeal, appealLine, participation, tier, games }: Props) {
+export function ContentCard({ href, title, appeal, appealLine, participation, tier, games, featured }: Props) {
   const l = useLabels();
   const t = useTranslations("contentCard");
   return (
-    <article className="ow-card">
+    <article className={featured ? "ow-card ow-card-feature" : "ow-card"}>
       <div className="ow-card-badges">
         <AppealBadge appeal={appeal} />
         {tier && <span className="ow-meta">{l.tier[tier]}</span>}
