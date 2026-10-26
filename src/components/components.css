@@ -9,19 +9,26 @@
 .ow-header-inner { max-width: 1120px; margin: 0 auto; padding: 0 var(--space-4); min-height: 60px; display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-5); }
 .ow-logo { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h3); letter-spacing: 0.04em; text-decoration: none; margin-right: auto; }
 .ow-menu-btn { background: none; color: var(--text); border: 1px solid var(--line); border-radius: var(--radius-pill); padding: var(--space-1) var(--space-4); min-height: 40px; font: inherit; cursor: pointer; }
-.ow-panel { display: none; width: 100%; padding-bottom: var(--space-4); }
-.ow-panel[data-open="true"] { display: block; }
-.ow-panel-label { margin: 0 0 var(--space-2); font-size: var(--fs-caption); font-weight: 700; color: var(--text-muted); letter-spacing: 0.04em; }
+/* 모바일: 상단 줄에 [로고] ··· [언어 전환] [로그인] [메뉴]가 항상 보이고, 햄버거를 열면 페이지 메뉴만 아래로 펼쳐진다.
+   .ow-panel을 display: contents로 두어 nav와 .ow-util이 헤더 줄의 직접 자식처럼 배치된다 */
+.ow-panel { display: contents; }
+.ow-logo { order: 1; }
+.ow-util { order: 2; display: flex; align-items: center; gap: var(--space-2); margin: 0; }
+/* 모바일 메뉴 버튼은 아이콘만(☰ / ✕). 글자는 aria-label이 읽어 준다. 한 줄에 다 들어가도록 폭을 줄인다 */
+.ow-menu-btn { order: 3; font-size: 0; min-width: 44px; min-height: 44px; padding: 0; display: inline-grid; place-items: center; }
+.ow-menu-btn::before { content: "\2630"; font-size: 1.25rem; line-height: 1; }
+.ow-menu-btn[aria-expanded="true"]::before { content: "\2715"; }
+.ow-util .ow-btn-sm { padding: 0 var(--space-3); }
+.ow-nav { order: 4; display: none; width: 100%; padding: 0 0 var(--space-3); border-top: 1px solid var(--line); margin-top: var(--space-1); }
+.ow-panel[data-open="true"] .ow-nav { display: block; }
+.ow-panel-label { margin: 0 0 var(--space-2); font-size: var(--fs-caption); font-weight: 700; color: var(--text-muted); letter-spacing: 0.04em; padding: var(--space-3) var(--space-4) 0; }
+.ow-util .ow-panel-label { display: none; }
 .ow-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
 .ow-nav a { display: block; padding: var(--space-3) var(--space-4); border-radius: var(--radius-sm); text-decoration: none; color: var(--text-muted); }
 .ow-nav a:hover { color: var(--text); background: var(--surface); }
 .ow-nav a[aria-current="page"] { color: var(--text); font-weight: 700; background: var(--surface); }
-/* 모바일: 세 칸을 구분선으로 나눈다 */
-.ow-util { display: grid; gap: 0; margin-top: var(--space-3); border-top: 1px solid var(--line); }
-.ow-util-block { padding: var(--space-4) var(--space-4) 0; }
-.ow-util-block + .ow-util-block { margin-top: var(--space-4); border-top: 1px solid var(--line); }
-.ow-nav { padding: 0; }
-.ow-panel .ow-nav .ow-panel-label { padding: 0 var(--space-4); }
+.ow-util-block { padding: 0; margin: 0; border: 0; }
+@media (max-width: 420px) { .ow-lang-icon { display: none; } .ow-header-inner { gap: var(--space-2) var(--space-3); } .ow-lang { padding: 2px var(--space-2); } }
 
 /* 언어 전환: 메뉴 링크와 다른 모양(알약형 토글) */
 .ow-lang { display: inline-flex; align-items: center; gap: var(--space-1); padding: 2px var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-pill); color: var(--text-muted); }
@@ -41,14 +48,13 @@
 
 @media (min-width: 900px) {
   .ow-menu-btn { display: none; }
-  .ow-panel, .ow-panel[data-open="false"] { display: flex; flex: 1; align-items: center; width: auto; padding-bottom: 0; }
-  .ow-panel-label { display: none; }
+  .ow-panel { display: flex; flex: 1; align-items: center; }
+  .ow-logo { order: 0; }
+  .ow-nav { order: 0; display: block; width: auto; padding: 0; margin: 0; border-top: 0; }
+  .ow-panel-label, .ow-nav .ow-panel-label { display: none; }
   .ow-nav ul { flex-direction: row; gap: var(--space-1); }
   .ow-nav a { padding: var(--space-2) var(--space-3); }
-  .ow-util { display: flex; align-items: center; gap: var(--space-4); margin: 0 0 0 auto; padding-left: var(--space-5); border-top: 0; border-left: 1px solid var(--line); }
-  .ow-util-block { padding: 0; margin: 0; border: 0; }
-  .ow-util-block + .ow-util-block { margin-top: 0; border-top: 0; }
-  .ow-logo { margin-right: 0; }
+  .ow-util { order: 0; gap: var(--space-4); margin: 0 0 0 auto; padding-left: var(--space-5); border-left: 1px solid var(--line); }
 }
 
 /* 푸터 */
@@ -217,4 +223,9 @@
 .ow-check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--accent); flex: 0 0 auto; }
 .ow-auth-links { display: flex; flex-direction: column; gap: var(--space-2); margin: 0; color: var(--text-muted); font-size: var(--fs-caption); }
 .ow-auth-links a { color: var(--text); }
-.ow-panel[data-open="true"] { padding-top: var(--space-2); }
+
+/* 언어 전환 중: 이전 화면은 그대로 두고 토글만 살짝 흐리게 */
+.ow-lang[data-pending="true"] { opacity: 0.6; transition: opacity 0.15s; }
+.ow-lang-btn[data-current="true"] { color: var(--on-accent); background: var(--accent); font-weight: 700; }
+.ow-menu-btn[aria-hidden="true"] { display: inline-flex; align-items: center; }
+@media (min-width: 900px) { .ow-menu-btn[aria-hidden="true"] { display: none; } }

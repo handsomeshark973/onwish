@@ -1,19 +1,14 @@
 import { getTranslations } from "next-intl/server";
-import { getUser } from "@/lib/auth";
+import { getDisplayUser } from "@/lib/auth";
 import { Link } from "@/i18n/navigation";
+import { LoginButton } from "./LoginButton";
 
 // 헤더의 계정 구역. 로그아웃 상태: [로그인] 버튼. 로그인 상태: 이름(첫 글자 아이콘) + 로그아웃.
 // 쿠키를 읽으므로 레이아웃에서 Suspense로 감싸 쓴다.
 export async function AuthSlot() {
   const t = await getTranslations("nav");
-  const user = await getUser();
-  if (!user) {
-    return (
-      <Link href="/login" className="ow-btn ow-btn-secondary ow-btn-sm">
-        {t("login")}
-      </Link>
-    );
-  }
+  const user = await getDisplayUser();
+  if (!user) return <LoginButton />;
   const meta = user.user_metadata as { name?: string } | undefined;
   const name = (meta?.name || user.email?.split("@")[0] || "").trim() || t("myAccount");
   return (

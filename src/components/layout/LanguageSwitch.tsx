@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useTransition } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 
@@ -13,14 +14,21 @@ export function LanguageSwitch() {
   const locale = useLocale() as Locale;
   const pathname = usePathname();
   const router = useRouter();
+  const [pending, start] = useTransition();
 
+  // 반대 언어의 지금 페이지를 미리 받아 두면 눌렀을 때 바로 바뀐다
+  useEffect(() => {
+    for (const l of routing.locales) if (l !== locale) router.prefetch(`${pathname}${window.location.search}`, { locale: l });
+  }, [locale, pathname, router]);
+
+  // 전환하는 동안 이전 화면을 그대로 두고(React 전환), 헤더에는 가벼운 진행 표시만 남긴다
   function go(next: Locale) {
     if (next === locale) return;
-    router.replace(`${pathname}${window.location.search}${window.location.hash}`, { locale: next });
+    start(() => router.replace(`${pathname}${window.location.search}${window.location.hash}`, { locale: next }));
   }
 
   return (
-    <div className="ow-lang" role="group" aria-label={t("languageSwitch")}>
+    <div className="ow-lang" role="group" aria-label={t("languageSwitch")} aria-busy={pending} data-pending={pending}>
       <svg className="ow-lang-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="9" />
         <path d="M3 12h18" />
