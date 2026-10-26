@@ -1,0 +1,39 @@
+{
+  "name": "onwish",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "db:verify": "node supabase/tests/verify.mjs",
+    "test": "tsx --test src/lib/recommend/recommend.test.ts src/lib/auth.test.ts",
+    "seed:contents": "node --env-file=.env --import tsx supabase/seed/run-contents.ts",
+    "seed:steam": "tsx supabase/seed/steam-games.ts",
+    "seed:games": "node --env-file=.env --import tsx supabase/seed/run-games.ts",
+    "seed:test-account": "node --env-file=.env --import tsx supabase/seed/test-account.ts",
+    "test:auth": "node --env-file=.env --import tsx supabase/tests/auth-flow.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.118.0",
+    "next": "16.4.3",
+    "next-intl": "^4.14.9",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.11",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.3",
+    "tsx": "^4.23.15",
+    "typescript": "^5"
+  }
+}

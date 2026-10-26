@@ -1,0 +1,745 @@
+{
+  "meta": {
+    "tagline": "What to stream today, what's hot right now",
+    "description": "Get ideas for what to stream today and see which games are hot now or coming soon — all in one place.",
+    "titleTemplate": "%s · ONWISH"
+  },
+  "nav": {
+    "home": "Home",
+    "recommend": "Recommend",
+    "radar": "Game Radar",
+    "library": "Content Library",
+    "profile": "Profile",
+    "main": "Main menu",
+    "menu": "Menu",
+    "close": "Close",
+    "skip": "Skip to content",
+    "pages": "Pages",
+    "language": "Language",
+    "account": "Account",
+    "languageSwitch": "Switch language",
+    "langKo": "View in Korean",
+    "langEn": "View in English",
+    "login": "Log in",
+    "signup": "Sign up",
+    "logout": "Log out",
+    "myAccount": "My account",
+    "goProfile": "Go to profile",
+    "loggedInAs": "Logged in as {name}"
+  },
+  "footer": {
+    "note": "Game info is shown with its source and the date it was checked. If something is wrong, tell us with the error report on each page.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "common": {
+    "loading": "Loading…",
+    "save": "Save",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "check": "To be confirmed"
+  },
+  "taxonomy": {
+    "tier": {
+      "solo": "Solo stream",
+      "small": "Small collab",
+      "large": "Large collab"
+    },
+    "audience": {
+      "s": "Small audience",
+      "m": "Medium audience",
+      "l": "Large audience"
+    },
+    "appeal": {
+      "visual": "Visual",
+      "audio": "Audio",
+      "audiovisual": "Audio-visual"
+    },
+    "appealHint": {
+      "visual": "Fun to watch on screen. Best for focused viewing and for clips and Shorts spreading.",
+      "audio": "Fun to listen to. Best as background viewing; strong for watch time and loyalty.",
+      "audiovisual": "You can't miss either the picture or the talk. Strong for live chat activity."
+    },
+    "stage": {
+      "upcoming": "Coming soon",
+      "golden": "Golden window",
+      "hot": "Hot",
+      "cooling": "Cooling",
+      "evergreen": "Evergreen"
+    },
+    "participation": {
+      "none": "No viewer participation",
+      "enriches": "Better with viewer participation",
+      "required": "Viewer participation required"
+    },
+    "watch": {
+      "focus": "Focused viewing",
+      "background": "Background viewing"
+    },
+    "appealPoint": {
+      "growth_visual": "Visible growth",
+      "combat_action": "Combat & action",
+      "creation_result": "Creative results",
+      "skill_highlight": "Skill highlights",
+      "cam_reaction": "Face-cam reactions",
+      "talk_radio": "Talk & chatter",
+      "chemistry": "Banter & chemistry",
+      "verbal_mind_game": "Verbal mind games",
+      "forced_comm": "Communication-driven",
+      "scream_sound": "Screams & sound reactions"
+    },
+    "strength": {
+      "talk": "Talking",
+      "chemistry": "Chemistry",
+      "skill": "Skill & reflexes",
+      "creation": "Creativity",
+      "reaction": "Reactions"
+    },
+    "structure": {
+      "coop": "Co-op",
+      "versus": "Versus",
+      "mind_game": "Mind games",
+      "talk": "Talk"
+    },
+    "origin": {
+      "game": "Straight game",
+      "in_game_creation": "In-game creation",
+      "stream_native": "Stream-native format",
+      "variety_adapted": "Adapted from TV variety"
+    },
+    "lifecycle": {
+      "trend": "Trending",
+      "evergreen": "Evergreen",
+      "series": "Series"
+    },
+    "channel": {
+      "chat_vote": "Live chat & voting",
+      "donation_mission": "Donation missions",
+      "direct_play": "Join the game",
+      "community_task": "Community pre-tasks"
+    },
+    "length": {
+      "single": "One-off, 2–3 hours",
+      "full_day": "A full day",
+      "series": "Multiple episodes"
+    },
+    "timeSlot": {
+      "day": "Daytime",
+      "evening": "Evening",
+      "late_night": "Late night"
+    },
+    "goal": {
+      "acquire": "Gain new viewers",
+      "retain": "Keep current viewers",
+      "both": "Both"
+    },
+    "chemistry": {
+      "first": "First collab",
+      "some": "Done it a few times",
+      "long": "Long-time friends"
+    },
+    "participationMode": {
+      "simultaneous": "Everyone plays at once",
+      "rotation": "Take turns",
+      "league": "Team league"
+    }
+  },
+  "format": {
+    "unknown": "Player count to be confirmed",
+    "exact": "Exactly {n} players",
+    "range": "{min}–{max} players",
+    "same": "{n} players",
+    "atLeast": "{n}+ players",
+    "atMost": "Up to {n} players"
+  },
+  "game": {
+    "popularityUnknown": "Popularity unknown",
+    "imageAlt": "{name} cover image",
+    "imagePending": "{name} image coming soon",
+    "imageSource": "Image source: {source}",
+    "chart": {
+      "none": "No data",
+      "up": "rising",
+      "down": "falling",
+      "flat": "flat"
+    }
+  },
+  "filter": {
+    "title": "Filters",
+    "withCount": "Filters ({n})",
+    "close": "Close",
+    "reset": "Reset",
+    "show": "Show results"
+  },
+  "contentCard": {
+    "games": "Games: {games}"
+  },
+  "reco": {
+    "match": "Matches your strengths",
+    "complement": "Balances the mix",
+    "details": "Show details",
+    "complementReason": "Why it's here: {reason}",
+    "setup": "Setup",
+    "gameInfo": "Game info",
+    "howTo": "How it works",
+    "roles": "Member roles",
+    "multiPov": "Multi-POV angle",
+    "participation": "Viewer participation",
+    "continuity": "Keeping it going",
+    "cautions": "Things to watch for",
+    "episodes": "Episode plan",
+    "reference": "Format inspired by: {name}"
+  },
+  "home": {
+    "lead": "Get stream ideas matched to your strengths and your collab crew, and see which games are hot now or coming soon — at a glance.",
+    "cta": "Get recommendations",
+    "trending": "Hot games right now",
+    "trendingEmptyTitle": "We're sorting out what's hot",
+    "trendingEmptyHint": "We'll show games as soon as they're checked. Meanwhile, browse the content library.",
+    "toLibrary": "Browse the library",
+    "upcoming": "Coming soon",
+    "upcomingEmptyTitle": "Nothing coming up yet",
+    "upcomingEmptyHint": "New releases will appear here by date once confirmed.",
+    "byPlayers": "Find by group size",
+    "tierIntro": {
+      "solo": "Streams you carry alone, together with chat",
+      "small": "2–5 streamers, each on their own channel",
+      "large": "Big collabs with 6 or more streamers"
+    },
+    "picked": "Picked from the library",
+    "pickedEmptyTitle": "Content is on the way",
+    "pickedEmptyHint": "We'll collect content here as it's checked."
+  },
+  "library": {
+    "title": "Content Library",
+    "lead": "Pick a group size first, then skim the collections or narrow down with filters.",
+    "tabs": "Group size",
+    "count": "{n} items",
+    "countFiltered": "{n} items match",
+    "all": "All {tier} content",
+    "emptyTier": "{tier} content is on the way",
+    "emptyTierHint": "Try another group-size tab first.",
+    "noMatch": "Nothing matches",
+    "noMatchHint": "Try fewer filters.",
+    "resetFilters": "Reset filters",
+    "fAppeal": "Main appeal",
+    "fPoint": "Appeal details",
+    "fStructure": "Format",
+    "fOrigin": "Origin",
+    "fLifecycle": "Lifecycle",
+    "fParticipation": "Viewer participation",
+    "fChannel": "Participation channel",
+    "fDevice": "Device",
+    "fAudience": "Audience size",
+    "bundle": {
+      "talkTitle": "For talkative crews",
+      "talkDesc": "Talk- and chemistry-driven content that works as background viewing",
+      "firstTitle": "If it's your first collab",
+      "firstDesc": "The format only works if you talk, so awkward silences don't last",
+      "visualTitle": "If you want to show off on screen",
+      "visualDesc": "Visual content that spreads well as clips and Shorts",
+      "sameGameTitle": "Same game ({game}), different formats",
+      "sameGameDesc": "Same game, but the format changes the appeal"
+    }
+  },
+  "content": {
+    "back": "← Back to the library",
+    "factPlayers": "Players needed",
+    "factMode": "How you play",
+    "factLifecycle": "Lifecycle",
+    "factDevices": "Devices",
+    "howTo": "How it works",
+    "multiPov": "Multi-POV angle",
+    "participation": "Viewer participation",
+    "continuity": "Keeping it going",
+    "setup": "Setup & mods",
+    "cautions": "Things to watch for",
+    "linkedGames": "Linked games",
+    "gamesText": "Games",
+    "referenceFrom": "Format inspired by: {name}",
+    "recommendThis": "Get recommendations like this",
+    "notFound": "Content"
+  },
+  "radar": {
+    "title": "Game Radar",
+    "lead": "From upcoming releases to what's hot right now — follow the flow stage by stage.",
+    "count": "{n} games",
+    "emptyTitle": "No games published yet",
+    "emptyHint": "Games appear here once they're checked. Browse the content library in the meantime.",
+    "noMatchTitle": "No games match",
+    "noMatchHint": "Try fewer filters.",
+    "fTier": "Group size",
+    "fPlatform": "Platform",
+    "fAppeal": "Main appeal",
+    "fStage": "Stage",
+    "unknownStage": "Popularity unknown",
+    "upcomingTitle": "Coming soon",
+    "upcomingDesc": "Book your collab around the release date",
+    "goldenTitle": "Golden window",
+    "goldenDesc": "The first 1–2 weeks after launch — the best time to jump in",
+    "hotTitle": "Hot",
+    "hotDesc": "Still burning. Try a new format to keep it fresh",
+    "coolingTitle": "Cooling",
+    "coolingDesc": "Move it to an evergreen slot or a series episode",
+    "evergreenTitle": "Evergreen",
+    "evergreenDesc": "Games you can stream any time",
+    "unknownTitle": "Popularity unknown",
+    "unknownDesc": "We haven't confirmed how popular these are yet",
+    "dateTbd": "Date TBD",
+    "resetFilters": "Reset filters"
+  },
+  "gameDetail": {
+    "back": "← Back to Game Radar",
+    "notFound": "Game",
+    "stale": "Update delayed",
+    "factRelease": "Release",
+    "factPlayers": "Players",
+    "factPlatform": "Platforms",
+    "factCrossplay": "Crossplay",
+    "factPrice": "Price",
+    "crossplayYes": "Supported",
+    "crossplayNo": "Not supported",
+    "formats": "Appeal by format",
+    "formatsEmpty": "No checked formats yet.",
+    "trend": "Popularity trend",
+    "trendNote": "{label}. Days without data show as gaps in the line.",
+    "trendEmpty": "Not enough reliable data yet.",
+    "related": "Content you can make with this game",
+    "sources": "Sources",
+    "sourcesEmpty": "We're still verifying sources.",
+    "sourceLine": "{url} · checked {date}",
+    "lastChecked": "Last checked: {date}",
+    "metric": {
+      "steam_ccu": "Steam concurrent players",
+      "twitch_viewers": "Twitch viewers",
+      "youtube_views": "YouTube views",
+      "chzzk_viewers": "CHZZK viewers",
+      "soop_viewers": "SOOP viewers",
+      "official_players": "Officially announced players",
+      "wishlist": "Wishlists",
+      "last30": "last 30 days"
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "hint": "The address may have changed, or the page doesn't exist.",
+    "home": "Back to home"
+  },
+  "recoServer": {
+    "noParticipation": "This one runs without viewer participation.",
+    "trendNoParticipation": "This pick only describes the format. Check the library for viewer-participation ideas.",
+    "goldenCaution": "Once the hype fades, turn it into an evergreen slot or a series episode.",
+    "complementReason": "Added one pick with a different appeal to widen the mix.",
+    "matchReason": "Matches your strengths — appeal: {points}",
+    "generalReason": "Fits your conditions.",
+    "summaryNone": "Nothing fits all your conditions right now. Try loosening group size, devices or exclusions.",
+    "summaryRule": "We picked content for {who} using simple rules{few}.",
+    "whoSolo": "a solo stream",
+    "whoGroup": "a collab of {n}",
+    "few": " (only {n} candidates fit, so that's all we show)",
+    "check": "To be confirmed",
+    "aiLanguage": "Write every descriptive sentence in natural English (keep ids unchanged)."
+  },
+  "recommend": {
+    "title": "Recommendations",
+    "lead": "Tell us your strengths and your stream setup, and we'll pick what to stream today.",
+    "loginTitle": "Log in to get recommendations",
+    "loginHint": "Your answers are saved to your profile and pre-filled next time. The library and Game Radar don't need a login.",
+    "loginCta": "Log in",
+    "quota": "You have {n} free AI recommendations left this month ({limit} per month, resets on {date}). A recommendation only counts when 3 picks fit.",
+    "formTab": "Stream type",
+    "strengths": "Strengths (pick any)",
+    "persona": "Your stream style in one line (optional)",
+    "personaPh": "e.g. I like relaxed chatting",
+    "usesCam": "Do you use a face cam?",
+    "audience": "Audience size",
+    "devices": "Devices (pick any)",
+    "length": "Stream length",
+    "timeSlot": "Time of day",
+    "goal": "Goal",
+    "hasCommunity": "Do you have a community (fan cafe, channel board, Discord…)?",
+    "communityActivity": "Community activity",
+    "act": {
+      "low": "Quiet",
+      "mid": "Moderate",
+      "high": "Very active"
+    },
+    "includeTrend": "Include hot new games",
+    "groupInfo": "Collab info",
+    "groupHint": "Just a nickname and role on stream, please. We don't ask for real names or contact info.",
+    "memberNo": "Member {n} nickname",
+    "memberRole": "Role on stream",
+    "memberRolePh": "e.g. the hype person",
+    "memberDevices": "Member {n} devices",
+    "memberOwned": "Games member {n} owns (optional)",
+    "memberOwnedLabel": "Member {n} owned games",
+    "memberRemove": "Remove member {n}",
+    "memberAdd": "Add a member",
+    "countHint": "{range}. Currently {n}.",
+    "rangeSmall": "A small collab is 2–5 people",
+    "rangeLarge": "A large collab is 6–12 people",
+    "closeness": "How well do you know each other?",
+    "desired": "Preferred format (pick any)",
+    "rotation": "Is taking turns (rotation) okay?",
+    "league": "Is a team league okay?",
+    "exclude": "What to leave out",
+    "avoid": "Things to avoid",
+    "avoidHorror": "Horror",
+    "avoidMotion": "Motion sickness",
+    "avoidSpoiler": "Spoilers",
+    "excludeGames": "Games to skip",
+    "excludeGenres": "Genres to skip (comma-separated, optional)",
+    "disclosureAi": "Only the answers above (strengths, style line, cam & devices, audience size, stream length & time, goal, community, exclusions, and collab members' nicknames, roles, devices and owned games) are sent to the AI. Account details like your email are never sent. Your answers are saved to your profile and only you can see them.",
+    "disclosureRule": "We're not using AI right now — your answers are matched against the library with simple rules on our server. They're saved to your profile and only you can see them.",
+    "submit": "Get recommendations",
+    "submitting": "Working on it…",
+    "result": "Recommendation results",
+    "loadingTitle": "Preparing your picks",
+    "loadingHint": "This usually takes 10–30 seconds. Please keep this tab open.",
+    "idleTitle": "Your picks will show up here",
+    "idleHint": "Choose your strengths and collab info, then press “Get recommendations”.",
+    "needLoginTitle": "Please log in",
+    "needLoginHint": "Log in, then try again.",
+    "invalidTitle": "Please check your answers",
+    "errorTitle": "Couldn't get recommendations",
+    "errorHint": "Please try again in a moment. Nothing was counted against your limit.",
+    "basicTag": "Basic picks",
+    "basicDefault": "Picked by simple rules, without AI.",
+    "noneTitle": "Nothing fits",
+    "noneHint": "Try loosening group size, devices or exclusions.",
+    "notice": {
+      "ai_off": "We're picking by simple rules without AI for now.",
+      "ai_failed": "We couldn't generate AI picks, so here are basic picks instead. Nothing was counted. Try again in a moment.",
+      "quota": "You've used all free AI recommendations this month{date}. Meanwhile, here are basic picks.",
+      "quotaDate": " — they refill on {date}",
+      "cost_cap": "AI recommendations are taking a break today because of high demand. Here are basic picks; nothing was counted.",
+      "rate_limit": "Too many requests in a short time. Try again in about a minute. Here are basic picks."
+    },
+    "pick": {
+      "save": "Save",
+      "saving": "Saving…",
+      "saved": "Saved",
+      "saveError": "Couldn't save. Please try again in a moment.",
+      "contentDetail": "Content details",
+      "gameDetail": "Game details",
+      "gamePlayers": "Game: {players} · This format: {format}",
+      "extraDevices": "Needs besides PC: {devices}",
+      "price": "Price: {price}",
+      "needsPurchase": "Some members don't own this game — purchase needed",
+      "allOwn": "All members own it",
+      "noParticipation": "Runs without viewer participation"
+    }
+  },
+  "report": {
+    "button": "Report an error",
+    "sent": "Thanks for letting us know — we'll check and fix it.",
+    "question": "What's wrong?",
+    "placeholder": "e.g. The max players is 8, not 4",
+    "login": "You need to log in to send a report.",
+    "loginLink": "Log in",
+    "tooMany": "You've reached today's report limit. Please try again tomorrow.",
+    "error": "Couldn't send your report. Please try again in a moment.",
+    "send": "Send report",
+    "sending": "Sending…"
+  },
+  "auth": {
+    "login": {
+      "title": "Log in",
+      "lead": "Recommendations and saved profiles need a login. The library and Game Radar are open to everyone.",
+      "submit": "Log in",
+      "submitting": "Logging in…",
+      "remember": "Keep me logged in",
+      "forgot": "Forgot your password?",
+      "noAccount": "Don't have an account?",
+      "toSignup": "Sign up",
+      "linkExpired": "That link has expired or was already used. Please try again.",
+      "resetDone": "Your password was changed. Log in with the new one.",
+      "confirmed": "Your email is verified. Please log in."
+    },
+    "signup": {
+      "title": "Create an account",
+      "lead": "All you need is an email and a password.",
+      "submit": "Sign up",
+      "submitting": "Signing up…",
+      "haveAccount": "Already have an account?",
+      "toLogin": "Log in",
+      "agree": "I agree to the {terms} and the {privacy}",
+      "sentTitle": "Check your inbox",
+      "sentHint": "We sent a verification link to that email address. Click it to finish signing up. If nothing arrives in a few minutes, check your spam folder.",
+      "sentGeneric": "If that email is already registered, you may not get a message. In that case, log in or reset your password."
+    },
+    "forgot": {
+      "title": "Forgot your password?",
+      "lead": "Enter your email and we'll send you a link to set a new password.",
+      "submit": "Send reset link",
+      "submitting": "Sending…",
+      "back": "Back to log in",
+      "sentTitle": "Check your inbox",
+      "sentHint": "If that email is registered, we've sent a password reset link. It works once and expires in 1 hour."
+    },
+    "reset": {
+      "title": "Set a new password",
+      "lead": "Enter your new password.",
+      "submit": "Change password",
+      "submitting": "Changing…",
+      "invalidTitle": "This link can't be used",
+      "invalidHint": "The link has expired or was already used. Please request a new reset link.",
+      "again": "Request a new link"
+    },
+    "field": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "passwordNew": "New password",
+      "passwordConfirm": "Confirm password",
+      "passwordHint": "At least 8 characters, with letters and numbers.",
+      "show": "Show password",
+      "hide": "Hide password"
+    },
+    "errors": {
+      "nameRequired": "Please enter your name.",
+      "nameTooLong": "Please keep your name under 50 characters.",
+      "emailRequired": "Please enter your email.",
+      "emailInvalid": "That doesn't look like a valid email.",
+      "passwordRequired": "Please enter your password.",
+      "passwordShort": "Your password must be at least 8 characters.",
+      "passwordWeak": "Please use both letters and numbers.",
+      "passwordLong": "Please keep your password under 72 characters.",
+      "passwordMismatch": "The passwords don't match.",
+      "termsRequired": "Please agree to the terms.",
+      "invalidCredentials": "Incorrect email or password.",
+      "emailNotConfirmed": "Please verify your email first — use the link we sent you.",
+      "rateLimited": "Too many attempts. Please wait a bit and try again.",
+      "samePassword": "Please choose a different password from your old one.",
+      "linkInvalid": "This link has expired or was already used.",
+      "generic": "Something went wrong. Please try again in a moment."
+    },
+    "email": {
+      "from": "ONWISH",
+      "signupSubject": "[ONWISH] Verify your email",
+      "signupBody": "Use the button below to finish signing up. This link works only once.",
+      "signupButton": "Verify email",
+      "resetSubject": "[ONWISH] Reset your password",
+      "resetBody": "Press the button below to set a new password. The link works once and expires in 1 hour. If you didn't ask for this, you can ignore this email.",
+      "resetButton": "Reset password"
+    }
+  },
+  "profile": {
+    "title": "Streamer profile",
+    "loginTitle": "Log in to see your profile and saved picks",
+    "loginHint": "Only you can see your profile and saved picks.",
+    "quota": "You have {n} free AI recommendations left this month ({used}/{limit} used). Resets on {date}.",
+    "saved": "Saved profile",
+    "mode": "Stream type",
+    "membersN": " · {n} people",
+    "strengths": "Strengths",
+    "none": "None",
+    "audience": "Audience size",
+    "lengthTime": "Length & time",
+    "goal": "Goal",
+    "devices": "Devices",
+    "edit": "Edit profile",
+    "reset": "Reset profile",
+    "noProfileTitle": "No saved profile yet",
+    "noProfileHint": "It's saved automatically when you fill in the recommendation form.",
+    "getReco": "Get recommendations",
+    "savedPicks": "Saved picks",
+    "noPicksTitle": "No saved picks",
+    "noPicksHint": "Press “Save” on a recommendation card and it'll show up here.",
+    "goReco": "Get picks",
+    "deleteAll": "Delete all saved picks",
+    "savedDelete": "Delete",
+    "withdraw": "Delete account",
+    "withdrawSummary": "Delete my account",
+    "withdrawWarn": "Deleting your account permanently removes your profile, saved picks and usage history. This can't be undone.",
+    "confirmLabel": "To confirm, type “{word}”",
+    "confirmWord": "DELETE",
+    "confirmError": "Please type “{word}” exactly.",
+    "deleteError": "Couldn't delete your account. Please try again in a moment.",
+    "withdrawConfirm": "Confirm deletion"
+  },
+  "admin": {
+    "title": "Admin",
+    "note": "Approved items appear on public pages and in recommendations right away. Approve only after checking the sources yourself.",
+    "games": "Pending · Games ({n})",
+    "formats": "Pending · Formats ({n})",
+    "contents": "Pending · Content ({n})",
+    "reports": "Error reports ({n})",
+    "noGames": "No games waiting",
+    "noGamesHint": "New games you add in the Supabase table editor show up here.",
+    "noFormats": "No formats waiting",
+    "noFormatsHint": "After approving a game, check and approve its formats one by one.",
+    "noContents": "No content waiting",
+    "noReports": "No reports to handle",
+    "thGame": "Game",
+    "thFormat": "Format",
+    "thContent": "Content",
+    "thReview": "Review",
+    "thReport": "Report",
+    "thStatus": "Status",
+    "verified": "I've checked the sources and facts myself",
+    "approve": "Approve",
+    "reject": "Reject",
+    "statusLabel": "Handling status",
+    "saveStatus": "Save",
+    "status": {
+      "open": "Open",
+      "in_progress": "In progress",
+      "resolved": "Resolved",
+      "dismissed": "Dismissed"
+    },
+    "gameMeta": "{dev} · players {min}–{max} · {sources} sources · added {date}",
+    "formatMeta": "players {min}–{max} · {appeal}",
+    "contentMeta": "{tier} · players {min}–{max} · devices {devices}",
+    "unchecked": "unchecked"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "effective": "Effective October 26, 2026",
+    "lead": "ONWISH only collects what we need to give you recommendations. We don't ask for your real name, phone number or address.",
+    "sections": [
+      {
+        "h": "What we collect",
+        "ul": [
+          "<b>Email address and name</b> — to create your account and log you in. Your password is stored only as a one-way hash; we can't read it.",
+          "<b>Streamer profile</b> — what you choose or type in the recommendation form: strengths, a one-line style note, face-cam use, audience size, devices, stream length and time, goal, community, games/genres to skip, and whether to avoid horror, motion sickness or spoilers.",
+          "<b>Collab member info</b> — only nicknames, roles on stream, devices and owned games. There is no field for members' real names or contact details.",
+          "<b>Saved picks</b> — recommendation cards you pressed “Save” on, with the profile at that time.",
+          "<b>Usage records</b> — when you requested recommendations, request IDs, your monthly count, and the results. Used to manage monthly limits and repeated requests.",
+          "<b>Login-attempt records</b> — to block brute-force attacks we briefly count login and password-reset attempts. Emails and IP addresses are stored only as hashes.",
+          "<b>Error reports</b> — what you reported, what it was about, and when.",
+          "<b>Cookies</b> — only to keep you logged in and remember your language. The login cookie can't be read by JavaScript, and we use no advertising or tracking cookies."
+        ]
+      },
+      {
+        "h": "How we use it",
+        "ul": [
+          "Logging you in and verifying it's you",
+          "Recommending content that fits your answers, and showing your profile and saved picks",
+          "Managing monthly AI limits and overall service cost",
+          "Receiving and fixing error reports"
+        ]
+      },
+      {
+        "h": "What we send to AI",
+        "p": [
+          "While AI recommendations are turned on, the profile items above (including collab members' nicknames, roles, devices and owned games) are sent to the AI service (Anthropic). Account details such as your email and login information are never sent. When AI is off, nothing is sent and we recommend using simple rules on our server."
+        ]
+      },
+      {
+        "h": "Who handles your data",
+        "p": [
+          "These providers' servers may be located outside your country. We never sell your information or use it for advertising."
+        ],
+        "ul": [
+          "Data storage and login: Supabase",
+          "AI recommendations: Anthropic (only when AI is on)",
+          "Verification emails: an email delivery service (when configured)",
+          "A hosting service to run the site"
+        ]
+      },
+      {
+        "h": "How long we keep it and how to delete it",
+        "ul": [
+          "<b>Reset profile</b> — delete it any time from the profile page.",
+          "<b>Delete saved picks</b> — one by one or all at once.",
+          "<b>Delete account</b> — from the profile page; your account, profile, saved picks and usage records are deleted together.",
+          "Even after you delete your account, the <b>text of error reports</b> stays to help improve the service, but it is no longer linked to you.",
+          "Login-attempt records are deleted automatically within a day."
+        ]
+      },
+      {
+        "h": "How to see your information",
+        "p": [
+          "You can see your profile and saved picks on the [[/profile|profile page]]. Only you can see this information — other users and visitors can't."
+        ]
+      },
+      {
+        "h": "Contact",
+        "p": [
+          "For privacy questions or requests, log in and use the “Report an error” button on any page."
+        ]
+      }
+    ]
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "effective": "Effective October 26, 2026",
+    "lead": "ONWISH helps internet streamers choose what to stream today and keep an eye on the games that are hot. Please read the following before you use it.",
+    "sections": [
+      {
+        "h": "The service",
+        "ul": [
+          "The content library and Game Radar can be used without logging in.",
+          "Recommendations, saving your profile and saving picks need a login.",
+          "Recommendations are for reference only. We don't promise any result or viewer reaction."
+        ]
+      },
+      {
+        "h": "Accounts",
+        "ul": [
+          "You sign up and log in with an email and password. Keep your password and verification links to yourself.",
+          "One account is for one person. You can delete your account any time on the [[/profile|profile page]]."
+        ]
+      },
+      {
+        "h": "Usage limits",
+        "p": [
+          "While AI recommendations are available, each account gets {limit} free ones per month (Korea time, refilled at 00:00 on the 1st). A recommendation only counts when all 3 picks fit. If you run out or AI isn't available, we show rule-based “basic picks” instead. Limits and methods may change depending on the service, and we'll announce changes here."
+        ]
+      },
+      {
+        "h": "Accuracy of information",
+        "ul": [
+          "Game info is shown with its source and the date it was last checked. Values we couldn't confirm are marked “To be confirmed”.",
+          "Information can change or be wrong. Tell us about mistakes with “Report an error” on each page.",
+          "Game names and images belong to their respective owners."
+        ]
+      },
+      {
+        "h": "What you can't do",
+        "p": [
+          "If we find this happening, we may restrict your use."
+        ],
+        "ul": [
+          "Using automated means to request recommendations repeatedly or put excessive load on the service",
+          "Using someone else's account or trying to bypass the service's security",
+          "Using error reports for false claims or advertising",
+          "Typing information we don't ask for, such as members' real names or contact details, into other fields"
+        ]
+      },
+      {
+        "h": "Changes and interruptions",
+        "p": [
+          "We may change some features or pause the service for maintenance, cost or third-party reasons. When we can, we'll tell you here in advance."
+        ]
+      },
+      {
+        "h": "Limits of liability",
+        "p": [
+          "Recommendations and game info are provided as they are. Except where the service caused it intentionally or through gross negligence, we aren't responsible for outcomes from streaming or buying games based on them."
+        ]
+      },
+      {
+        "h": "Privacy",
+        "p": [
+          "What we collect and how we use it is described in the [[/privacy|Privacy Policy]]."
+        ]
+      },
+      {
+        "h": "Contact",
+        "p": [
+          "For questions, log in and use “Report an error” on any page."
+        ]
+      }
+    ]
+  },
+  "recoErrors": {
+    "badRequest": "The request ID isn't valid.",
+    "checkInput": "Please check your answers.",
+    "membersSmall": "A small collab needs 2–5 members.",
+    "membersLarge": "A large collab needs 6–12 members."
+  }
+}
