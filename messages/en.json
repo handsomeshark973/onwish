@@ -740,5 +740,11 @@
     "checkInput": "Please check your answers.",
     "membersSmall": "A small collab needs 2–5 members.",
     "membersLarge": "A large collab needs 6–12 members."
+  },
+  "theme": {
+    "label": "Color theme",
+    "system": "Match system",
+    "dark": "Dark",
+    "light": "Light"
   }
 }

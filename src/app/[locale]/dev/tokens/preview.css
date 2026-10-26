@@ -1,0 +1,14 @@
+/* /dev/tokens 전용. 개발 확인용이라 production에서는 열리지 않는다. 값은 토큰만 쓴다. */
+.tk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: var(--space-3); }
+.tk-swatch { border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; background: var(--surface); font-size: var(--fs-caption); }
+.tk-chip { height: var(--space-7); border-bottom: 1px solid var(--line); }
+.tk-meta { padding: var(--space-2) var(--space-3); display: grid; gap: var(--space-1); }
+.tk-meta code { word-break: break-all; }
+.tk-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; margin-block: var(--space-3); }
+.tk-bar { height: var(--space-4); background: var(--accent); border-radius: var(--radius-sm); }
+.tk-box { padding: var(--space-5); background: var(--surface); border: 1px solid var(--line); min-width: 8rem; text-align: center; font-size: var(--fs-caption); }
+.tk-table { width: 100%; border-collapse: collapse; font-size: var(--fs-caption); }
+.tk-table th, .tk-table td { padding: var(--space-1) var(--space-2); border-bottom: 1px solid var(--line); text-align: left; }
+.tk-pass { color: var(--success); font-weight: var(--fw-bold); }
+.tk-fail { color: var(--danger); font-weight: var(--fw-bold); }
+.tk-scroll { overflow-x: auto; }

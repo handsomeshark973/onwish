@@ -1,0 +1,7 @@
+Paperlogy (페이퍼로지)
+
+- 용도: ONWISH 본문·제목 글꼴 (self-host, woff2 5종: Regular 400 / Medium 500 / SemiBold 600 / Bold 700 / ExtraBold 800)
+- 배포처: https://freesentation.blog/paperlogyfont
+- 파일 출처: https://github.com/fonts-archive/Paperlogy (배포처 링크가 걸린 보관 저장소)
+- 라이선스: SIL Open Font License 1.1 (배포처 안내 기준). 글꼴 파일을 수정하거나 단독으로 판매하지 않는다.
+  라이선스 전문: https://openfontlicense.org/open-font-license-official-text/

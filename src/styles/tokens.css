@@ -1,0 +1,150 @@
+/* ONWISH 디자인 토큰. 색·글꼴·크기·간격·모서리·그림자는 모두 여기서만 정하고, 컴포넌트는 이 이름만 쓴다.
+   테마 우선순위: 사용자가 고른 테마(<html data-theme>) > 시스템 설정 > 다크.
+   라이트 값은 아래 두 곳(시스템 설정용 @media, 수동 선택용 [data-theme="light"])에 똑같이 적는다. 바꿀 땐 둘 다 바꾸고 npm run tokens:check로 확인한다. */
+
+/* 글꼴 파일은 src/fonts/paperlogy (OFL, LICENSE-NOTE.txt 참고) */
+
+:root {
+  /* 색: 다크(기본) */
+  --bg: #141415;
+  --surface: #1d1e20;
+  --surface-2: #2a2b2f;
+  --text: #e8eaee;
+  --text-muted: #a3a7b0;
+  --line: #36383d;
+  --accent: #9a8dff;
+  --on-accent: #0f0d24;
+  --scrim: rgb(0 0 0 / 0.6);
+
+  /* 어필 배지(3): 색과 글자를 항상 함께 쓴다 */
+  --appeal-visual: #5db8ff;
+  --appeal-audio: #ffb84d;
+  --appeal-av: #ff7ab6;
+
+  /* 트렌드 단계 배지(5) */
+  --stage-upcoming: #8fa3c4;
+  --stage-golden: #ffd34d;
+  --stage-hot: #ff7a59;
+  --stage-cooling: #7fb0c9;
+  --stage-evergreen: #6fd3a0;
+
+  /* 인원 규모 배지(3) */
+  --size-solo: #b9a4ff;
+  --size-small: #5fd0d0;
+  --size-large: #d0b07a;
+
+  /* 상태 색(오류·성공) */
+  --danger: #ff8a8a;
+  --success: #6fd3a0;
+
+  /* 글꼴 */
+  --font-display: var(--font-paperlogy), "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-body: var(--font-paperlogy), "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-heavy: 800;
+
+  /* 글자 크기와 줄 높이(display / h1 / h2 / h3 / body / caption) */
+  --fs-display: clamp(2rem, 6vw, 3.25rem);
+  --fs-h1: clamp(1.625rem, 4vw, 2.25rem);
+  --fs-h2: 1.5rem;
+  --fs-h3: 1.25rem;
+  --fs-lg: 1.125rem;
+  --fs-body: 1rem;
+  --fs-caption: 0.8125rem;
+  --lh-tight: 1.25;
+  --lh-heading: 1.4;
+  --lh-body: 1.6;
+  --measure: 38em; /* 읽기 글 폭 */
+
+  /* 간격: 4px 단위 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* 모서리 3단계 */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-pill: 999px;
+
+  /* 그림자 2단계(떠 있는 것에만: 메뉴·시트) */
+  --shadow-1: 0 2px 8px rgb(0 0 0 / 0.3);
+  --shadow-2: 0 12px 32px rgb(0 0 0 / 0.45);
+
+  /* 움직임 */
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+
+  color-scheme: dark;
+}
+
+/* 라이트: 시스템이 라이트이고 사용자가 따로 고르지 않았을 때 */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg: #fafafb;
+    --surface: #ffffff;
+    --surface-2: #eeeff3;
+    --text: #17181a;
+    --text-muted: #5a5f6a;
+    --line: #d9dbe1;
+    --accent: #5a48e8;
+    --on-accent: #ffffff;
+    --scrim: rgb(0 0 0 / 0.4);
+    --appeal-visual: #0a64b8;
+    --appeal-audio: #8a5300;
+    --appeal-av: #b0145f;
+    --stage-upcoming: #50627f;
+    --stage-golden: #7a5c00;
+    --stage-hot: #b53a16;
+    --stage-cooling: #2f6783;
+    --stage-evergreen: #1c7a4e;
+    --size-solo: #5b3fc0;
+    --size-small: #0b6b6b;
+    --size-large: #7a5a1f;
+    --danger: #b3261e;
+    --success: #1c7a4e;
+    --shadow-1: 0 2px 8px rgb(0 0 0 / 0.08);
+    --shadow-2: 0 12px 32px rgb(0 0 0 / 0.14);
+    color-scheme: light;
+  }
+}
+
+/* 라이트: 사용자가 직접 골랐을 때 */
+:root[data-theme="light"] {
+  --bg: #fafafb;
+  --surface: #ffffff;
+  --surface-2: #eeeff3;
+  --text: #17181a;
+  --text-muted: #5a5f6a;
+  --line: #d9dbe1;
+  --accent: #5a48e8;
+  --on-accent: #ffffff;
+  --scrim: rgb(0 0 0 / 0.4);
+  --appeal-visual: #0a64b8;
+  --appeal-audio: #8a5300;
+  --appeal-av: #b0145f;
+  --stage-upcoming: #50627f;
+  --stage-golden: #7a5c00;
+  --stage-hot: #b53a16;
+  --stage-cooling: #2f6783;
+  --stage-evergreen: #1c7a4e;
+  --size-solo: #5b3fc0;
+  --size-small: #0b6b6b;
+  --size-large: #7a5a1f;
+  --danger: #b3261e;
+  --success: #1c7a4e;
+  --shadow-1: 0 2px 8px rgb(0 0 0 / 0.08);
+  --shadow-2: 0 12px 32px rgb(0 0 0 / 0.14);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}

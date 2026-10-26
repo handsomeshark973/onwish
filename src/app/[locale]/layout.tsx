@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Noto_Sans_KR } from "next/font/google";
+import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { AuthSlot } from "@/components/auth/AuthSlot";
@@ -12,16 +12,25 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { SITE_NAME, SITE_URL } from "@/config/site";
 import { routing } from "@/i18n/routing";
+import { themeInitScript } from "@/styles/theme-script";
+import "@/styles/tokens.css";
 import "../globals.css";
 import "@/components/components.css";
 
 // 클라이언트 컴포넌트(src/components, src/i18n/labels)가 useTranslations로 쓰는 묶음. 새 묶음을 클라이언트에서 쓰면 여기에 추가한다.
-const CLIENT_NAMESPACES = ["auth", "common", "contentCard", "filter", "footer", "format", "game", "gameDetail", "library", "nav", "radar", "reco", "recoErrors", "recommend", "report", "taxonomy"];
+const CLIENT_NAMESPACES = ["auth", "common", "contentCard", "filter", "footer", "format", "game", "gameDetail", "library", "nav", "radar", "reco", "recoErrors", "recommend", "report", "taxonomy", "theme"];
 
-const noto = Noto_Sans_KR({
-  variable: "--font-noto",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+// 글꼴: Paperlogy(OFL). 파일은 src/fonts/paperlogy, 라이선스 안내는 같은 폴더의 LICENSE-NOTE.txt
+const paperlogy = localFont({
+  variable: "--font-paperlogy",
+  display: "swap",
+  src: [
+    { path: "../../fonts/paperlogy/Paperlogy-4Regular.woff2", weight: "400" },
+    { path: "../../fonts/paperlogy/Paperlogy-5Medium.woff2", weight: "500" },
+    { path: "../../fonts/paperlogy/Paperlogy-6SemiBold.woff2", weight: "600" },
+    { path: "../../fonts/paperlogy/Paperlogy-7Bold.woff2", weight: "700" },
+    { path: "../../fonts/paperlogy/Paperlogy-8ExtraBold.woff2", weight: "800" },
+  ],
 });
 
 export function generateStaticParams() {
@@ -51,7 +60,10 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const clientMessages = Object.fromEntries(CLIENT_NAMESPACES.filter((k) => k in all).map((k) => [k, all[k]]));
 
   return (
-    <html lang={locale} className={noto.variable}>
+    <html lang={locale} className={paperlogy.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body>
         <NextIntlClientProvider messages={clientMessages}>
           <a href="#main" className="ow-skip">

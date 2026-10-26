@@ -24,5 +24,5 @@ export function StageBadge({ stage }: { stage: HeatStage | null }) {
 
 export function SizeBadge({ size }: { size: AudienceSize }) {
   const l = useLabels();
-  return <span className="ow-badge ow-size">{l.audience[size]}</span>;
+  return <span className={`ow-badge ow-size ow-size-${size}`}>{l.audience[size]}</span>;
 }

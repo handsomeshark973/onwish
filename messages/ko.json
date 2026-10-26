@@ -740,5 +740,11 @@
     "checkInput": "입력을 확인해 주세요",
     "membersSmall": "소수 합방은 멤버 2~5명이어야 해요",
     "membersLarge": "다수 합방은 멤버 6~12명이어야 해요"
+  },
+  "theme": {
+    "label": "화면 모드",
+    "system": "시스템 설정 따르기",
+    "dark": "다크",
+    "light": "라이트"
   }
 }

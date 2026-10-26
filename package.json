@@ -13,7 +13,8 @@
     "seed:steam": "tsx supabase/seed/steam-games.ts",
     "seed:games": "node --env-file=.env --import tsx supabase/seed/run-games.ts",
     "seed:test-account": "node --env-file=.env --import tsx supabase/seed/test-account.ts",
-    "test:auth": "node --env-file=.env --import tsx supabase/tests/auth-flow.ts"
+    "test:auth": "node --env-file=.env --import tsx supabase/tests/auth-flow.ts",
+    "tokens:check": "tsx scripts/tokens-check.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.3.0",
