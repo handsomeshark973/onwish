@@ -291,7 +291,9 @@
     "unknownTitle": "인기 확인 필요",
     "unknownDesc": "아직 인기 흐름을 확인하지 못한 게임이에요",
     "dateTbd": "날짜 미정",
-    "resetFilters": "필터 초기화"
+    "resetFilters": "필터 초기화",
+    "flowLabel": "단계 흐름",
+    "flowCount": "{n}개"
   },
   "gameDetail": {
     "back": "← 게임 레이더로",

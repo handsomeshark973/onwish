@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { GameCard } from "@/components/cards/GameCard";
 import { gameCardProps } from "@/components/cards/cardProps";
 import { Button } from "@/components/ui/Button";
+import { StageBadge } from "@/components/ui/Badge";
 import { ChipGroup } from "@/components/ui/Chip";
 import { FilterSheet } from "@/components/ui/FilterSheet";
 import { EmptyState } from "@/components/ui/States";
@@ -61,6 +62,22 @@ export function RadarBrowser({ games }: { games: GameSummary[] }) {
         </FilterSheet>
       </div>
 
+      {games.length > 0 && (
+        // 단계 흐름: 곧 출시 → 골든타임 → 붐 → 식는 중 → 상시. 누르면 해당 구역으로 이동한다
+        <nav aria-label={t("flowLabel")}>
+          <ol className="ow-flow">
+            {TAXONOMY_KEYS.stage.map((s) => {
+              const n = filtered.filter((g) => g.heatStage === s).length;
+              return (
+                <li key={s} className="ow-flow-step" data-empty={n === 0}>
+                  {n > 0 ? <a href={`#stage-${s}`} className="ow-flow-link"><StageBadge stage={s} /><span className="ow-flow-count">{t("flowCount", { n })}</span></a> : <span className="ow-flow-link"><StageBadge stage={s} /><span className="ow-flow-count">{t("flowCount", { n })}</span></span>}
+                </li>
+              );
+            })}
+          </ol>
+        </nav>
+      )}
+
       {games.length === 0 ? (
         <EmptyState title={t("emptyTitle")} hint={t("emptyHint")} />
       ) : filtered.length === 0 ? (
@@ -71,7 +88,7 @@ export function RadarBrowser({ games }: { games: GameSummary[] }) {
           if (list.length === 0) return null;
           if (key === "upcoming") list.sort((a, b) => (a.nextKeyDate?.date ?? "9").localeCompare(b.nextKeyDate?.date ?? "9"));
           return (
-            <section key={key} className="ow-bundle" aria-label={t(`${key}Title`)}>
+            <section key={key} id={`stage-${key}`} className="ow-bundle ow-stage-section" aria-label={t(`${key}Title`)}>
               <div className="ow-bundle-head">
                 <h2 className="ow-h2 ow-h2-flush">{t(`${key}Title`)}</h2>
                 <p>{t(`${key}Desc`)}</p>
@@ -81,7 +98,7 @@ export function RadarBrowser({ games }: { games: GameSummary[] }) {
                 <ol className="ow-timeline">
                   {list.map((g) => (
                     <li key={g.id}>
-                      <span className="ow-timeline-date">{g.nextKeyDate?.date ?? t("dateTbd")}</span>
+                      <time className="ow-timeline-date" dateTime={g.nextKeyDate?.date}>{g.nextKeyDate?.date ?? t("dateTbd")}</time>
                       <GameCard {...gameCardProps(g)} />
                     </li>
                   ))}

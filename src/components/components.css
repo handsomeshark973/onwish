@@ -203,9 +203,20 @@
 .ow-bundle-versus { background: var(--surface); border: var(--bw) solid var(--accent); border-radius: var(--radius-md); padding: var(--space-5); }
 .ow-compare { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(var(--card-min), 1fr)); }
 .ow-compare .ow-card { background: var(--bg); }
+/* 레이더 단계 흐름 */
+.ow-flow { list-style: none; margin: 0 0 var(--space-6); padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.ow-flow-step { display: flex; align-items: center; gap: var(--space-2); }
+.ow-flow-step:not(:last-child)::after { content: "\203A"; color: var(--text-muted); font-size: var(--fs-h3); }
+.ow-flow-link { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-2); border-radius: var(--radius-pill); text-decoration: none; }
+a.ow-flow-link:hover { background: var(--surface-2); }
+.ow-flow-step[data-empty="true"] { opacity: 0.6; }
+.ow-flow-count { color: var(--text-muted); font-size: var(--fs-caption); }
+.ow-stage-section { scroll-margin-top: calc(var(--header-h) + var(--space-4)); }
 .ow-timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); }
 .ow-timeline li { display: grid; gap: var(--space-2); }
-.ow-timeline-date { font-weight: var(--fw-bold); color: var(--stage-upcoming); }
+.ow-timeline-date { font-weight: var(--fw-bold); font-size: var(--fs-h3); color: var(--stage-upcoming); }
+.ow-timeline li { padding-bottom: var(--space-4); border-bottom: var(--bw) solid var(--line); }
+.ow-timeline li:last-child { border-bottom: 0; }
 @media (min-width: 640px) { .ow-timeline li { grid-template-columns: var(--card-rail) 1fr; align-items: start; } }
 
 /* 필터 시트 */
