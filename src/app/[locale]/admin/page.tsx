@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { hasLocale } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { setApproval, setReportStatus, setVideoStatus } from "@/actions/admin";
@@ -31,6 +31,8 @@ async function Admin({ locale }: { locale: string }) {
   const l = await getLabels(locale);
   const supabase = await createClient();
   const tv = await getTranslations({ locale, namespace: "admin.video" });
+  // 관리자 번역은 브라우저로 보내지 않는 묶음이라, 영상 등록 폼(클라이언트)에 필요한 부분만 따로 넘긴다
+  const adminMessages = (await getMessages({ locale })) as { admin: { video: unknown } };
   const [games, formats, contents, reports, sources, videos, allGames] = await Promise.all([
     supabase.from("games").select("*").eq("approval_status", "pending").order("created_at"),
     supabase.from("game_formats").select("*, games(name)").eq("approval_status", "pending").order("created_at"),
@@ -94,7 +96,9 @@ async function Admin({ locale }: { locale: string }) {
       )}
 
       <h2 className="ow-h2">{tv("title")}</h2>
-      <VideoForm games={(allGames.data ?? []).map((g: any) => ({ id: g.id, name: g.name }))} hasApiKey={hasYoutubeApiKey()} />
+      <NextIntlClientProvider messages={{ admin: { video: adminMessages.admin.video } }}>
+        <VideoForm games={(allGames.data ?? []).map((g: any) => ({ id: g.id, name: g.name }))} hasApiKey={hasYoutubeApiKey()} />
+      </NextIntlClientProvider>
 
       <h2 className="ow-h2">{tv("queueTitle", { n: vids("pending").length })}</h2>
       {vids("pending").length === 0 ? <EmptyState title={tv("noPending")} hint={tv("noPendingHint")} /> : (

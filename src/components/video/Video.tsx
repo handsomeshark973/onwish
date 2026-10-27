@@ -86,9 +86,9 @@ function VideoPlayer({ item, large }: { item: VideoItem; large?: boolean }) {
           alt={t("thumbAlt", { title: item.title })}
           loading={large ? "eager" : "lazy"}
           decoding="async"
-          // maxres가 없는 영상은 오류 대신 작은 회색 그림(너비 120)이 오므로, 너무 작으면 hqdefault로 바꾼다
+          // 썸네일이 없는 영상은 오류 대신 작은 회색 그림(너비 120)이 오므로, 너무 작으면 다음 크기로 바꾸고 마지막엔 자리 표시자를 보인다
           onLoad={(e) => {
-            if (thumb === "max" && e.currentTarget.naturalWidth <= 120) setThumb("hq");
+            if (e.currentTarget.naturalWidth <= 120) setThumb(thumb === "max" ? "hq" : "failed");
           }}
           onError={() => setThumb(thumb === "max" ? "hq" : "failed")}
         />

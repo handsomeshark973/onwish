@@ -11,10 +11,63 @@ import { EmptyState } from "@/components/ui/States";
 import { SITE_NAME } from "@/config/site";
 import { getContents } from "@/lib/data/contents";
 import { getGames } from "@/lib/data/games";
+import { getHomeVideos } from "@/lib/data/videos";
+import type { HomeVideo } from "@/lib/home-videos";
+import { FeaturedVideo, VideoProvider, VideoRail, type VideoItem } from "@/components/video/Video";
 import { Link } from "@/i18n/navigation";
 import { getLabels } from "@/i18n/labels";
 import { routing } from "@/i18n/routing";
 import type { PlayerTier } from "@/types/taxonomy";
+
+// 영상 카드에 쓸 값. 날짜 줄은 현재 언어로 여기서 만들어 넘긴다(D-day는 곧 출시 영상에만).
+async function toItem({ video, game, daysToRelease: n }: HomeVideo, locale: string): Promise<VideoItem> {
+  const t = await getTranslations({ locale, namespace: "video" });
+  let dateLabel: string | null = null;
+  if (game.heatStage === "upcoming") {
+    const date = game.nextKeyDate?.date;
+    if (!date || n === null) dateLabel = t("releaseTbd");
+    else dateLabel = `${t("releaseOn", { date })}${n === 0 ? ` · ${t("today")}` : n > 0 ? ` · ${t("dday", { n })}` : ""}`;
+  } else if (game.releaseBasisDate) {
+    dateLabel = t("released", { date: game.releaseBasisDate });
+  }
+  return {
+    id: video.id, youtubeId: video.youtubeId, title: video.title, gameName: game.name, gameHref: `/radar/${game.slug}`,
+    kind: video.kind, stage: game.heatStage, dateLabel, channelName: video.channelName, sourceUrl: video.sourceUrl,
+  };
+}
+
+// 첫 화면 바로 아래 영상 구역: 대표 영상 1개 + 가로 스크롤 두 줄. 영상이 없는 묶음은 통째로 숨긴다(빈 상태를 홈에 보이지 않는다).
+async function VideoShowcase({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: "video" });
+  const { featured, upcoming, recent } = await getHomeVideos(locale);
+  if (!featured && upcoming.length === 0 && recent.length === 0) return null;
+  const [f, up, rc] = await Promise.all([
+    featured ? toItem(featured, locale) : null,
+    Promise.all(upcoming.map((v) => toItem(v, locale))),
+    Promise.all(recent.map((v) => toItem(v, locale))),
+  ]);
+  return (
+    <VideoProvider>
+      {f && (
+        <section className="ow-section">
+          <FeaturedVideo item={f} />
+        </section>
+      )}
+      {rc.length > 0 && (
+        <section className="ow-section">
+          <SectionHead title={t("recent")} href="/radar" />
+          <VideoRail label={t("recent")} items={rc} />
+        </section>
+      )}
+      {up.length > 0 && (
+        <section className="ow-section">
+          <SectionHead title={t("upcoming")} href="/radar" />
+          <VideoRail label={t("upcoming")} items={up} />
+        </section>
+      )}
+    </VideoProvider>
+  );
+}
 
 async function TrendingGames({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: "home" });
@@ -89,6 +142,10 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           <ButtonLink href="/radar" variant="ghost">{t("toRadar")}</ButtonLink>
         </div>
       </section>
+
+      <Suspense fallback={null}>
+        <VideoShowcase locale={locale} />
+      </Suspense>
 
       <section className="ow-section">
         <SectionHead title={t("trending")} href="/radar" />

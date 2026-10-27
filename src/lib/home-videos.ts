@@ -1,7 +1,7 @@
 import { MAX_RECENT_VIDEOS, MAX_UPCOMING_VIDEOS, RECENT_RELEASE_DAYS, RECENT_VIDEO_KINDS, UPCOMING_VIDEO_KINDS } from "@/config/videos";
 import type { GameSummary, GameVideo } from "@/types/domain";
 
-export interface HomeVideo { video: GameVideo; game: GameSummary }
+export interface HomeVideo { video: GameVideo; game: GameSummary; daysToRelease: number | null } // 곧 출시 영상의 D-day(날짜 미정이면 null)
 export interface HomeVideos { featured: HomeVideo | null; upcoming: HomeVideo[]; recent: HomeVideo[] }
 
 const DAY = 86400000;
@@ -33,7 +33,7 @@ export function pickHomeVideos(videos: GameVideo[], games: GameSummary[], now = 
   const byId = new Map(games.map((g) => [g.id, g]));
   const joined = videos.filter((v) => v.status === "approved").flatMap((video) => {
     const game = byId.get(video.gameId);
-    return game ? [{ video, game }] : [];
+    return game ? [{ video, game, daysToRelease: game.nextKeyDate ? daysUntil(game.nextKeyDate.date, now) : null }] : [];
   });
 
   const upcoming = latestPerGame(

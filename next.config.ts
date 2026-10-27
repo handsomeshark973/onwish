@@ -22,6 +22,8 @@ const nextConfig: NextConfig = {
     ];
     return [{ source: "/:path*", headers: common }];
   },
+  // 영상 썸네일(i.ytimg.com). 지금은 <img>로 직접 불러 next/image를 쓰지 않지만, next/image로 바꿔도 되도록 허용해 둔다.
+  images: { remotePatterns: [{ protocol: "https", hostname: "i.ytimg.com", pathname: "/vi/**" }] },
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
