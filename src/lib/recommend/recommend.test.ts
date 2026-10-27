@@ -65,8 +65,8 @@ test("제외 게임·장르", () => {
   assert.equal(eligibleContent(small({ excludedGenres: ["예시 장르"] }), c()), false);
 });
 
-test("트렌드: golden·hot만, 고정 인원은 정확히 일치해야 함", () => {
-  const a = SAMPLE_GAMES.find((g) => g.slug === "sample-a")!; // golden, 정확히 3명
+test("트렌드: rising·peak만, 고정 인원은 정확히 일치해야 함", () => {
+  const a = SAMPLE_GAMES.find((g) => g.slug === "sample-a")!; // rising, 정확히 3명
   const b = SAMPLE_GAMES.find((g) => g.slug === "sample-b")!; // upcoming
   const trends = buildCandidates(small(), [], [a, b]).trends;
   assert.ok(trends.length > 0 && trends.every((t) => t.game.slug === "sample-a"));

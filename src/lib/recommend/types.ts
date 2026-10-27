@@ -1,5 +1,5 @@
 import type { GameFormat, GameSummary, ContentSummary } from "@/types/domain";
-import type { MainAppeal, HeatStage, WatchMode } from "@/types/taxonomy";
+import type { MainAppeal, TrendStage, WatchMode } from "@/types/taxonomy";
 
 export type TrendCandidate = { game: GameSummary; format: GameFormat };
 
@@ -32,7 +32,7 @@ export interface RecommendPick {
   strengthFitReason: string;
   watchMode: WatchMode;
   lifecycle: "trend" | "evergreen" | "series";
-  heatStage: Extract<HeatStage, "golden" | "hot"> | null;
+  heatStage: TrendStage | null;
   setup: string;
   howTo: string[];
   roles: { member: string; role: string }[];

@@ -11,6 +11,7 @@ import { toRow } from "@/lib/profile-db";
 import { askClaude } from "@/lib/recommend/ai";
 import { recommend, type Deps } from "@/lib/recommend/engine";
 import { profileSchema, type ProfileInput } from "@/lib/recommend/schema";
+import { normalizeResult } from "@/lib/recommend/normalize";
 import type { RecommendPick, RecommendResult } from "@/lib/recommend/types";
 import { isLocale, routing } from "@/i18n/routing";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -66,7 +67,8 @@ export async function requestRecommendation(input: unknown, requestId: string, l
         if (error) throw new Error(error.message);
         if (data !== "already_charged") return { existing: null };
         const row = await admin.from("ai_requests").select("result").eq("request_id", id).maybeSingle();
-        return { existing: (row.data?.result as RecommendResult | null) ?? null };
+        // 예전에 저장된 결과에는 옛 단계 키가 있을 수 있어 읽을 때 바꾼다
+        return { existing: row.data?.result ? normalizeResult(row.data.result as RecommendResult) : null };
       },
       recentRequests: async (seconds) => {
         const since = new Date(Date.now() - seconds * 1000).toISOString();

@@ -1,4 +1,5 @@
 import type { GameSummary } from "@/types/domain";
+import { isTrendStage } from "@/types/taxonomy";
 import type { ContentCandidate, TrendCandidate } from "./types";
 import { memberCountOf, type ProfileInput } from "./schema";
 
@@ -52,7 +53,7 @@ export function eligibleContent(p: ProfileInput, c: ContentCandidate): boolean {
 }
 
 export function eligibleTrend(p: ProfileInput, g: GameSummary): TrendCandidate[] {
-  if (!p.includeTrend || (g.heatStage !== "golden" && g.heatStage !== "hot")) return [];
+  if (!p.includeTrend || !isTrendStage(g.heatStage)) return [];
   const n = memberCountOf(p);
   if (!inRange(n, g.players.min, g.players.max)) return [];
   if (g.players.fixed === true && g.players.min !== n) return [];

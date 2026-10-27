@@ -26,13 +26,13 @@ function game(slug: string, name: string, heat: GameDetail["heatStage"], opts: P
   return {
     id, slug, name, nameKo: null, developer: "예시 개발사", publisher: null,
     stage: heat === "upcoming" ? "announced" : "released",
-    releasePhase: heat === "upcoming" ? "upcoming" : heat === "golden" ? "launch_window" : "post_launch",
-    popularityStatus: heat === null ? "unknown" : heat === "golden" || heat === "hot" ? "hot" : heat === "cooling" ? "cooling" : "evergreen",
+    releasePhase: heat === "upcoming" ? "upcoming" : heat === "rising" ? "launch_window" : "post_launch",
+    popularityStatus: heat === null ? "unknown" : heat === "rising" || heat === "peak" ? "hot" : heat === "cooling" ? "cooling" : "evergreen",
     heatStage: heat, platforms: ["PC"], players: { min: opts.min ?? 2, max: opts.max ?? 4, fixed: opts.fixed ?? false },
     crossplay: null, priceNote: null, genre: ["예시 장르"], asymmetricRoles: false, proximityVoice: false, moddable: false,
     streamPoint: "예시 문구: 방송에서 왜 재밌는지 한두 문장으로 적는 자리입니다.", cautions: "예시 문구: 주의점이 들어가는 자리입니다.",
     imageUrl: null, imageSource: null, lastCheckedAt: today.toISOString(), infoStale: false,
-    isHorror: false, motionSicknessRisk: false, spoilerRisk: false, releaseBasisDate: heat === "golden" || heat === "hot" ? day(heat === "golden" ? -8 : -30) : null, officialChannelIds: [],
+    isHorror: false, motionSicknessRisk: false, spoilerRisk: false, releaseBasisDate: heat === "rising" || heat === "peak" ? day(heat === "rising" ? -8 : -30) : null, officialChannelIds: [],
     formats, nextKeyDate: heat === "upcoming" ? { label: "출시 예정(예시)", date: day(12), source: "예시" } : null,
     metricSeries, metricKind: metricSeries.length ? ("steam_ccu" as const) : null,
     keyDates: [{ label: heat === "upcoming" ? "출시 예정(예시)" : "출시(예시)", date: heat === "upcoming" ? day(12) : day(-8), source: "예시" }],
@@ -42,9 +42,9 @@ function game(slug: string, name: string, heat: GameDetail["heatStage"], opts: P
 }
 
 export const SAMPLE_GAMES: GameDetail[] = [
-  game("sample-a", "예시 게임 A", "golden", { fixed: true, min: 3, max: 3 }),
+  game("sample-a", "예시 게임 A", "rising", { fixed: true, min: 3, max: 3 }),
   game("sample-b", "예시 게임 B", "upcoming", {}),
-  game("sample-c", "예시 게임 C", "hot", { min: 1, max: 8 }),
+  game("sample-c", "예시 게임 C", "peak", { min: 1, max: 8 }),
   game("sample-d", "예시 게임 D", "cooling", {}),
   game("sample-e", "예시 게임 E", null, {}),
   game("sample-f", "예시 게임 F", "evergreen", { min: 1, max: 4 }),

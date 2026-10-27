@@ -57,12 +57,12 @@ export function baseFromTrend(p: ProfileInput, t: TrendCandidate, tr: Tr, tf: Tr
     kind: "trend", title: `${g.name} · ${f.title}`, logline: f.appealText, contentSlug: null, contentId: null,
     formatId: f.id, gameIds: [g.id], origin: "game", borrowedFrom: null, mainAppeal: f.mainAppeal, appealPoints: f.appealPoints,
     appealText: f.appealText, strengthFit: "match", strengthFitReason: "", watchMode: f.mainAppeal === "audio" ? "background" : "focus",
-    lifecycle: "trend", heatStage: g.heatStage === "golden" ? "golden" : "hot", setup: f.modsOrSetup ?? "",
+    lifecycle: "trend", heatStage: g.heatStage === "rising" ? "rising" : "peak", setup: f.modsOrSetup ?? "",
     howTo: f.howTo.split("\n").map((s) => s.trim()).filter(Boolean), roles: [], multiPovPoint: "",
     viewerParticipation: "none", participationChannels: [], participationHow: "",
     noParticipationReason: tr("trendNoParticipation"),
     continuity: "", episodes: [],
-    cautions: [g.cautions, g.heatStage === "golden" ? tr("goldenCaution") : ""].filter(Boolean).join(" · "),
+    cautions: [g.cautions, g.heatStage === "rising" ? tr("risingCaution") : ""].filter(Boolean).join(" · "),
     gameInfo: [gameInfoFor(p, g, f, tr, tf)],
   };
 }

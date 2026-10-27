@@ -27,11 +27,11 @@ test("곧 나올 게임: upcoming + teaser/reveal만, 출시일 가까운 순, �
   assert.deepEqual(r.upcoming.map((x) => x.video.id), ["2", "1", "3"]);
 });
 
-test("최근 인기 신작: golden/hot + 60일 이내 + launch, 인기 지표 높은 순", () => {
+test("최근 인기 신작: rising/peak + 60일 이내 + launch, 인기 지표 높은 순", () => {
   const games = [
-    game("a", "golden", { releaseBasisDate: "2026-09-09", metricSeries: [null, 100, 500] }),
-    game("b", "hot", { releaseBasisDate: "2026-10-01", metricSeries: [900] }),
-    game("c", "hot", { releaseBasisDate: "2026-07-01", metricSeries: [9999] }), // 60일 넘음
+    game("a", "rising", { releaseBasisDate: "2026-09-09", metricSeries: [null, 100, 500] }),
+    game("b", "peak", { releaseBasisDate: "2026-10-01", metricSeries: [900] }),
+    game("c", "peak", { releaseBasisDate: "2026-07-01", metricSeries: [9999] }), // 60일 넘음
     game("d", "cooling", { releaseBasisDate: "2026-10-01", metricSeries: [9999] }),
   ];
   const vids = ["a", "b", "c", "d"].map((g, i) => video(String(i), g, "launch"));
@@ -42,14 +42,14 @@ test("최근 인기 신작: golden/hot + 60일 이내 + launch, 인기 지표 �
 });
 
 test("대표: 지정 영상이 우선, 식는 중으로 바뀌면 빠지고 신작 1위로 대체", () => {
-  const games = [game("a", "hot", { releaseBasisDate: "2026-10-10" }), game("b", "cooling", { releaseBasisDate: "2026-10-10" })];
+  const games = [game("a", "peak", { releaseBasisDate: "2026-10-10" }), game("b", "cooling", { releaseBasisDate: "2026-10-10" })];
   const vids = [video("1", "a", "launch"), video("2", "b", "launch", { isFeatured: true })];
   assert.equal(pickHomeVideos(vids, games, NOW).featured?.video.id, "1");
   assert.equal(pickHomeVideos([video("1", "a", "launch", { isFeatured: true })], games, NOW).featured?.video.id, "1");
 });
 
 test("영상이 없으면 모두 비어 있다", () => {
-  const r = pickHomeVideos([], [game("a", "hot")], NOW);
+  const r = pickHomeVideos([], [game("a", "peak")], NOW);
   assert.deepEqual([r.featured, r.upcoming, r.recent], [null, [], []]);
 });
 

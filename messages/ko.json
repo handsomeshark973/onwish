@@ -65,10 +65,17 @@
     },
     "stage": {
       "upcoming": "곧 출시",
-      "golden": "골든타임",
-      "hot": "붐",
+      "rising": "뜨는 중",
+      "peak": "골든타임",
       "cooling": "식는 중",
       "evergreen": "상시"
+    },
+    "stageHint": {
+      "upcoming": "아직 출시 전인 게임",
+      "rising": "인기가 오르기 시작한 게임",
+      "peak": "지금 인기가 가장 높은 게임",
+      "cooling": "관심이 줄어들고 있는 게임",
+      "evergreen": "꾸준히 하는 게임"
     },
     "participation": {
       "none": "시청자 참여 없음",
@@ -280,10 +287,10 @@
     "unknownStage": "인기 확인 필요",
     "upcomingTitle": "곧 출시",
     "upcomingDesc": "출시일에 맞춰 합방을 미리 잡아 두세요",
-    "goldenTitle": "골든타임",
-    "goldenDesc": "출시 1~2주, 가장 먼저 해 볼 때예요",
-    "hotTitle": "붐",
-    "hotDesc": "아직 뜨거워요. 진행 방식을 바꿔 보는 것도 좋아요",
+    "risingTitle": "뜨는 중",
+    "risingDesc": "인기가 오르기 시작했어요. 먼저 해 보기 좋은 때예요",
+    "peakTitle": "골든타임",
+    "peakDesc": "지금 인기가 가장 높아요. 진행 방식을 바꿔 보는 것도 좋아요",
     "coolingTitle": "식는 중",
     "coolingDesc": "상시 컨텐츠나 시리즈의 한 회차로 옮겨 가요",
     "evergreenTitle": "상시",
@@ -293,6 +300,7 @@
     "dateTbd": "날짜 미정",
     "resetFilters": "필터 초기화",
     "flowLabel": "단계 흐름",
+    "legendLabel": "단계 설명",
     "flowCount": "{n}개"
   },
   "gameDetail": {
@@ -338,7 +346,7 @@
   "recoServer": {
     "noParticipation": "이 컨텐츠는 시청자 참여 없이 진행해요",
     "trendNoParticipation": "이 추천은 진행 방식만 안내해요. 시청자 참여는 라이브러리 컨텐츠에서 확인해 주세요",
-    "goldenCaution": "붐이 지난 뒤에는 상시 컨텐츠나 시리즈의 한 회차로 내려 가세요",
+    "risingCaution": "인기가 식은 뒤에는 상시 컨텐츠나 시리즈의 한 회차로 내려 가세요",
     "complementReason": "다른 어필의 컨텐츠를 하나 섞어 방송의 결을 넓히는 용도로 넣었어요",
     "matchReason": "고른 강점과 맞는 어필: {points}",
     "generalReason": "조건에 맞는 컨텐츠예요",

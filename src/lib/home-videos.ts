@@ -1,5 +1,6 @@
 import { MAX_RECENT_VIDEOS, MAX_UPCOMING_VIDEOS, RECENT_RELEASE_DAYS, RECENT_VIDEO_KINDS, UPCOMING_VIDEO_KINDS } from "@/config/videos";
 import type { GameSummary, GameVideo } from "@/types/domain";
+import { isTrendStage, TREND_STAGES } from "@/types/taxonomy";
 
 export interface HomeVideo { video: GameVideo; game: GameSummary; daysToRelease: number | null } // 곧 출시 영상의 D-day(날짜 미정이면 null)
 export interface HomeVideos { featured: HomeVideo | null; upcoming: HomeVideo[]; recent: HomeVideo[] }
@@ -42,7 +43,7 @@ export function pickHomeVideos(videos: GameVideo[], games: GameSummary[], now = 
 
   const recent = latestPerGame(
     joined.filter((x) => {
-      if (x.game.heatStage !== "golden" && x.game.heatStage !== "hot") return false;
+      if (!isTrendStage(x.game.heatStage)) return false;
       if (!(RECENT_VIDEO_KINDS as readonly string[]).includes(x.video.kind)) return false;
       if (!x.game.releaseBasisDate) return false;
       const ago = -daysUntil(x.game.releaseBasisDate, now);
@@ -57,8 +58,8 @@ export function pickHomeVideos(videos: GameVideo[], games: GameSummary[], now = 
     return (b.game.releaseBasisDate ?? "").localeCompare(a.game.releaseBasisDate ?? "");
   });
 
-  // 대표: 지정된 영상이 아직 곧 출시·골든타임·붐이면 그것, 아니면(식는 중 등으로 바뀌었거나 없으면) 최근 인기 신작 1위
-  const flagged = joined.find((x) => x.video.isFeatured && ["upcoming", "golden", "hot"].includes(x.game.heatStage ?? ""));
+  // 대표: 지정된 영상이 아직 곧 출시·뜨는 중·골든타임이면 그것, 아니면(식는 중 등으로 바뀌었거나 없으면) 최근 인기 신작 1위
+  const flagged = joined.find((x) => x.video.isFeatured && ["upcoming", ...TREND_STAGES].includes(x.game.heatStage ?? ""));
   const featured = flagged ?? recent[0] ?? null;
   const rest = (list: HomeVideo[], max: number) => list.filter((x) => x.video.id !== featured?.video.id).slice(0, max);
 

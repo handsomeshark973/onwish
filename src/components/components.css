@@ -97,8 +97,8 @@
 .ow-appeal-audio { color: var(--appeal-audio); }
 .ow-appeal-audiovisual { color: var(--appeal-av); }
 .ow-stage-upcoming { color: var(--stage-upcoming); }
-.ow-stage-golden { color: var(--stage-golden); }
-.ow-stage-hot { color: var(--stage-hot); }
+.ow-stage-rising { color: var(--stage-hot); } /* 색은 3단계에서 새 토큰(--stage-rising)으로 바꾼다 */
+.ow-stage-peak { color: var(--stage-golden); } /* 옛 "골든타임" 색을 새 "골든타임"(peak)이 이어받는다 */
 .ow-stage-cooling { color: var(--stage-cooling); }
 .ow-stage-evergreen { color: var(--stage-evergreen); }
 .ow-size { color: var(--text-muted); }
@@ -124,7 +124,7 @@
 .ow-card:hover { background: var(--surface-2); }
 .ow-card:focus-within { outline: var(--bw-strong) solid var(--accent); outline-offset: var(--space-1); }
 .ow-card-link:focus-visible { outline: none; }
-.ow-card-badges { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.ow-card-badges { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
 .ow-card-title { margin: 0; font-size: var(--fs-h3); line-height: var(--lh-heading); }
 .ow-card-link { text-decoration: none; }
 .ow-card-link::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius-sm); } /* 카드 전체를 눌러 이동 */
@@ -356,3 +356,11 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 .ow-rail-prev { left: calc(var(--space-3) * -1); }
 .ow-rail-next { right: calc(var(--space-3) * -1); }
 @media (hover: hover) and (min-width: 640px) { .ow-rail-btn { display: inline-grid; } }
+
+/* 단계 배지 툴팁(StageBadge): 배지가 버튼이라 포커스·탭으로 열린다. 카드 전체 링크 위에서 눌리도록 z-index를 올린다 */
+.ow-tip-btn { font: inherit; font-size: var(--fs-caption); font-weight: var(--fw-bold); background: none; cursor: pointer; }
+.ow-tooltip { position: fixed; z-index: 100; max-width: 16rem; padding: var(--space-2) var(--space-3); background: var(--surface-2); color: var(--text); border: var(--bw) solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow-2); font-size: var(--fs-caption); font-weight: var(--fw-regular); line-height: var(--lh-body); }
+.ow-stage-legend { list-style: none; margin: 0 0 var(--space-5); padding: 0; display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fit, minmax(var(--card-rail), 1fr)); }
+.ow-stage-legend li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.ow-flow-step.ow-flow-end::after { content: none; }
+.ow-flow-step.ow-flow-extra { margin-left: var(--space-4); padding-left: var(--space-4); border-left: var(--bw) solid var(--line); }

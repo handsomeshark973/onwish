@@ -17,7 +17,7 @@ import { FeaturedVideo, VideoProvider, VideoRail, type VideoItem } from "@/compo
 import { Link } from "@/i18n/navigation";
 import { getLabels } from "@/i18n/labels";
 import { routing } from "@/i18n/routing";
-import type { PlayerTier } from "@/types/taxonomy";
+import { isTrendStage, type PlayerTier } from "@/types/taxonomy";
 
 // 영상 카드에 쓸 값. 날짜 줄은 현재 언어로 여기서 만들어 넘긴다(D-day는 곧 출시 영상에만).
 async function toItem({ video, game, daysToRelease: n }: HomeVideo, locale: string): Promise<VideoItem> {
@@ -71,7 +71,7 @@ async function VideoShowcase({ locale }: { locale: string }) {
 
 async function TrendingGames({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: "home" });
-  const games = (await getGames(locale)).filter((g) => g.heatStage === "golden" || g.heatStage === "hot");
+  const games = (await getGames(locale)).filter((g) => isTrendStage(g.heatStage));
   if (games.length === 0) {
     return <EmptyState title={t("trendingEmptyTitle")} hint={t("trendingEmptyHint")} action={<ButtonLink href="/library" variant="secondary">{t("toLibrary")}</ButtonLink>} />;
   }

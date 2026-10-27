@@ -32,7 +32,7 @@ export const RECOMMEND_PROMPT = `너는 한국 인터넷 방송(치지직, SOOP,
 4. goal이 acquire면 시각형 비중을 올리고, retain이면 청각형 비중을 올린다.
 5. timeSlot이 late_night면 청각형 라디오 컨텐츠를 최소 1개 넣는다.
 6. usesCam이 false면 cam_reaction을 어필로 쓰지 않는다.
-7. includeTrend가 true이고 강제 조건을 통과한 트렌드 후보가 있으면 최소 1개는 golden 또는 hot 게임으로 짠다. 이때 붐이 지난 뒤 어떻게 시리즈의 한 회차로 내릴지 cautions에 적는다.
+7. includeTrend가 true이고 강제 조건을 통과한 트렌드 후보가 있으면 최소 1개는 rising 또는 peak 게임으로 짠다. 이때 인기가 식은 뒤 어떻게 시리즈의 한 회차로 내릴지 cautions에 적는다.
 8. 최소 1개는 lifecycle이 evergreen 또는 series인 컨텐츠다.
 9. 게임 최소·최대 인원과 진행 방식별 필요 인원에 실제 멤버 수가 맞아야 한다. 교대·리그는 allowRotation 또는 allowLeague가 허용된 경우만 제시한다. 허용 없이 멤버를 대기·해설로 돌려 조건을 맞추지 않는다.
 10. 합방이면 multiPovPoint(각자 송출을 활용한 정보 비대칭)를 반드시 쓴다. 멤버 정보가 있으면 멤버별 역할을 지정한다.
@@ -63,7 +63,7 @@ export const RECOMMEND_PROMPT = `너는 한국 인터넷 방송(치지직, SOOP,
       "strengthFitReason": "",
       "watchMode": "focus | background",
       "lifecycle": "trend | evergreen | series",
-      "heatStage": "golden | hot | null",
+      "heatStage": "rising | peak | null",
       "setup": "게임·모드·플러그인·서버·맵 설정",
       "howTo": ["", "", ""],
       "roles": [{"member": "", "role": ""}],

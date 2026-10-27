@@ -12,6 +12,7 @@ import { getLabels } from "@/i18n/labels";
 import { routing } from "@/i18n/routing";
 import { getUser } from "@/lib/auth";
 import { getQuotaFor } from "@/lib/quota";
+import { normalizePick } from "@/lib/recommend/normalize";
 import type { RecommendPick } from "@/lib/recommend/types";
 import { createClient } from "@/lib/supabase/server";
 
@@ -82,7 +83,7 @@ async function Profile({ locale, searchParams }: { locale: string; searchParams:
             {saved.data.map((s) => (
               <PickCard
                 key={s.id}
-                pick={s.result as RecommendPick}
+                pick={normalizePick(s.result as RecommendPick)}
                 source={s.source as "ai" | "rule"}
                 readOnly
                 extra={

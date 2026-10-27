@@ -11,13 +11,13 @@ import { FilterSheet } from "@/components/ui/FilterSheet";
 import { EmptyState } from "@/components/ui/States";
 import { useLabels } from "@/i18n/labels";
 import type { GameSummary } from "@/types/domain";
-import { TAXONOMY_KEYS } from "@/types/taxonomy";
+import { FLOW_STAGES, HEAT_STAGES, TAXONOMY_KEYS } from "@/types/taxonomy";
 
 type Filters = { tier: string[]; platform: string[]; appeal: string[]; stage: string[] };
 const EMPTY: Filters = { tier: [], platform: [], appeal: [], stage: [] };
 
-// 화면에 보이는 순서: 곧 출시 → 골든타임 → 붐 → 식는 중 → 상시. 인기 미확인은 마지막.
-const SECTION_KEYS = ["upcoming", "golden", "hot", "cooling", "evergreen", "unknown"] as const;
+// 화면에 보이는 순서는 HEAT_STAGES(곧 출시 → 뜨는 중 → 골든타임 → 식는 중 → 상시). 인기 미확인은 마지막.
+const SECTION_KEYS = [...HEAT_STAGES, "unknown"] as const;
 
 function matches(g: GameSummary, f: Filters) {
   const any = (sel: string[], has: (v: string) => boolean) => sel.length === 0 || sel.some(has);
@@ -63,19 +63,33 @@ export function RadarBrowser({ games }: { games: GameSummary[] }) {
       </div>
 
       {games.length > 0 && (
-        // 단계 흐름: 곧 출시 → 골든타임 → 붐 → 식는 중 → 상시. 누르면 해당 구역으로 이동한다
-        <nav aria-label={t("flowLabel")}>
-          <ol className="ow-flow">
-            {TAXONOMY_KEYS.stage.map((s) => {
-              const n = filtered.filter((g) => g.heatStage === s).length;
-              return (
-                <li key={s} className="ow-flow-step" data-empty={n === 0}>
-                  {n > 0 ? <a href={`#stage-${s}`} className="ow-flow-link"><StageBadge stage={s} /><span className="ow-flow-count">{t("flowCount", { n })}</span></a> : <span className="ow-flow-link"><StageBadge stage={s} /><span className="ow-flow-count">{t("flowCount", { n })}</span></span>}
-                </li>
-              );
-            })}
-          </ol>
-        </nav>
+        <>
+          {/* 단계 흐름: 곧 출시 → 뜨는 중 → 골든타임 → 식는 중 (상시는 흐름 밖). 누르면 해당 구역으로 이동한다 */}
+          <nav aria-label={t("flowLabel")}>
+            <ol className="ow-flow">
+              {HEAT_STAGES.map((s) => {
+                const n = filtered.filter((g) => g.heatStage === s).length;
+                const inFlow = (FLOW_STAGES as readonly string[]).includes(s);
+                const cls = `ow-flow-step${s === FLOW_STAGES[FLOW_STAGES.length - 1] ? " ow-flow-end" : ""}${inFlow ? "" : " ow-flow-extra"}`;
+                const inner = <><StageBadge stage={s} tip={false} /><span className="ow-flow-count">{t("flowCount", { n })}</span></>;
+                return (
+                  <li key={s} className={cls} data-empty={n === 0}>
+                    {n > 0 ? <a href={`#stage-${s}`} className="ow-flow-link">{inner}</a> : <span className="ow-flow-link">{inner}</span>}
+                  </li>
+                );
+              })}
+            </ol>
+          </nav>
+          {/* 단계 설명: 배지 툴팁과 같은 문구를 글자로도 보여 준다(터치·스크린리더에서도 읽힌다) */}
+          <ul className="ow-stage-legend" aria-label={t("legendLabel")}>
+            {HEAT_STAGES.map((s) => (
+              <li key={s}>
+                <StageBadge stage={s} tip={false} />
+                <span className="ow-meta">{l.stageHint[s]}</span>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
 
       {games.length === 0 ? (

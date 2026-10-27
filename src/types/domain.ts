@@ -1,6 +1,6 @@
 // 기획서 5장의 데이터 모델을 화면 코드용으로 옮긴 타입. DB 열 이름(snake_case)과의 변환은 4단계에서 만든다.
 import type {
-  AudienceSize, Device, MainAppeal, PlayerTier, ViewerParticipation, WatchMode,
+  AudienceSize, Device, HeatStage, MainAppeal, PlayerTier, ViewerParticipation, WatchMode,
 } from "./taxonomy";
 
 export type Origin = "game" | "in_game_creation" | "stream_native" | "variety_adapted";
@@ -25,7 +25,7 @@ export interface Game {
   stage: GameStage;
   releasePhase: ReleasePhase;
   popularityStatus: PopularityStatus;
-  heatStage: "upcoming" | "golden" | "hot" | "cooling" | "evergreen" | null; // null = 인기 확인 필요
+  heatStage: HeatStage | null; // null = 인기 확인 필요
   platforms: Device[];
   players: { min: number | null; max: number | null; fixed: boolean | null };
   crossplay: boolean | null;

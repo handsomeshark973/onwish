@@ -1,3 +1,4 @@
+import { normalizeHeatStage } from "@/types/taxonomy";
 import type {
   Content, ContentSummary, GameVideo, LinkedGame, Game, GameFormat, GameKeyDate, GameSource, MetricPoint, MetricKind,
 } from "@/types/domain";
@@ -40,7 +41,7 @@ export function mapGame(r: Row, locale = "ko"): Game {
     stage: r.stage,
     releasePhase: r.release_phase,
     popularityStatus: r.popularity_status,
-    heatStage: r.heat_stage ?? null,
+    heatStage: normalizeHeatStage(r.heat_stage),
     platforms: r.platforms ?? [],
     players: { min: r.min_players, max: r.max_players, fixed: r.fixed_players },
     crossplay: r.crossplay,

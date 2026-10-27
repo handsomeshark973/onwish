@@ -64,11 +64,18 @@
       "audiovisual": "You can't miss either the picture or the talk. Strong for live chat activity."
     },
     "stage": {
-      "upcoming": "Coming soon",
-      "golden": "Golden window",
-      "hot": "Hot",
+      "upcoming": "Upcoming",
+      "rising": "Rising",
+      "peak": "Golden Time",
       "cooling": "Cooling",
       "evergreen": "Evergreen"
+    },
+    "stageHint": {
+      "upcoming": "Not released yet",
+      "rising": "Gaining popularity",
+      "peak": "At peak popularity",
+      "cooling": "Interest is fading",
+      "evergreen": "Always played"
     },
     "participation": {
       "none": "No viewer participation",
@@ -280,10 +287,10 @@
     "unknownStage": "Popularity unknown",
     "upcomingTitle": "Coming soon",
     "upcomingDesc": "Book your collab around the release date",
-    "goldenTitle": "Golden window",
-    "goldenDesc": "The first 1–2 weeks after launch — the best time to jump in",
-    "hotTitle": "Hot",
-    "hotDesc": "Still burning. Try a new format to keep it fresh",
+    "risingTitle": "Rising",
+    "risingDesc": "Popularity is starting to climb — a good time to jump in early",
+    "peakTitle": "Golden Time",
+    "peakDesc": "Popularity is at its highest. Try a new format to keep it fresh",
     "coolingTitle": "Cooling",
     "coolingDesc": "Move it to an evergreen slot or a series episode",
     "evergreenTitle": "Evergreen",
@@ -293,6 +300,7 @@
     "dateTbd": "Date TBD",
     "resetFilters": "Reset filters",
     "flowLabel": "Stage flow",
+    "legendLabel": "What each stage means",
     "flowCount": "{n}"
   },
   "gameDetail": {
@@ -338,7 +346,7 @@
   "recoServer": {
     "noParticipation": "This one runs without viewer participation.",
     "trendNoParticipation": "This pick only describes the format. Check the library for viewer-participation ideas.",
-    "goldenCaution": "Once the hype fades, turn it into an evergreen slot or a series episode.",
+    "risingCaution": "Once the hype fades, turn it into an evergreen slot or a series episode.",
     "complementReason": "Added one pick with a different appeal to widen the mix.",
     "matchReason": "Matches your strengths — appeal: {points}",
     "generalReason": "Fits your conditions.",

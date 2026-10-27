@@ -22,8 +22,8 @@ export function ComponentShowcase() {
         <AppealBadge appeal="audio" />
         <AppealBadge appeal="audiovisual" />
         <StageBadge stage="upcoming" />
-        <StageBadge stage="golden" />
-        <StageBadge stage="hot" />
+        <StageBadge stage="rising" />
+        <StageBadge stage="peak" />
         <StageBadge stage="cooling" />
         <StageBadge stage="evergreen" />
         <SizeBadge size="s" />
@@ -55,7 +55,7 @@ export function ComponentShowcase() {
           href="/dev"
           name="예시 게임 A"
           developer="예시 개발사"
-          stage="golden"
+          stage="rising"
           players={{ min: 3, max: 3, fixed: true }}
           platforms={["PC"]}
           metric={{ values: [10, 14, 22, null, 30, 41, 38], kind: "steam_ccu" }}
@@ -81,7 +81,7 @@ export function ComponentShowcase() {
           fit="complement"
           fitReason="입담 중심 후보 사이에 다른 어필을 하나 섞기 위해 넣었어요."
           watchMode="focus"
-          stage="hot"
+          stage="peak"
           setup="준비물과 설정이 들어가는 자리"
           howTo={["첫 번째 진행 단계", "두 번째 진행 단계", "세 번째 진행 단계"]}
           participation="채팅 투표로 다음 목표를 정합니다."
