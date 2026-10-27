@@ -191,7 +191,7 @@
 .ow-tier-arrow { margin-top: auto; font-size: var(--fs-h3); color: var(--accent); }
 .ow-report-form { margin-top: var(--space-3); max-width: var(--form-w); }
 .ow-eyebrow { margin: 0; color: var(--accent); font-weight: var(--fw-bold); letter-spacing: var(--ls-eyebrow); }
-.ow-display { margin: 0; font-family: var(--font-display); font-size: var(--fs-display); line-height: var(--lh-tight); }
+.ow-display { text-wrap: balance; margin: 0; font-family: var(--font-display); font-size: var(--fs-display); line-height: var(--lh-tight); }
 .ow-lead { margin: 0; max-width: var(--measure); color: var(--text-muted); font-size: var(--fs-h3); }
 .ow-lead-block { margin-bottom: var(--space-5); }
 .ow-lead-sm { font-size: var(--fs-body); }
