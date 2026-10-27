@@ -116,6 +116,15 @@ r = await as('anon', null, "select count(*)::int n from game_sources s join game
 ok('GTA VI: 출처 1건, 중복 없음', r.rows[0].n===1);
 r = await as('anon', null, "select count(*)::int n from games_public where 'PC' = any(platforms) and slug='grand-theft-auto-vi'");
 ok('GTA VI: PC 플랫폼 없음', r.rows[0].n===0);
+// 10-5. GTA VI 영상 시드(seed/gta6-video.sql): 공식 채널 허용, 승인·대표, 이미지, 두 번 실행해도 안전
+// (10-2에서 test_id_001이 이미 대표로 지정돼 있다 → 시드가 이 대표를 풀어야 한다)
+await db.exec(readFileSync(P+'/seed/gta6-video.sql','utf8')); await db.exec(readFileSync(P+'/seed/gta6-video.sql','utf8'));
+r = await as('anon', null, "select v.status, v.kind, v.is_featured, v.channel_id, v.title_en, v.published_at::text pa, (g.official_channel_ids @> array[v.channel_id]) allowed, g.image_source from game_videos v join games g on g.id=v.game_id where g.slug='grand-theft-auto-vi'");
+ok('GTA VI 영상: 승인·launch·대표·허용 채널·이미지 출처', r.rows.length===1 && r.rows[0].status==='approved' && r.rows[0].kind==='launch' && r.rows[0].is_featured===true && r.rows[0].allowed===true && r.rows[0].image_source==='Rockstar Games · YouTube', JSON.stringify(r.rows[0]));
+r = await as('anon', null, "select count(*)::int n from game_videos where is_featured");
+ok('대표 영상은 GTA VI 하나(기존 대표는 해제)', r.rows[0].n===1);
+r = await as('anon', null, "select count(*)::int n, count(distinct x)::int d from (select unnest(official_channel_ids) x from games where slug='grand-theft-auto-vi') t");
+ok('공식 채널 허용 목록 중복 없음', r.rows[0].n===1 && r.rows[0].d===1);
 // 11. 탈퇴 시 삭제
 await db.exec("delete from auth.users where id='"+A+"'");
 const gone = await db.query("select (select count(*) from streamer_profiles)::int p, (select count(*) from ai_usage where user_id='"+A+"')::int u, (select count(*) from ai_requests where user_id='"+A+"')::int rq, (select count(*) from error_reports where reporter_id is null)::int rep");
