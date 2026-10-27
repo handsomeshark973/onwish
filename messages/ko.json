@@ -825,5 +825,32 @@
   },
   "gameImage": {
     "pending": "이미지 준비 중"
+  },
+  "video": {
+    "kind": {
+      "teaser": "티저",
+      "reveal": "공개 트레일러",
+      "launch": "출시 트레일러",
+      "gameplay": "게임플레이"
+    },
+    "play": "{name} {kind} 재생",
+    "thumbAlt": "{title} 영상 썸네일",
+    "thumbFailed": "영상 미리보기를 불러오지 못했어요",
+    "watchOnYoutube": "YouTube에서 보기",
+    "source": "영상 출처: {channel} · YouTube",
+    "original": "원본 보기",
+    "contentsLink": "이 게임으로 할 컨텐츠 보기",
+    "featured": "대표 영상",
+    "prev": "이전 영상",
+    "next": "다음 영상",
+    "releaseOn": "출시 예정 {date}",
+    "releaseTbd": "출시일 미정",
+    "released": "출시 {date}",
+    "dday": "D-{n}",
+    "today": "D-Day",
+    "upcoming": "곧 나올 게임 영상",
+    "upcomingHint": "티저·공개 트레일러",
+    "recent": "최근 인기 신작 영상",
+    "recentHint": "출시 트레일러"
   }
 }

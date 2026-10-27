@@ -825,5 +825,32 @@
   },
   "gameImage": {
     "pending": "Image coming soon"
+  },
+  "video": {
+    "kind": {
+      "teaser": "Teaser",
+      "reveal": "Reveal trailer",
+      "launch": "Launch trailer",
+      "gameplay": "Gameplay"
+    },
+    "play": "Play {name} {kind}",
+    "thumbAlt": "Thumbnail for {title}",
+    "thumbFailed": "Couldn't load the video preview",
+    "watchOnYoutube": "Watch on YouTube",
+    "source": "Video source: {channel} · YouTube",
+    "original": "View original",
+    "contentsLink": "See content ideas for this game",
+    "featured": "Featured video",
+    "prev": "Previous videos",
+    "next": "Next videos",
+    "releaseOn": "Releases {date}",
+    "releaseTbd": "Release date TBA",
+    "released": "Released {date}",
+    "dday": "D-{n}",
+    "today": "D-Day",
+    "upcoming": "Upcoming game videos",
+    "upcomingHint": "Teasers and reveal trailers",
+    "recent": "Popular new release videos",
+    "recentHint": "Launch trailers"
   }
 }

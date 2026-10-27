@@ -322,3 +322,37 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 .ow-theme { display: inline-flex; gap: var(--space-1); padding: var(--space-1); background: var(--surface-2); border-radius: var(--radius-pill); }
 .ow-theme-opt { min-height: var(--space-6); padding: 0 var(--space-3); border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--text-muted); font: inherit; font-size: var(--fs-caption); font-weight: var(--fw-semibold); cursor: pointer; }
 .ow-theme-opt[aria-checked="true"] { background: var(--accent); color: var(--on-accent); }
+
+/* 게임 영상(VideoCard·FeaturedVideo): 16:9 고정, 클릭 전에는 썸네일만(iframe 없음) */
+.ow-video-frame { position: relative; aspect-ratio: var(--ratio-thumb); border-radius: var(--radius-sm); overflow: hidden; background: var(--surface-2); }
+.ow-video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.ow-video-play { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: var(--surface-2); cursor: pointer; display: grid; place-items: center; }
+.ow-video-play img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ow-video-play::after { content: ""; position: absolute; inset: 0; background: var(--scrim); opacity: 0; }
+.ow-video-play:hover::after { opacity: 1; }
+.ow-video-icon { position: relative; z-index: 1; display: grid; place-items: center; width: calc(var(--control) * 1.4); height: calc(var(--control) * 1.4); border-radius: var(--radius-pill); background: var(--surface); color: var(--text); box-shadow: var(--shadow-1); }
+.ow-video-icon svg { width: var(--icon); height: var(--icon); margin-left: var(--space-1); }
+@media (prefers-reduced-motion: no-preference) {
+  .ow-video-play::after { transition: opacity var(--dur-base); }
+  .ow-video-icon { transition: transform var(--dur-fast); }
+  .ow-video-play:hover .ow-video-icon { transform: scale(1.08); }
+}
+.ow-video-placeholder { display: grid; place-content: center; justify-items: center; gap: var(--space-2); text-align: center; padding: var(--space-3); color: var(--text-muted); font-size: var(--fs-display); font-weight: var(--fw-bold); }
+.ow-video-placeholder .ow-meta { font-size: var(--fs-caption); font-weight: var(--fw-regular); }
+.ow-video-fallback-link { font-size: var(--fs-caption); font-weight: var(--fw-semibold); color: var(--accent); }
+.ow-badge-plain { color: var(--text); }
+.ow-video-card .ow-card-title a { text-decoration: none; }
+.ow-video-card .ow-meta a, .ow-video-featured .ow-meta a { color: var(--text-muted); }
+.ow-video-featured { display: grid; gap: var(--space-4); }
+.ow-video-featured-info { display: grid; gap: var(--space-2); align-content: center; }
+.ow-video-featured .ow-card-title { font-size: var(--fs-h2); }
+.ow-video-featured .ow-video-frame { border-radius: var(--radius-md); }
+@media (min-width: 960px) { .ow-video-featured { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: center; gap: var(--space-6); } }
+.ow-video-rail { position: relative; }
+.ow-video-row { scroll-snap-type: x mandatory; }
+.ow-video-row > * { flex: 0 0 min(var(--video-rail), 85%); }
+.ow-rail-btn { display: none; position: absolute; top: 25%; z-index: 2; background: var(--surface); box-shadow: var(--shadow-1); }
+.ow-rail-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.ow-rail-prev { left: calc(var(--space-3) * -1); }
+.ow-rail-next { right: calc(var(--space-3) * -1); }
+@media (hover: hover) and (min-width: 640px) { .ow-rail-btn { display: inline-grid; } }

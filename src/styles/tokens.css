@@ -75,6 +75,7 @@
   --sheet-w: 35rem;
   --card-min: 16.25rem;
   --card-rail: 15rem;
+  --video-rail: 22rem; /* 영상 카드 폭(가로 줄) */
   --ratio-thumb: 16 / 9;
   --ratio-hero: 16 / 7;
   --ratio-poster: 2 / 3;
