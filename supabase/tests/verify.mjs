@@ -106,6 +106,16 @@ ok('XBOX 플랫폼 저장', (await q("select platforms::text p from games where 
 ok('XBOX로 거르기', (await as('anon', null, "select count(*)::int n from games where 'XBOX' = any(platforms)")).rows[0].n===1);
 ok('없는 기기 값은 거부', !!(await rejects('authenticated', B, "update games set platforms='{N64}' where slug='bombanana'")));
 await db.exec("update games set platforms='{PC}' where slug='bombanana'");
+// 10-4. GTA VI 시드(seed/gta6.sql): 곧 출시 단계, 일정·출처 포함, 두 번 실행해도 중복 없음
+await db.exec(readFileSync(P+'/seed/gta6.sql','utf8')); await db.exec(readFileSync(P+'/seed/gta6.sql','utf8'));
+r = await as('anon', null, "select slug, heat_stage, platforms::text p, min_players, max_players, fixed_players, price_note, name_ko from games_public where slug='grand-theft-auto-vi'");
+ok('GTA VI: 곧 출시·PS5+XBOX·1인·고정 인원 미표시', r.rows.length===1 && r.rows[0].heat_stage==='upcoming' && r.rows[0].p==='{PS5,XBOX}' && r.rows[0].min_players===1 && r.rows[0].max_players===1 && r.rows[0].fixed_players===null && r.rows[0].price_note===null, JSON.stringify(r.rows[0]));
+r = await as('anon', null, "select count(*)::int n, min(date::text) d from game_key_dates k join games g on g.id=k.game_id where g.slug='grand-theft-auto-vi'");
+ok('GTA VI: 출시일 1건(2026-11-19), 중복 없음', r.rows[0].n===1 && r.rows[0].d==='2026-11-19');
+r = await as('anon', null, "select count(*)::int n from game_sources s join games g on g.id=s.game_id where g.slug='grand-theft-auto-vi'");
+ok('GTA VI: 출처 1건, 중복 없음', r.rows[0].n===1);
+r = await as('anon', null, "select count(*)::int n from games_public where 'PC' = any(platforms) and slug='grand-theft-auto-vi'");
+ok('GTA VI: PC 플랫폼 없음', r.rows[0].n===0);
 // 11. 탈퇴 시 삭제
 await db.exec("delete from auth.users where id='"+A+"'");
 const gone = await db.query("select (select count(*) from streamer_profiles)::int p, (select count(*) from ai_usage where user_id='"+A+"')::int u, (select count(*) from ai_requests where user_id='"+A+"')::int rq, (select count(*) from error_reports where reporter_id is null)::int rep");

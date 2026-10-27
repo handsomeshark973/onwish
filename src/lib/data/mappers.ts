@@ -16,6 +16,7 @@ const SOURCE_TITLES_EN: Record<string, string> = {
   "Roblox 공식 소개 페이지": "Roblox official About page",
   "Nintendo 미국 스토어 · Super Mario Maker 2": "Nintendo US store · Super Mario Maker 2",
   "Mob Entertainment 뉴스": "Mob Entertainment news",
+  "Rockstar 공식 사이트 · Grand Theft Auto VI": "Rockstar Games official site · Grand Theft Auto VI",
 };
 export const sourceTitle = (v: string, locale: string) => (locale === "ko" ? v : (SOURCE_TITLES_EN[v] ?? v));
 
