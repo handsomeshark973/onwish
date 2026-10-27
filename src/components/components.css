@@ -341,7 +341,7 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 .ow-video-placeholder .ow-meta { font-size: var(--fs-caption); font-weight: var(--fw-regular); }
 .ow-video-fallback-link { font-size: var(--fs-caption); font-weight: var(--fw-semibold); color: var(--accent); }
 .ow-badge-plain { color: var(--text); }
-.ow-video-card .ow-card-title a { text-decoration: none; }
+.ow-video-card .ow-card-title a, .ow-video-featured .ow-card-title a { text-decoration: none; }
 .ow-video-card .ow-meta a, .ow-video-featured .ow-meta a { color: var(--text-muted); }
 .ow-video-featured { display: grid; gap: var(--space-4); }
 .ow-video-featured-info { display: grid; gap: var(--space-2); align-content: center; }
