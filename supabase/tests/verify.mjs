@@ -14,7 +14,7 @@ grant usage on schema auth to anon, authenticated, service_role;
 grant usage on schema public to anon, authenticated, service_role;
 insert into auth.users values ('${A}'), ('${B}');
 `);
-for (const f of ['0001_schema.sql','0002_security.sql','0003_functions.sql','0004_ai_request_result.sql','0005_translations_and_rate_limit.sql']) await db.exec(readFileSync(P+'/migrations/'+f,'utf8'));
+for (const f of ['0001_schema.sql','0002_security.sql','0003_functions.sql','0004_ai_request_result.sql','0005_translations_and_rate_limit.sql','0006_game_videos.sql']) await db.exec(readFileSync(P+'/migrations/'+f,'utf8'));
 await db.exec(readFileSync(P+'/seed.sql','utf8'));
 await db.exec(`grant select, insert, update, delete on all tables in schema public to anon, authenticated, service_role;
 grant execute on all functions in schema public to anon, authenticated;`);
@@ -84,6 +84,22 @@ ok('heat: cooling', await h('released','post_launch','cooling',false)==='cooling
 ok('heat: unknown→null', await h('released','launch_window','unknown',false)===null);
 ok('heat: 관리자 확인 상시', await h('released','post_launch','cooling',true)==='evergreen');
 r = await as('anon', null, "select slug, heat_stage from games_public"); ok('뷰 heat_stage(인기 미확인)=null', r.rows.length===1 && r.rows[0].heat_stage===null);
+// 10-2. 게임 영상(시험용 자리 표시 ID는 실제 영상이 아님)
+const gid = (await q("select id from games where slug='bombanana'")).id;
+await db.exec(`insert into game_videos (game_id, youtube_id, kind, title_ko, channel_name, source_url, status) values
+  ('${gid}','test_id_001','launch','시험 영상 1','시험 채널','https://example.invalid/1','approved'),
+  ('${gid}','test_id_002','teaser','시험 영상 2','시험 채널','https://example.invalid/2','pending')`);
+ok('anon: 승인된 영상만 보임', (await as('anon', null, 'select count(*)::int n from game_videos')).rows[0].n===1);
+ok('anon: 영상 등록 불가', !!(await rejects('anon', null, `insert into game_videos (game_id, youtube_id, kind, title_ko, channel_name, source_url) values ('${gid}','test_id_003','teaser','x','x','x')`)));
+ok('일반 사용자: 영상 수정 불가', (await as('authenticated', A, "update game_videos set status='approved' returning 1")).rows.length===0);
+ok('관리자는 대기 영상도 봄', (await as('authenticated', B, 'select count(*)::int n from game_videos')).rows[0].n===2);
+ok('영상 ID는 11자리만', !!(await rejects('authenticated', B, `insert into game_videos (game_id, youtube_id, kind, title_ko, channel_name, source_url) values ('${gid}','short','teaser','x','x','x')`)));
+ok('같은 게임에 같은 영상 중복 불가', !!(await rejects('authenticated', B, `insert into game_videos (game_id, youtube_id, kind, title_ko, channel_name, source_url) values ('${gid}','test_id_001','teaser','x','x','x')`)));
+await db.exec("update game_videos set is_featured=true where youtube_id='test_id_001'");
+ok('대표 영상은 하나만', !!(await rejects('authenticated', B, "update game_videos set is_featured=true where youtube_id='test_id_002'")));
+await db.exec("update games set approval_status='pending' where slug='bombanana'");
+ok('게임이 승인 취소되면 영상도 안 보임', (await as('anon', null, 'select count(*)::int n from game_videos')).rows[0].n===0);
+await db.exec("update games set approval_status='approved' where slug='bombanana'");
 // 11. 탈퇴 시 삭제
 await db.exec("delete from auth.users where id='"+A+"'");
 const gone = await db.query("select (select count(*) from streamer_profiles)::int p, (select count(*) from ai_usage where user_id='"+A+"')::int u, (select count(*) from ai_requests where user_id='"+A+"')::int rq, (select count(*) from error_reports where reporter_id is null)::int rep");

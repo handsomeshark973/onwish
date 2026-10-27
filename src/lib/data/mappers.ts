@@ -1,5 +1,5 @@
 import type {
-  Content, ContentSummary, LinkedGame, Game, GameFormat, GameKeyDate, GameSource, MetricPoint, MetricKind,
+  Content, ContentSummary, GameVideo, LinkedGame, Game, GameFormat, GameKeyDate, GameSource, MetricPoint, MetricKind,
 } from "@/types/domain";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -58,6 +58,7 @@ export function mapGame(r: Row, locale = "ko"): Game {
     isHorror: r.is_horror ?? null,
     motionSicknessRisk: r.motion_sickness_risk ?? null,
     spoilerRisk: r.spoiler_risk ?? null,
+    officialChannelIds: r.official_channel_ids ?? [],
   };
 }
 
@@ -139,4 +140,26 @@ export function metricSeries(points: MetricPoint[], kind: MetricKind, days = 30,
 
 export function withGames(content: Content, links: LinkedGame[]): ContentSummary {
   return { ...content, games: links };
+}
+
+export function mapVideo(r: Row, locale = "ko"): GameVideo {
+  const ko = r.title_ko as string | null;
+  const en = r.title_en as string | null;
+  return {
+    id: r.id,
+    gameId: r.game_id,
+    youtubeId: r.youtube_id,
+    kind: r.kind,
+    title: (locale === "ko" ? ko ?? en : en ?? ko) ?? "",
+    titleKo: ko,
+    titleEn: en,
+    channelName: r.channel_name,
+    channelId: r.channel_id,
+    publishedAt: r.published_at,
+    sourceUrl: r.source_url,
+    verifiedAt: r.verified_at,
+    status: r.status,
+    hiddenReason: r.hidden_reason,
+    isFeatured: r.is_featured,
+  };
 }

@@ -44,6 +44,7 @@ export interface Game {
   isHorror: boolean | null;
   motionSicknessRisk: boolean | null;
   spoilerRisk: boolean | null;
+  officialChannelIds: string[]; // 영상 등록을 허용하는 공식 채널 ID(개발사·퍼블리셔·플랫폼)
 }
 
 export interface GameFormat {
@@ -117,6 +118,28 @@ export interface StreamerProfile {
   members?: { name: string; note: string; devices: Device[]; ownedGameIds?: string[] }[];
   chemistryLevel?: "first" | "some" | "long";
   desiredStructures?: Structure[];
+}
+
+export type VideoKind = "teaser" | "reveal" | "launch" | "gameplay";
+export type VideoStatus = "pending" | "approved" | "hidden";
+
+// 게임 공식 영상. 유튜브 영상 ID(11자리)만 저장하고, 주소는 화면에서 만든다.
+export interface GameVideo {
+  id: string;
+  gameId: string;
+  youtubeId: string;
+  kind: VideoKind;
+  title: string; // 현재 언어 제목(없는 언어는 다른 언어로 대체)
+  titleKo: string | null;
+  titleEn: string | null;
+  channelName: string;
+  channelId: string | null;
+  publishedAt: string | null;
+  sourceUrl: string;
+  verifiedAt: string | null;
+  status: VideoStatus;
+  hiddenReason: string | null;
+  isFeatured: boolean;
 }
 
 export interface GameKeyDate { label: string; date: string; source: string }

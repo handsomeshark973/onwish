@@ -32,7 +32,7 @@ function game(slug: string, name: string, heat: GameDetail["heatStage"], opts: P
     crossplay: null, priceNote: null, genre: ["예시 장르"], asymmetricRoles: false, proximityVoice: false, moddable: false,
     streamPoint: "예시 문구: 방송에서 왜 재밌는지 한두 문장으로 적는 자리입니다.", cautions: "예시 문구: 주의점이 들어가는 자리입니다.",
     imageUrl: null, imageSource: null, lastCheckedAt: today.toISOString(), infoStale: false,
-    isHorror: false, motionSicknessRisk: false, spoilerRisk: false,
+    isHorror: false, motionSicknessRisk: false, spoilerRisk: false, officialChannelIds: [],
     formats, nextKeyDate: heat === "upcoming" ? { label: "출시 예정(예시)", date: day(12), source: "예시" } : null,
     metricSeries, metricKind: metricSeries.length ? ("steam_ccu" as const) : null,
     keyDates: [{ label: heat === "upcoming" ? "출시 예정(예시)" : "출시(예시)", date: heat === "upcoming" ? day(12) : day(-8), source: "예시" }],
