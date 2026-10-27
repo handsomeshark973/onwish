@@ -18,4 +18,4 @@ export const MODEL_PRICES: Record<string, { in: number; out: number }> = {
 };
 export const FALLBACK_PRICE = { in: 10, out: 50 };
 
-export const DEFAULT_MODEL = "claude-opus-5-5";
+export const DEFAULT_MODEL = "claude-sonnet-5-5";
