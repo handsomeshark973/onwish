@@ -23,8 +23,8 @@
 
   /* 트렌드 단계 배지(5) */
   --stage-upcoming: #8fa3c4;
-  --stage-golden: #ffd34d;
-  --stage-hot: #ff7a59;
+  --stage-rising: #b5e550; /* 뜨는 중: 연두. 다른 배지 색과 ΔE2000 15 이상 떨어져 있다 */
+  --stage-peak: #ffd34d; /* 골든타임: 옛 "골든타임" 색을 이어받는다 */
   --stage-cooling: #7fb0c9;
   --stage-evergreen: #6fd3a0;
 
@@ -125,8 +125,8 @@
     --appeal-audio: #8a5300;
     --appeal-av: #b0145f;
     --stage-upcoming: #50627f;
-    --stage-golden: #7a5c00;
-    --stage-hot: #b53a16;
+    --stage-rising: #4f6b00;
+    --stage-peak: #7a5c00;
     --stage-cooling: #2f6783;
     --stage-evergreen: #1c7a4e;
     --size-solo: #5b3fc0;
@@ -155,8 +155,8 @@
   --appeal-audio: #8a5300;
   --appeal-av: #b0145f;
   --stage-upcoming: #50627f;
-  --stage-golden: #7a5c00;
-  --stage-hot: #b53a16;
+  --stage-rising: #4f6b00;
+  --stage-peak: #7a5c00;
   --stage-cooling: #2f6783;
   --stage-evergreen: #1c7a4e;
   --size-solo: #5b3fc0;

@@ -97,8 +97,8 @@
 .ow-appeal-audio { color: var(--appeal-audio); }
 .ow-appeal-audiovisual { color: var(--appeal-av); }
 .ow-stage-upcoming { color: var(--stage-upcoming); }
-.ow-stage-rising { color: var(--stage-hot); } /* 색은 3단계에서 새 토큰(--stage-rising)으로 바꾼다 */
-.ow-stage-peak { color: var(--stage-golden); } /* 옛 "골든타임" 색을 새 "골든타임"(peak)이 이어받는다 */
+.ow-stage-rising { color: var(--stage-rising); }
+.ow-stage-peak { color: var(--stage-peak); }
 .ow-stage-cooling { color: var(--stage-cooling); }
 .ow-stage-evergreen { color: var(--stage-evergreen); }
 .ow-size { color: var(--text-muted); }
@@ -141,7 +141,7 @@
 .ow-media-placeholder { display: grid; justify-items: center; gap: var(--space-1); color: var(--text-muted); font-size: var(--fs-display); font-weight: var(--fw-bold); }
 .ow-media-pending { font-size: var(--fs-caption); font-weight: var(--fw-regular); }
 .ow-players { margin: 0; font-weight: var(--fw-medium); }
-.ow-players-fixed { font-weight: var(--fw-bold); color: var(--stage-golden); }
+.ow-players-fixed { font-weight: var(--fw-bold); color: var(--accent); }
 .ow-chart { color: var(--accent); }
 .ow-chart-empty { color: var(--text-muted); font-size: var(--fs-caption); }
 .ow-grid { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr)); }
@@ -160,7 +160,7 @@
 .ow-state { border: var(--bw) dashed var(--line); border-radius: var(--radius-md); padding: var(--space-6) var(--space-4); text-align: center; display: grid; gap: var(--space-2); justify-items: center; }
 .ow-state-title { margin: 0; font-weight: var(--fw-bold); }
 .ow-state-hint { margin: 0; color: var(--text-muted); }
-.ow-state-error { border-style: solid; border-color: var(--stage-hot); }
+.ow-state-error { border-style: solid; border-color: var(--danger); }
 .ow-spinner { width: var(--icon); height: var(--icon); border: var(--bw-strong) solid var(--line); border-top-color: var(--accent); border-radius: var(--radius-pill); animation: ow-spin var(--dur-spin) linear infinite; }
 @keyframes ow-spin { to { transform: rotate(360deg); } }
 
@@ -275,7 +275,7 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 .ow-backlink { display: inline-block; margin-bottom: var(--space-4); color: var(--text-muted); }
 .ow-sources { padding-left: var(--space-5); }
 .ow-sources li { margin-bottom: var(--space-1); }
-.ow-stale { color: var(--stage-hot); font-weight: var(--fw-bold); }
+.ow-stale { color: var(--danger); font-weight: var(--fw-bold); }
 
 /* 추천 폼 */
 .ow-reco-layout { display: grid; gap: var(--space-6); }
@@ -304,9 +304,9 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 .ow-pw { position: relative; }
 .ow-pw .ow-input { padding-right: calc(var(--control) + var(--space-2)); }
 .ow-pw-toggle { position: absolute; right: var(--space-1); top: 50%; transform: translateY(-50%); min-width: var(--control); min-height: var(--control); background: none; border: 0; color: var(--text-muted); font-size: var(--fs-lg); cursor: pointer; border-radius: var(--radius-sm); }
-.ow-field-error { margin: 0; color: var(--stage-hot); font-size: var(--fs-caption); font-weight: var(--fw-medium); }
-.ow-input[aria-invalid="true"] { border-color: var(--stage-hot); }
-.ow-note-error { border: var(--bw) solid var(--stage-hot); }
+.ow-field-error { margin: 0; color: var(--danger); font-size: var(--fs-caption); font-weight: var(--fw-medium); }
+.ow-input[aria-invalid="true"] { border-color: var(--danger); }
+.ow-note-error { border: var(--bw) solid var(--danger); }
 .ow-check { display: flex; gap: var(--space-2); align-items: flex-start; cursor: pointer; line-height: var(--lh-heading); }
 .ow-check input { width: var(--icon); height: var(--icon); margin: var(--space-1) 0 0; accent-color: var(--accent); flex: 0 0 auto; }
 .ow-auth-links { display: flex; flex-direction: column; gap: var(--space-2); margin: 0; color: var(--text-muted); font-size: var(--fs-caption); }

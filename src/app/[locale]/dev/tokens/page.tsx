@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: "토큰 확인" };
 const COLOR_GROUPS: Record<string, string[]> = {
   "바탕·글자": ["--bg", "--surface", "--surface-2", "--text", "--text-muted", "--line", "--accent", "--on-accent"],
   "어필 배지": ["--appeal-visual", "--appeal-audio", "--appeal-av"],
-  "단계 배지": ["--stage-upcoming", "--stage-golden", "--stage-hot", "--stage-cooling", "--stage-evergreen"],
+  "단계 배지": ["--stage-upcoming", "--stage-rising", "--stage-peak", "--stage-cooling", "--stage-evergreen"],
   "인원 규모 배지": ["--size-solo", "--size-small", "--size-large"],
   "상태": ["--danger", "--success"],
 };

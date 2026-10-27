@@ -44,7 +44,7 @@ export function ratio(a: string, b: string) {
 }
 
 const SURFACES = ["--bg", "--surface", "--surface-2"];
-const TEXT_ON_SURFACES = ["--text", "--text-muted", "--accent", "--appeal-visual", "--appeal-audio", "--appeal-av", "--stage-upcoming", "--stage-golden", "--stage-hot", "--stage-cooling", "--stage-evergreen", "--size-solo", "--size-small", "--size-large", "--danger", "--success"];
+const TEXT_ON_SURFACES = ["--text", "--text-muted", "--accent", "--appeal-visual", "--appeal-audio", "--appeal-av", "--stage-upcoming", "--stage-rising", "--stage-peak", "--stage-cooling", "--stage-evergreen", "--size-solo", "--size-small", "--size-large", "--danger", "--success"];
 
 export function contrastRows(): Row[] {
   const t = loadThemes();
