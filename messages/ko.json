@@ -300,7 +300,6 @@
     "dateTbd": "날짜 미정",
     "resetFilters": "필터 초기화",
     "flowLabel": "단계 흐름",
-    "legendLabel": "단계 설명",
     "flowCount": "{n}개"
   },
   "gameDetail": {

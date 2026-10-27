@@ -13,7 +13,7 @@ import { EmptyState } from "@/components/ui/States";
 import { useLabels } from "@/i18n/labels";
 import { parseStageParam, stageParamValue } from "@/lib/stage-query";
 import type { GameSummary } from "@/types/domain";
-import { FLOW_STAGES, HEAT_STAGES, TAXONOMY_KEYS } from "@/types/taxonomy";
+import { HEAT_STAGES, TAXONOMY_KEYS } from "@/types/taxonomy";
 
 type Filters = { tier: string[]; platform: string[]; appeal: string[]; stage: string[] };
 const EMPTY: Filters = { tier: [], platform: [], appeal: [], stage: [] };
@@ -76,33 +76,20 @@ export function RadarBrowser({ games }: { games: GameSummary[] }) {
       </div>
 
       {games.length > 0 && (
-        <>
-          {/* 단계 흐름: 곧 출시 → 뜨는 중 → 골든타임 → 식는 중 (상시는 흐름 밖). 누르면 해당 구역으로 이동한다 */}
-          <nav aria-label={t("flowLabel")}>
-            <ol className="ow-flow">
-              {HEAT_STAGES.map((s) => {
-                const n = filtered.filter((g) => g.heatStage === s).length;
-                const inFlow = (FLOW_STAGES as readonly string[]).includes(s);
-                const cls = `ow-flow-step${s === FLOW_STAGES[FLOW_STAGES.length - 1] ? " ow-flow-end" : ""}${inFlow ? "" : " ow-flow-extra"}`;
-                const inner = <><StageBadge stage={s} tip={false} /><span className="ow-flow-count">{t("flowCount", { n })}</span></>;
-                return (
-                  <li key={s} className={cls} data-empty={n === 0}>
-                    {n > 0 ? <a href={`#stage-${s}`} className="ow-flow-link">{inner}</a> : <span className="ow-flow-link">{inner}</span>}
-                  </li>
-                );
-              })}
-            </ol>
-          </nav>
-          {/* 단계 설명: 배지 툴팁과 같은 문구를 글자로도 보여 준다(터치·스크린리더에서도 읽힌다) */}
-          <ul className="ow-stage-legend" aria-label={t("legendLabel")}>
-            {HEAT_STAGES.map((s) => (
-              <li key={s}>
-                <StageBadge stage={s} tip={false} />
-                <span className="ow-meta">{l.stageHint[s]}</span>
-              </li>
-            ))}
-          </ul>
-        </>
+        // 단계 흐름: 곧 출시 → 뜨는 중 → 골든타임 → 식는 중 → 상시. 누르면 해당 구역으로 이동한다
+        <nav aria-label={t("flowLabel")}>
+          <ol className="ow-flow">
+            {HEAT_STAGES.map((s) => {
+              const n = filtered.filter((g) => g.heatStage === s).length;
+              const inner = <><StageBadge stage={s} tip={false} /><span className="ow-flow-count">{t("flowCount", { n })}</span></>;
+              return (
+                <li key={s} className="ow-flow-step" data-empty={n === 0}>
+                  {n > 0 ? <a href={`#stage-${s}`} className="ow-flow-link">{inner}</a> : <span className="ow-flow-link">{inner}</span>}
+                </li>
+              );
+            })}
+          </ol>
+        </nav>
       )}
 
       {games.length === 0 ? (

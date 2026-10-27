@@ -300,7 +300,6 @@
     "dateTbd": "Date TBD",
     "resetFilters": "Reset filters",
     "flowLabel": "Stage flow",
-    "legendLabel": "What each stage means",
     "flowCount": "{n}"
   },
   "gameDetail": {
