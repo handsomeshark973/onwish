@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { DEVICES } from "@/types/taxonomy";
 
-const device = z.enum(["PC", "PS5", "SWITCH", "VR"]);
+const device = z.enum(DEVICES);
 const strengths = z.enum(["talk", "chemistry", "skill", "creation", "reaction"]);
 const structure = z.enum(["coop", "versus", "mind_game", "talk"]);
 
@@ -9,7 +10,7 @@ const member = z
   .object({
     name: z.string().trim().max(30),
     note: z.string().trim().max(100),
-    devices: z.array(device).min(1).max(4),
+    devices: z.array(device).min(1).max(DEVICES.length),
     ownedGameIds: z.array(z.string().max(64)).max(200).optional(),
   })
   .strict();
@@ -21,7 +22,7 @@ export const profileSchema = z
     persona: z.string().trim().max(500),
     usesCam: z.boolean(),
     audience: z.enum(["s", "m", "l"]),
-    devices: z.array(device).min(1).max(4),
+    devices: z.array(device).min(1).max(DEVICES.length),
     length: z.enum(["single", "full_day", "series"]),
     timeSlot: z.enum(["day", "evening", "late_night"]),
     goal: z.enum(["acquire", "retain", "both"]),

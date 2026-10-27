@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { SAMPLE_CONTENTS, SAMPLE_GAMES } from "../../data/samples";
 import type { ContentSummary, GameSummary } from "../../types/domain";
+import type { Device } from "../../types/taxonomy";
 import { extractJson, reconcile, AiInvalid, type Ask } from "./ai";
 import { buildCandidates, eligibleContent } from "./candidates";
 import { recommend, type Deps } from "./engine";
@@ -11,7 +12,7 @@ import { ruleBasedPicks } from "./rules";
 import type { RecommendResult } from "./types";
 
 const tr = (k: string) => k; // 시험에서는 번역 대신 문구 키를 그대로 쓴다
-const member = (name: string, devices: ("PC" | "PS5" | "SWITCH" | "VR")[] = ["PC"]) => ({ name, note: "", devices });
+const member = (name: string, devices: Device[] = ["PC"]) => ({ name, note: "", devices });
 const small = (over: Partial<ProfileInput> = {}): ProfileInput =>
   profileSchema.parse({
     mode: "small", strengths: ["chemistry"], persona: "", usesCam: true, audience: "m", devices: ["PC"], length: "single",

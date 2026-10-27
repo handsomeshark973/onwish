@@ -11,7 +11,7 @@ import { EmptyState } from "@/components/ui/States";
 import { Tabs } from "@/components/ui/Tabs";
 import { useLabels } from "@/i18n/labels";
 import type { ContentSummary } from "@/types/domain";
-import { TAXONOMY_KEYS, type PlayerTier } from "@/types/taxonomy";
+import { DEVICES, TAXONOMY_KEYS, type PlayerTier } from "@/types/taxonomy";
 
 type Filters = Record<string, string[]>;
 const EMPTY: Filters = { appeal: [], point: [], structure: [], origin: [], lifecycle: [], participation: [], channel: [], device: [], audience: [] };
@@ -75,7 +75,7 @@ export function LibraryBrowser({ contents }: { contents: ContentSummary[] }) {
     { key: "lifecycle", label: t("fLifecycle"), options: TAXONOMY_KEYS.lifecycle.map((k) => ({ value: k, label: l.lifecycle[k] })) },
     { key: "participation", label: t("fParticipation"), options: TAXONOMY_KEYS.participation.map((k) => ({ value: k, label: l.participation[k] })) },
     { key: "channel", label: t("fChannel"), options: TAXONOMY_KEYS.channel.map((k) => ({ value: k, label: l.channel[k] })) },
-    { key: "device", label: t("fDevice"), options: ["PC", "PS5", "SWITCH", "VR"].map((d) => ({ value: d, label: d })) },
+    { key: "device", label: t("fDevice"), options: DEVICES.map((d) => ({ value: d, label: d })) },
     { key: "audience", label: t("fAudience"), options: TAXONOMY_KEYS.audience.map((k) => ({ value: k, label: l.audience[k] })) },
   ];
 

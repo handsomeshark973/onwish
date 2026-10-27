@@ -4,7 +4,8 @@ import { mapGame } from "../lib/data/mappers";
 import { legacyStageRedirect, parseStageParam } from "../lib/stage-query";
 import { normalizePick, normalizeResult } from "../lib/recommend/normalize";
 import type { RecommendResult } from "../lib/recommend/types";
-import { FLOW_STAGES, HEAT_STAGES, isTrendStage, normalizeHeatStage, TAXONOMY_KEYS, TREND_STAGES } from "./taxonomy";
+import { profileSchema } from "../lib/recommend/schema";
+import { DEVICES, FLOW_STAGES, HEAT_STAGES, isTrendStage, normalizeHeatStage, TAXONOMY_KEYS, TREND_STAGES } from "./taxonomy";
 
 test("단계 순서: 곧 출시 → 뜨는 중 → 골든타임 → 식는 중 → 상시", () => {
   assert.deepEqual([...HEAT_STAGES], ["upcoming", "rising", "peak", "cooling", "evergreen"]);
@@ -63,4 +64,10 @@ test("레이더 옛 링크 리다이렉트: golden→rising, hot→peak, 나머�
   assert.equal(r("stage=rising"), null);
   assert.equal(r("stage=peak,cooling"), null);
   assert.equal(r("a=1"), null);
+});
+
+test("기기 값: XBOX 포함, 프로필 검증도 같은 목록을 쓴다", () => {
+  assert.deepEqual([...DEVICES], ["PC", "PS5", "XBOX", "SWITCH", "VR"]);
+  assert.equal(profileSchema.shape.devices.safeParse(["XBOX", "PS5"]).success, true);
+  assert.equal(profileSchema.shape.devices.safeParse(["N64"]).success, false);
 });

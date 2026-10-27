@@ -13,7 +13,7 @@ import { EmptyState } from "@/components/ui/States";
 import { useLabels } from "@/i18n/labels";
 import { parseStageParam, stageParamValue } from "@/lib/stage-query";
 import type { GameSummary } from "@/types/domain";
-import { HEAT_STAGES, TAXONOMY_KEYS } from "@/types/taxonomy";
+import { DEVICES, HEAT_STAGES, TAXONOMY_KEYS } from "@/types/taxonomy";
 
 type Filters = { tier: string[]; platform: string[]; appeal: string[]; stage: string[] };
 const EMPTY: Filters = { tier: [], platform: [], appeal: [], stage: [] };
@@ -62,7 +62,7 @@ export function RadarBrowser({ games }: { games: GameSummary[] }) {
           </fieldset>
           <fieldset className="ow-field">
             <legend>{t("fPlatform")}</legend>
-            <ChipGroup label={t("fPlatform")} multiple options={["PC", "PS5", "SWITCH", "VR"].map((d) => ({ value: d, label: d }))} value={filters.platform} onChange={set("platform")} />
+            <ChipGroup label={t("fPlatform")} multiple options={DEVICES.map((d) => ({ value: d, label: d }))} value={filters.platform} onChange={set("platform")} />
           </fieldset>
           <fieldset className="ow-field">
             <legend>{t("fAppeal")}</legend>

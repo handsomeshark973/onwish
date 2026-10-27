@@ -24,7 +24,9 @@ export function normalizeHeatStage(v: unknown): HeatStage | null {
 }
 export type ViewerParticipation = "none" | "enriches" | "required";
 export type WatchMode = "focus" | "background";
-export type Device = "PC" | "PS5" | "SWITCH" | "VR";
+// 기기 값. 필터·프로필 폼·검증이 모두 이 목록을 쓴다(DB는 device_kind enum, 0008에서 XBOX 추가).
+export const DEVICES = ["PC", "PS5", "XBOX", "SWITCH", "VR"] as const;
+export type Device = (typeof DEVICES)[number];
 
 
 // 번역 키 목록. 메시지 파일의 taxonomy 아래에 같은 이름으로 들어 있다.

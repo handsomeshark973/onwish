@@ -14,7 +14,7 @@ grant usage on schema auth to anon, authenticated, service_role;
 grant usage on schema public to anon, authenticated, service_role;
 insert into auth.users values ('${A}'), ('${B}');
 `);
-for (const f of ['0001_schema.sql','0002_security.sql','0003_functions.sql','0004_ai_request_result.sql','0005_translations_and_rate_limit.sql','0006_game_videos.sql','0007_heat_stage_rename.sql']) await db.exec(readFileSync(P+'/migrations/'+f,'utf8'));
+for (const f of ['0001_schema.sql','0002_security.sql','0003_functions.sql','0004_ai_request_result.sql','0005_translations_and_rate_limit.sql','0006_game_videos.sql','0007_heat_stage_rename.sql','0008_device_xbox.sql']) await db.exec(readFileSync(P+'/migrations/'+f,'utf8'));
 await db.exec(readFileSync(P+'/seed.sql','utf8'));
 await db.exec(`grant select, insert, update, delete on all tables in schema public to anon, authenticated, service_role;
 grant execute on all functions in schema public to anon, authenticated;`);
@@ -100,6 +100,12 @@ ok('대표 영상은 하나만', !!(await rejects('authenticated', B, "update ga
 await db.exec("update games set approval_status='pending' where slug='bombanana'");
 ok('게임이 승인 취소되면 영상도 안 보임', (await as('anon', null, 'select count(*)::int n from game_videos')).rows[0].n===0);
 await db.exec("update games set approval_status='approved' where slug='bombanana'");
+// 10-3. 기기 값 XBOX(0008): 게임 플랫폼에 쓸 수 있고, 필터(platforms 포함 검색)에 걸린다
+await db.exec("update games set platforms='{PS5,XBOX}' where slug='bombanana'");
+ok('XBOX 플랫폼 저장', (await q("select platforms::text p from games where slug='bombanana'")).p==='{PS5,XBOX}');
+ok('XBOX로 거르기', (await as('anon', null, "select count(*)::int n from games where 'XBOX' = any(platforms)")).rows[0].n===1);
+ok('없는 기기 값은 거부', !!(await rejects('authenticated', B, "update games set platforms='{N64}' where slug='bombanana'")));
+await db.exec("update games set platforms='{PC}' where slug='bombanana'");
 // 11. 탈퇴 시 삭제
 await db.exec("delete from auth.users where id='"+A+"'");
 const gone = await db.query("select (select count(*) from streamer_profiles)::int p, (select count(*) from ai_usage where user_id='"+A+"')::int u, (select count(*) from ai_requests where user_id='"+A+"')::int rq, (select count(*) from error_reports where reporter_id is null)::int rep");

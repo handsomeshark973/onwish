@@ -12,15 +12,14 @@ import { Link } from "@/i18n/navigation";
 import { useReady } from "@/lib/use-ready";
 import type { ProfileInput } from "@/lib/recommend/schema";
 import type { RecommendNotice, RecommendResult } from "@/lib/recommend/types";
-import { TAXONOMY_KEYS, type PlayerTier } from "@/types/taxonomy";
+import { DEVICES, TAXONOMY_KEYS, type Device, type PlayerTier } from "@/types/taxonomy";
 import { PickCard } from "./PickCard";
 
-type Device = "PC" | "PS5" | "SWITCH" | "VR";
 type Member = { name: string; note: string; devices: Device[]; ownedGameIds: string[] };
 type Quota = { used: number; remaining: number; limit: number; nextReset: string } | null;
 
 const opts = (keys: readonly string[], map: Record<string, string>) => keys.map((k) => ({ value: k, label: map[k] }));
-const DEVICES = (["PC", "PS5", "SWITCH", "VR"] as Device[]).map((d) => ({ value: d, label: d }));
+const DEVICE_OPTIONS = DEVICES.map((d) => ({ value: d, label: d }));
 const yn = (b: boolean) => (b ? "yes" : "no");
 const emptyMember = (): Member => ({ name: "", note: "", devices: ["PC"], ownedGameIds: [] });
 
@@ -147,7 +146,7 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
             <Single label={t("audience")} options={opts(TAXONOMY_KEYS.audience, l.audience)} value={audience} onChange={setAudience} />
             <fieldset className="ow-field">
               <legend>{t("devices")}</legend>
-              <ChipGroup label={t("devices")} multiple options={DEVICES} value={devices} onChange={setDevices} />
+              <ChipGroup label={t("devices")} multiple options={DEVICE_OPTIONS} value={devices} onChange={setDevices} />
             </fieldset>
             <Single label={t("length")} options={opts(TAXONOMY_KEYS.length, l.length)} value={length} onChange={setLength} />
             <Single label={t("timeSlot")} options={opts(TAXONOMY_KEYS.timeSlot, l.timeSlot)} value={timeSlot} onChange={setTimeSlot} />
@@ -168,7 +167,7 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
                     <input id={`m-name-${idx}`} className="ow-input" maxLength={30} value={m.name} onChange={(e) => patch(idx, { name: e.target.value })} />
                     <label className="ow-label" htmlFor={`m-note-${idx}`}>{t("memberRole")}</label>
                     <input id={`m-note-${idx}`} className="ow-input" maxLength={100} value={m.note} onChange={(e) => patch(idx, { note: e.target.value })} placeholder={t("memberRolePh")} />
-                    <ChipGroup label={t("memberDevices", { n: idx + 1 })} multiple options={DEVICES} value={m.devices} onChange={(d) => patch(idx, { devices: d as Device[] })} />
+                    <ChipGroup label={t("memberDevices", { n: idx + 1 })} multiple options={DEVICE_OPTIONS} value={m.devices} onChange={(d) => patch(idx, { devices: d as Device[] })} />
                     {games.length > 0 && (
                       <fieldset className="ow-field">
                         <legend>{t("memberOwned", { n: idx + 1 })}</legend>
