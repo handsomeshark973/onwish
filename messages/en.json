@@ -201,8 +201,11 @@
     "reference": "Format inspired by: {name}"
   },
   "home": {
-    "lead": "Get stream ideas matched to your strengths and your collab crew, and see which games are hot now or coming soon — at a glance.",
-    "cta": "Get recommendations",
+    "hero": {
+      "title": "Decide today's stream before you go live"
+    },
+    "lead": "Get content ideas that fit your style and group size, and see which games are rising now and what's coming next, all in one place.",
+    "cta": "Get content ideas",
     "trending": "Hot games right now",
     "trendingEmptyTitle": "We're sorting out what's hot",
     "trendingEmptyHint": "We'll show games as soon as they're checked. Meanwhile, browse the content library.",
@@ -219,8 +222,7 @@
     "picked": "Picked from the library",
     "pickedEmptyTitle": "Content is on the way",
     "pickedEmptyHint": "We'll collect content here as it's checked.",
-    "seeAll": "See all",
-    "toRadar": "Open Game Radar"
+    "seeAll": "See all"
   },
   "library": {
     "title": "Content Library",

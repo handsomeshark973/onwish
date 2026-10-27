@@ -127,7 +127,6 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "home" });
-  const meta = await getTranslations({ locale, namespace: "meta" });
   const labels = await getLabels(locale);
   const loading = <p className="ow-meta">…</p>;
 
@@ -135,11 +134,10 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
     <>
       <section className="ow-hero">
         <p className="ow-eyebrow">{SITE_NAME}</p>
-        <h1 className="ow-display">{meta("tagline")}</h1>
+        <h1 className="ow-display">{t("hero.title")}</h1>
         <p className="ow-lead">{t("lead")}</p>
         <div className="ow-hero-actions">
           <ButtonLink href="/recommend">{t("cta")}</ButtonLink>
-          <ButtonLink href="/radar" variant="ghost">{t("toRadar")}</ButtonLink>
         </div>
       </section>
 
