@@ -612,6 +612,15 @@
   "admin": {
     "title": "Admin",
     "note": "Approved items appear on public pages and in recommendations right away. Approve only after checking the sources yourself.",
+    "stale": {
+      "title": "Stage update needed ({n})",
+      "none": "Nothing to update",
+      "noneHint": "Games whose release date has passed but are still \"Upcoming\" will show up here.",
+      "thAction": "To do",
+      "meta": "Last date {date} · {days} days ago",
+      "action": "Update the release phase (release_phase) and popularity (popularity_status) in the Supabase table editor. Until then the game is automatically hidden from the home page.",
+      "featured": "A featured video is set. Remove it under \"Live videos\" below."
+    },
     "games": "Pending · Games ({n})",
     "formats": "Pending · Formats ({n})",
     "contents": "Pending · Content ({n})",

@@ -11,6 +11,8 @@ import { EmptyState } from "@/components/ui/States";
 import { getLabels } from "@/i18n/labels";
 import { routing } from "@/i18n/routing";
 import { getUser, isAdmin } from "@/lib/auth";
+import { kstDate } from "@/lib/kst";
+import { findStaleUpcoming } from "@/lib/stale-upcoming";
 import { createClient } from "@/lib/supabase/server";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/admin">): Promise<Metadata> {
@@ -33,7 +35,7 @@ async function Admin({ locale }: { locale: string }) {
   const tv = await getTranslations({ locale, namespace: "admin.video" });
   // 관리자 번역은 브라우저로 보내지 않는 묶음이라, 영상 등록 폼(클라이언트)에 필요한 부분만 따로 넘긴다
   const adminMessages = (await getMessages({ locale })) as { admin: { video: unknown } };
-  const [games, formats, contents, reports, sources, videos, allGames] = await Promise.all([
+  const [games, formats, contents, reports, sources, videos, allGames, approvedGames, keyDates] = await Promise.all([
     supabase.from("games").select("*").eq("approval_status", "pending").order("created_at"),
     supabase.from("game_formats").select("*, games(name)").eq("approval_status", "pending").order("created_at"),
     supabase.from("contents").select("*").eq("approval_status", "pending").order("created_at"),
@@ -41,7 +43,12 @@ async function Admin({ locale }: { locale: string }) {
     supabase.from("game_sources").select("game_id"),
     supabase.from("game_videos").select("*, games(name)").in("status", ["pending", "hidden", "approved"]).order("created_at", { ascending: false }),
     supabase.from("games").select("id, name").order("name"),
+    supabase.from("games").select("id, name, release_phase, stage").eq("approval_status", "approved"),
+    supabase.from("game_key_dates").select("game_id, date"),
   ]);
+  // 출시일이 지났는데 단계가 아직 "곧 출시"인 게임: 단계가 자동으로 바뀌지 않으므로 사람이 갱신하도록 알린다
+  const stale = findStaleUpcoming((approvedGames.data ?? []) as any[], (keyDates.data ?? []) as any[], kstDate());
+  const featuredGameIds = new Set((videos.data ?? []).filter((v: any) => v.status === "approved" && v.is_featured).map((v: any) => v.game_id));
   const vids = (st: string) => (videos.data ?? []).filter((v: any) => v.status === st);
   const videoMeta = (v: any) => tv("meta", { game: v.games?.name ?? "", kind: tv(`kinds.${v.kind}`), channel: v.channel_name });
   const srcCount = (id: string) => (sources.data ?? []).filter((s: any) => s.game_id === id).length;
@@ -67,6 +74,21 @@ async function Admin({ locale }: { locale: string }) {
   return (
     <>
       <p className="ow-meta">{t("note")}</p>
+
+      <h2 className="ow-h2">{t("stale.title", { n: stale.length })}</h2>
+      {stale.length === 0 ? <EmptyState title={t("stale.none")} hint={t("stale.noneHint")} /> : (
+        <div className="ow-table-wrap"><table className="ow-table"><thead><tr><th>{t("thGame")}</th><th>{t("stale.thAction")}</th></tr></thead><tbody>
+          {stale.map((g) => (
+            <tr key={g.id}>
+              <td><strong>{g.name}</strong><div className="ow-meta">{t("stale.meta", { date: g.lastDate, days: g.daysSince })}</div></td>
+              <td>
+                <div>{t("stale.action")}</div>
+                {featuredGameIds.has(g.id) && <div className="ow-meta">{t("stale.featured")}</div>}
+              </td>
+            </tr>
+          ))}
+        </tbody></table></div>
+      )}
 
       <h2 className="ow-h2">{t("games", { n: games.data?.length ?? 0 })}</h2>
       {(games.data ?? []).length === 0 ? <EmptyState title={t("noGames")} hint={t("noGamesHint")} /> : (
