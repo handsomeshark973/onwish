@@ -58,6 +58,7 @@ export function mapGame(r: Row, locale = "ko"): Game {
     isHorror: r.is_horror ?? null,
     motionSicknessRisk: r.motion_sickness_risk ?? null,
     spoilerRisk: r.spoiler_risk ?? null,
+    releaseBasisDate: r.release_basis_date ?? null,
     officialChannelIds: r.official_channel_ids ?? [],
   };
 }

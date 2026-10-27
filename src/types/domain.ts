@@ -44,6 +44,7 @@ export interface Game {
   isHorror: boolean | null;
   motionSicknessRisk: boolean | null;
   spoilerRisk: boolean | null;
+  releaseBasisDate: string | null; // 출시 경과 계산에 쓴 날짜(yyyy-mm-dd). 최근 출시 판정에 쓴다
   officialChannelIds: string[]; // 영상 등록을 허용하는 공식 채널 ID(개발사·퍼블리셔·플랫폼)
 }
 

@@ -1,6 +1,6 @@
 // 개발 중 화면을 확인하기 위한 가짜 데이터. 실제 게임·컨텐츠 정보가 아니다.
 // ONWISH_SAMPLE_DATA=1 이고 개발 모드(npm run dev)일 때만 쓰이며, 배포에서는 절대 읽히지 않는다.
-import type { ContentSummary, GameDetail, GameFormat } from "@/types/domain";
+import type { ContentSummary, GameDetail, GameFormat, GameVideo } from "@/types/domain";
 
 const today = new Date();
 const day = (offset: number) => new Date(today.getTime() + offset * 86400000).toISOString().slice(0, 10);
@@ -32,7 +32,7 @@ function game(slug: string, name: string, heat: GameDetail["heatStage"], opts: P
     crossplay: null, priceNote: null, genre: ["예시 장르"], asymmetricRoles: false, proximityVoice: false, moddable: false,
     streamPoint: "예시 문구: 방송에서 왜 재밌는지 한두 문장으로 적는 자리입니다.", cautions: "예시 문구: 주의점이 들어가는 자리입니다.",
     imageUrl: null, imageSource: null, lastCheckedAt: today.toISOString(), infoStale: false,
-    isHorror: false, motionSicknessRisk: false, spoilerRisk: false, officialChannelIds: [],
+    isHorror: false, motionSicknessRisk: false, spoilerRisk: false, releaseBasisDate: heat === "golden" || heat === "hot" ? day(heat === "golden" ? -8 : -30) : null, officialChannelIds: [],
     formats, nextKeyDate: heat === "upcoming" ? { label: "출시 예정(예시)", date: day(12), source: "예시" } : null,
     metricSeries, metricKind: metricSeries.length ? ("steam_ccu" as const) : null,
     keyDates: [{ label: heat === "upcoming" ? "출시 예정(예시)" : "출시(예시)", date: heat === "upcoming" ? day(12) : day(-8), source: "예시" }],
@@ -81,3 +81,18 @@ export const SAMPLE_CONTENTS: ContentSummary[] = [
 SAMPLE_GAMES.forEach((g) => {
   g.relatedContents = SAMPLE_CONTENTS.filter((c) => c.games.some((x) => x.slug === g.slug));
 });
+
+// 개발 화면 확인용 영상. 영상 ID는 실제로 존재함을 oEmbed로 확인한 Valheim 출시 트레일러 하나만 쓰고(Iron Gate 공식 채널),
+// 어느 게임에 붙었는지는 예시일 뿐이다. 배포에서는 읽히지 않는다.
+const sampleVideo = (n: number, gameSlug: string, kind: GameVideo["kind"], extra: Partial<GameVideo> = {}): GameVideo => ({
+  id: `sample-video-${n}`, gameId: `sample-${gameSlug}`, youtubeId: "gsSWz6sfu-U", kind,
+  title: "Valheim: 1.0 Out Now", titleKo: "Valheim: 1.0 Out Now", titleEn: "Valheim: 1.0 Out Now",
+  channelName: "Iron Gate", channelId: null, publishedAt: "2026-09-09T12:56:05.000Z",
+  sourceUrl: "https://www.youtube.com/watch?v=gsSWz6sfu-U", verifiedAt: today.toISOString(), status: "approved", hiddenReason: null, isFeatured: false, ...extra,
+});
+export const SAMPLE_VIDEOS: GameVideo[] = [
+  sampleVideo(1, "sample-a", "launch", { isFeatured: true }),
+  sampleVideo(2, "sample-c", "launch"),
+  sampleVideo(3, "sample-b", "teaser"),
+  sampleVideo(4, "sample-d", "launch"), // 식는 중 → 홈에서 빠져야 한다
+];
