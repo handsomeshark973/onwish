@@ -391,11 +391,17 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 
 /* 홈 소개·핵심 기능. 앵커(#about, #features)로 이동할 때 고정 헤더에 제목이 가려지지 않게 한다 */
 .ow-anchor { scroll-margin-top: calc(var(--header-h) + var(--space-4)); }
-.ow-about { display: grid; gap: var(--space-4); }
-.ow-about-item { display: grid; gap: var(--space-2); align-content: start; padding: var(--space-4) var(--space-5); background: var(--surface); border: var(--bw) solid var(--line); border-top: var(--bw-strong) solid var(--line); border-radius: var(--radius-sm); }
+/* 소개: 은은한 빛 번짐 패널 위에 세 항목 카드. 아이콘 + 제목 + 설명, 카드 사이는 화살표로 이어진다(누구 → 고민 → 해결) */
+.ow-about { display: grid; gap: var(--space-5); padding: var(--space-5); border: var(--bw) solid var(--line); border-radius: var(--radius-md); background: radial-gradient(70% 120% at 0% 0%, var(--glow-a), transparent 70%), radial-gradient(60% 100% at 100% 100%, var(--glow-b), transparent 70%), var(--bg); }
+.ow-about-item { position: relative; display: grid; gap: var(--space-2); align-content: start; padding: var(--space-5); background: var(--surface); border: var(--bw) solid var(--line); border-radius: var(--radius-sm); }
+.ow-about-icon { display: inline-grid; place-items: center; width: var(--control); height: var(--control); margin-bottom: var(--space-1); border-radius: var(--radius-pill); background: var(--surface-2); border: var(--bw) solid var(--line); color: var(--accent); font-size: var(--fs-h3); }
 .ow-about-label { margin: 0; font-size: var(--fs-lg); line-height: var(--lh-heading); }
 .ow-about-body { margin: 0; color: var(--text-muted); }
-@media (min-width: 840px) { .ow-about { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ow-about-item:not(:last-child)::after { content: "\203A"; position: absolute; z-index: 1; display: grid; place-items: center; width: var(--control-xs); height: var(--control-xs); border-radius: var(--radius-pill); background: var(--surface); border: var(--bw) solid var(--line); color: var(--accent); font-size: var(--fs-h3); font-weight: var(--fw-bold); line-height: 1; top: calc(100% + var(--space-3) - var(--control-xs) / 2); left: calc(50% - var(--control-xs) / 2); transform: rotate(90deg); }
+@media (min-width: 840px) {
+  .ow-about { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: var(--space-6); }
+  .ow-about-item:not(:last-child)::after { top: calc(50% - var(--control-xs) / 2); left: calc(100% + var(--space-3) - var(--control-xs) / 2); transform: none; }
+}
 .ow-features { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); grid-template-columns: 1fr; }
 @media (min-width: 640px) { .ow-features { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .ow-features > li { display: flex; }

@@ -80,6 +80,20 @@ async function HeroMedia({ locale }: { locale: string }) {
   );
 }
 
+// 소개 항목 아이콘(직접 그린 단순한 선 아이콘). 장식이라 스크린 리더는 읽지 않는다.
+const svgProps = { viewBox: "0 0 24 24", width: "1em", height: "1em", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round", focusable: "false" } as const;
+const ABOUT_ICONS = {
+  who: (
+    <svg {...svgProps}><circle cx="9" cy="8" r="3.2" /><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" /><circle cx="17" cy="9" r="2.4" /><path d="M16.5 14.2c2.6.2 4.5 2.4 4.5 5.8" /></svg>
+  ),
+  problem: (
+    <svg {...svgProps}><circle cx="12" cy="12" r="9" /><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2 1-1.2 1.8" /><path d="M12 16.8h.01" /></svg>
+  ),
+  solution: (
+    <svg {...svgProps}><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" /><path d="M18.5 16.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" /></svg>
+  ),
+} as const;
+
 // 사이트 소개: 누구를 위한 곳인지 → 어떤 고민이 있는지 → ONWISH가 어떻게 돕는지. 세 항목은 같은 모양으로 둔다.
 async function About({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: "home.about" });
@@ -90,6 +104,7 @@ async function About({ locale }: { locale: string }) {
       <div className="ow-about">
         {items.map((k) => (
           <div key={k} className="ow-about-item">
+            <span className="ow-about-icon" aria-hidden="true">{ABOUT_ICONS[k]}</span>
             <h3 className="ow-about-label">{t(`${k}.label`)}</h3>
             <p className="ow-about-body">{t(`${k}.body`)}</p>
           </div>
