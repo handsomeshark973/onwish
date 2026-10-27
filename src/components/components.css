@@ -230,8 +230,7 @@
 /* 매거진식 그리드: 크기가 다른 카드를 섞는다(큰 카드는 두 칸). 좁은 화면에서는 한 칸씩 쌓인다 */
 .ow-grid-mag { grid-auto-flow: dense; }
 @media (min-width: 840px) { .ow-grid-mag > .ow-card-feature { grid-column: span 2; } }
-.ow-card-feature { padding: var(--space-5); gap: var(--space-3); background: var(--surface-2); }
-.ow-card-feature .ow-card-title { font-size: var(--fs-h2); line-height: var(--lh-tight); }
+.ow-card-feature { padding: var(--space-5); gap: var(--space-3); border-color: var(--accent); } /* 큰 카드는 테두리 색으로 구분(회색은 마우스를 올렸을 때만) */.ow-card-feature .ow-card-title { font-size: var(--fs-h2); line-height: var(--lh-tight); }
 .ow-card-feature .ow-card-text { font-size: var(--fs-lg); }
 /* 같은 게임, 다른 진행 방식: 한 패널 안에서 카드를 나란히 */
 .ow-bundle-versus { background: var(--surface); border: var(--bw) solid var(--accent); border-radius: var(--radius-md); padding: var(--space-5); }
