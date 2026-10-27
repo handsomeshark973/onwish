@@ -371,3 +371,11 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 .ow-about-solution .ow-about-label { color: var(--accent); font-weight: var(--fw-bold); }
 .ow-about-solution .ow-about-body { color: var(--text); }
 @media (min-width: 840px) { .ow-about { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ow-features { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); grid-template-columns: 1fr; }
+@media (min-width: 640px) { .ow-features { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ow-features > li { display: flex; }
+.ow-feature-card { flex: 1; gap: var(--space-3); padding: var(--space-5); }
+.ow-feature-card:hover { background: var(--surface); } /* 카드 전체는 링크가 아니므로 hover 색을 바꾸지 않는다 */
+.ow-feature-no { display: inline-grid; place-items: center; width: var(--avatar); height: var(--avatar); border-radius: var(--radius-pill); background: var(--accent); color: var(--on-accent); font-weight: var(--fw-bold); }
+.ow-feature-body { color: var(--text-muted); }
+.ow-feature-action { margin-top: auto; padding-top: var(--space-2); }

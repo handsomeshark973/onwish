@@ -88,6 +88,35 @@ async function About({ locale }: { locale: string }) {
   );
 }
 
+// 핵심 기능 3가지. 카드 전체를 링크로 만들지 않고 버튼만 링크로 둔다(스크린 리더가 설명 전체를 링크 이름으로 읽지 않게).
+async function Features({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: "home.features" });
+  const items = [
+    { key: "recommend", href: "/recommend" },
+    { key: "radar", href: "/radar" },
+    { key: "library", href: "/library" },
+  ] as const;
+  return (
+    <section id="features" className="ow-section ow-anchor" aria-labelledby="features-title">
+      <h2 id="features-title" className="ow-h2 ow-h2-flush">{t("title")}</h2>
+      <ol className="ow-features">
+        {items.map((it, i) => (
+          <li key={it.key}>
+            <article className="ow-card ow-feature-card" aria-labelledby={`feature-${it.key}`}>
+              <span className="ow-feature-no" aria-hidden="true">{i + 1}</span>
+              <h3 id={`feature-${it.key}`} className="ow-card-title">{t(`${it.key}.title`)}</h3>
+              <p className="ow-card-text ow-feature-body">{t(`${it.key}.body`)}</p>
+              <div className="ow-feature-action">
+                <ButtonLink href={it.href} variant="secondary">{t(`${it.key}.cta`)}</ButtonLink>
+              </div>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 async function TrendingGames({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: "home" });
   const games = (await getGames(locale)).filter((g) => isTrendStage(g.heatStage));
@@ -161,6 +190,8 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       </section>
 
       <About locale={locale} />
+
+      <Features locale={locale} />
 
       <Suspense fallback={null}>
         <VideoShowcase locale={locale} />

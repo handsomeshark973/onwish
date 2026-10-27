@@ -219,6 +219,24 @@
         "body": "ONWISH recommends content that fits your style and group size, and brings each game's popularity trend and what makes each play style fun into one place."
       }
     },
+    "features": {
+      "title": "3 core features",
+      "recommend": {
+        "title": "Content Recommendations",
+        "body": "Pick your stream profile and group size, and AI suggests three content ideas. You'll see options that play to your strengths and ones that fill the gaps.",
+        "cta": "Get recommendations"
+      },
+      "radar": {
+        "title": "Game Radar",
+        "body": "See each game's popularity flow at a glance, from Upcoming to Rising, Golden Time and Cooling, so it's easy to decide when to jump in.",
+        "cta": "View radar"
+      },
+      "library": {
+        "title": "Content Library",
+        "body": "The same game can be fun in very different ways depending on how you play it. We've organized what makes each play style work and how viewers can join in.",
+        "cta": "Browse library"
+      }
+    },
     "lead": "Get content ideas that fit your style and group size, and see which games are rising now and what's coming next, all in one place.",
     "cta": "Get content ideas",
     "trending": "Hot games right now",
