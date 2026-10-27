@@ -4,6 +4,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { isProtectedPath } from "@/config/protected";
 import { REMEMBER_COOKIE, sessionCookieOptions } from "@/lib/supabase/cookies";
 import { isLocale, routing } from "@/i18n/routing";
+import { legacyStageRedirect } from "@/lib/stage-query";
 
 const intl = createMiddleware(routing);
 
@@ -37,6 +38,15 @@ export async function proxy(request: NextRequest) {
   const seg = request.nextUrl.pathname.split("/");
   if (isLocale(seg[1] ?? "")) {
     const rest = "/" + seg.slice(2).join("/");
+    // 옛 단계 이름(golden·hot)이 든 레이더 링크는 새 이름으로 영구 이동한다
+    if (rest === "/radar") {
+      const fixed = legacyStageRedirect(request.nextUrl.searchParams);
+      if (fixed) {
+        const url = request.nextUrl.clone();
+        url.search = fixed.toString().replace(/%2C/gi, ",");
+        return NextResponse.redirect(url, 308);
+      }
+    }
     if (isProtectedPath(rest) && !hasSession) {
       const url = request.nextUrl.clone();
       url.pathname = `/${seg[1]}/login`;

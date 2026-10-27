@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { mapGame } from "../lib/data/mappers";
+import { legacyStageRedirect, parseStageParam } from "../lib/stage-query";
 import { normalizePick, normalizeResult } from "../lib/recommend/normalize";
 import type { RecommendResult } from "../lib/recommend/types";
 import { FLOW_STAGES, HEAT_STAGES, isTrendStage, normalizeHeatStage, TAXONOMY_KEYS, TREND_STAGES } from "./taxonomy";
@@ -41,4 +42,25 @@ test("저장된 추천 결과: 읽을 때 변환, 다른 값은 그대로", () =
   assert.equal(normalizePick({ title: "a", heatStage: null }).title, "a");
   const r = normalizeResult({ picks: [{ heatStage: "hot" }, { heatStage: "peak" }, { heatStage: null }] } as unknown as RecommendResult);
   assert.deepEqual(r.picks.map((p) => p.heatStage), ["peak", "peak", null]);
+});
+
+test("레이더 단계 주소: 새 키는 그대로, 옛 키는 새 키로 읽는다", () => {
+  assert.deepEqual(parseStageParam("rising"), ["rising"]);
+  assert.deepEqual(parseStageParam("rising,peak,unknown"), ["rising", "peak", "unknown"]);
+  assert.deepEqual(parseStageParam("golden"), ["rising"]);
+  assert.deepEqual(parseStageParam("hot"), ["peak"]);
+  assert.deepEqual(parseStageParam("golden,hot,peak"), ["rising", "peak"]); // 중복 제거
+  assert.deepEqual(parseStageParam("nope,,cooling"), ["cooling"]); // 모르는 값은 버림
+  assert.deepEqual(parseStageParam(null), []);
+});
+
+test("레이더 옛 링크 리다이렉트: golden→rising, hot→peak, 나머지 쿼리 유지, 새 링크는 그대로", () => {
+  const r = (q: string) => legacyStageRedirect(new URLSearchParams(q))?.toString().replace(/%2C/gi, ",") ?? null;
+  assert.equal(r("stage=golden"), "stage=rising");
+  assert.equal(r("stage=hot"), "stage=peak");
+  assert.equal(r("stage=golden,hot"), "stage=rising,peak");
+  assert.equal(r("a=1&stage=hot&b=2"), "a=1&stage=peak&b=2");
+  assert.equal(r("stage=rising"), null);
+  assert.equal(r("stage=peak,cooling"), null);
+  assert.equal(r("a=1"), null);
 });

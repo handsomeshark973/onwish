@@ -1,7 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { GameCard } from "@/components/cards/GameCard";
 import { gameCardProps } from "@/components/cards/cardProps";
 import { Button } from "@/components/ui/Button";
@@ -10,6 +11,7 @@ import { ChipGroup } from "@/components/ui/Chip";
 import { FilterSheet } from "@/components/ui/FilterSheet";
 import { EmptyState } from "@/components/ui/States";
 import { useLabels } from "@/i18n/labels";
+import { parseStageParam, stageParamValue } from "@/lib/stage-query";
 import type { GameSummary } from "@/types/domain";
 import { FLOW_STAGES, HEAT_STAGES, TAXONOMY_KEYS } from "@/types/taxonomy";
 
@@ -32,7 +34,18 @@ function matches(g: GameSummary, f: Filters) {
 export function RadarBrowser({ games }: { games: GameSummary[] }) {
   const t = useTranslations("radar");
   const l = useLabels();
-  const [filters, setFilters] = useState<Filters>(EMPTY);
+  const params = useSearchParams();
+  // 주소의 ?stage=rising,peak 로 단계 필터를 미리 골라 둔다(옛 키 golden·hot도 새 키로 읽는다)
+  const [filters, setFilters] = useState<Filters>(() => ({ ...EMPTY, stage: parseStageParam(params.get("stage")) }));
+  // 단계 필터를 고르면 주소에도 반영해서 링크로 공유할 수 있게 한다(다른 쿼리는 그대로)
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const next = stageParamValue(filters.stage);
+    if ((url.searchParams.get("stage") ?? "") === next) return;
+    if (next) url.searchParams.set("stage", next);
+    else url.searchParams.delete("stage");
+    window.history.replaceState(null, "", url);
+  }, [filters.stage]);
   const filtered = useMemo(() => games.filter((g) => matches(g, filters)), [games, filters]);
   const activeCount = Object.values(filters).reduce((n, v) => n + v.length, 0);
   const set = (key: keyof Filters) => (next: string[]) => setFilters((f) => ({ ...f, [key]: next }));
