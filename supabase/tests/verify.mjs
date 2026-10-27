@@ -14,7 +14,7 @@ grant usage on schema auth to anon, authenticated, service_role;
 grant usage on schema public to anon, authenticated, service_role;
 insert into auth.users values ('${A}'), ('${B}');
 `);
-for (const f of ['0001_schema.sql','0002_security.sql','0003_functions.sql','0004_ai_request_result.sql','0005_translations_and_rate_limit.sql','0006_game_videos.sql']) await db.exec(readFileSync(P+'/migrations/'+f,'utf8'));
+for (const f of ['0001_schema.sql','0002_security.sql','0003_functions.sql','0004_ai_request_result.sql','0005_translations_and_rate_limit.sql','0006_game_videos.sql','0007_heat_stage_rename.sql']) await db.exec(readFileSync(P+'/migrations/'+f,'utf8'));
 await db.exec(readFileSync(P+'/seed.sql','utf8'));
 await db.exec(`grant select, insert, update, delete on all tables in schema public to anon, authenticated, service_role;
 grant execute on all functions in schema public to anon, authenticated;`);
@@ -78,8 +78,8 @@ ok('일반 사용자는 관리자 명단 못 봄', (await as('authenticated', A,
 // 10. 단계 계산
 const h = async (s,p,pop,e) => (await q(`select compute_heat_stage('${s}','${p}','${pop}',${e}) h`)).h;
 ok('heat: announced→upcoming', await h('announced','upcoming','unknown',false)==='upcoming');
-ok('heat: 출시초기+hot→golden', await h('released','launch_window','hot',false)==='golden');
-ok('heat: 출시후+hot→hot', await h('released','post_launch','hot',false)==='hot');
+ok('heat: 출시초기+hot→rising', await h('released','launch_window','hot',false)==='rising');
+ok('heat: 출시후+hot→peak', await h('released','post_launch','hot',false)==='peak');
 ok('heat: cooling', await h('released','post_launch','cooling',false)==='cooling');
 ok('heat: unknown→null', await h('released','launch_window','unknown',false)===null);
 ok('heat: 관리자 확인 상시', await h('released','post_launch','cooling',true)==='evergreen');

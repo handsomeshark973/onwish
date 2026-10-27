@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "db:verify": "node supabase/tests/verify.mjs",
+    "db:verify:heat": "node supabase/tests/heat-stage-migration.mjs",
     "test": "tsx --test src/lib/recommend/recommend.test.ts src/lib/auth.test.ts src/lib/youtube.test.ts src/lib/home-videos.test.ts",
     "seed:contents": "node --env-file=.env --import tsx supabase/seed/run-contents.ts",
     "seed:steam": "tsx supabase/seed/steam-games.ts",
