@@ -14,7 +14,7 @@ values
 ('escape-from-playtime', 'Escape From Playtime', null, 'Mob Entertainment', 'early_access', 'post_launch', 'Steam 얼리 액세스 출시', '2026-10-21',
  '{PC}', 1, 8, false, '{협동 서바이벌 호러 익스트랙션}', false, false,
  'Smiling Critters로 Playtime Co. 공장을 탐험한다. 장난감 크기로 기어오르는 미니 모드가 있다.',
- '얼리 액세스라 초기 콘텐츠가 적다. 붐 기간은 짧게 잡고 큰 업데이트 때 다시 추천한다.', 'pending');
+ '얼리 액세스라 초기 콘텐츠가 적다. 화제가 되는 기간은 짧게 잡고 큰 업데이트 때 다시 추천한다.', 'pending');
 
 update games set is_horror = true where slug = 'escape-from-playtime';
 

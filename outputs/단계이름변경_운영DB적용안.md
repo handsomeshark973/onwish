@@ -10,6 +10,10 @@
 4. **적용 후 개수 비교** — 같은 쿼리를 다시 실행합니다. `golden`이던 수 = `rising` 수, `hot`이던 수 = `peak` 수, 나머지는 같아야 합니다.
 5. 사이트 `/ko/radar`, `/ko`에서 배지 이름과 정렬을 확인합니다. (캐시가 몇 분 있어 바로 안 바뀔 수 있습니다.)
 
+## 함께 할 일: 저장된 "붐" 문구 정리
+
+옛 시드로 운영 DB에 들어간 문구 중 "붐 기간은…" 같은 일반어가 있습니다(단계 이름과는 무관). [replace-boom-text.sql](../supabase/ops/replace-boom-text.sql)의 1)로 대상을 확인하고 2)를 실행하면 바뀝니다. 코드·i18n·문서에는 "붐"이 남아 있지 않습니다.
+
 ## 되돌리기
 
 [0007_heat_stage_rename.down.sql](../supabase/migrations-down/0007_heat_stage_rename.down.sql)을 실행하면 함수가 원래 키로 돌아갑니다. 1단계의 코드는 두 키를 모두 받으므로 코드를 되돌릴 필요가 없습니다.

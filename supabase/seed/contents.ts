@@ -289,7 +289,7 @@ export const CONTENT_SEEDS: Seed[] = [
     appealText: "여럿의 비명이 각자의 시점에서 다르게 들려요.",
     howTo: ["인원이 모두 같은 판에 들어가 각자 송출을 시작해요", "탐험하다가 누가 먼저 잡히는지, 누가 살아남는지 말로 중계해요", "살아남은 사람이 상황을 정리하고 남은 멤버를 이끌어요", "놀란 장면을 클립으로 남겨 쇼츠로 올려요"],
     multiPov: "여러 명의 비명이 각자 방송에서 시점에 따라 다르게 들려서, 시청자는 다른 방송으로 옮겨 가며 상황을 맞춰요.",
-    participation: "enriches", channels: ["chat_vote"], by: vote("생존자 예측"), cautions: "공포 요소가 있어요. 게임이 최신이라 붐 기간이 짧을 수 있어요. 붐이 지나면 상시 컨텐츠의 한 회차로 내려 가세요." },
+    participation: "enriches", channels: ["chat_vote"], by: vote("생존자 예측"), cautions: "공포 요소가 있어요. 게임이 최신이라 화제가 되는 기간이 짧을 수 있어요. 인기가 식으면 상시 컨텐츠의 한 회차로 내려 가세요." },
   { slug: "large-draft-tournament", noMotion: true, title: "드래프트 대회", tier: "large", range: [6, 12], origin: "stream_native", structures: ["versus"], lifecycle: "evergreen",
     appeal: "audiovisual", points: ["chemistry", "skill_highlight"],
     appealText: "드래프트는 평가와 굴욕이 오가는 청각적 재미, 본선은 시각적 재미예요.",

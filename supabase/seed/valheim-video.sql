@@ -7,7 +7,7 @@ update games
 set official_channel_ids = array['UCr3Yfz4Ts_K4bAyMCoVXeyA']
 where slug = 'valheim';
 
--- 2) 인기 상태를 hot으로. 홈의 "최근 인기 신작"은 골든타임·붐 단계만 받는다. (이 줄은 운영자가 판단해서 실행)
+-- 2) 인기 상태를 hot으로. 홈의 "최근 인기 신작"은 뜨는 중·골든타임 단계(rising, peak)만 받는다. (이 줄은 운영자가 판단해서 실행)
 --    출시 기준일(release_basis_date)은 Steam 출시일(2026-09-09)이 이미 들어 있다.
 update games set popularity_status = 'hot' where slug = 'valheim';
 
