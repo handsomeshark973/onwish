@@ -3,7 +3,9 @@ import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { setApproval, setReportStatus } from "@/actions/admin";
+import { setApproval, setReportStatus, setVideoStatus } from "@/actions/admin";
+import { VideoForm } from "@/components/admin/VideoForm";
+import { hasYoutubeApiKey } from "@/lib/youtube-api";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/States";
 import { getLabels } from "@/i18n/labels";
@@ -28,13 +30,18 @@ async function Admin({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: "admin" });
   const l = await getLabels(locale);
   const supabase = await createClient();
-  const [games, formats, contents, reports, sources] = await Promise.all([
+  const tv = await getTranslations({ locale, namespace: "admin.video" });
+  const [games, formats, contents, reports, sources, videos, allGames] = await Promise.all([
     supabase.from("games").select("*").eq("approval_status", "pending").order("created_at"),
     supabase.from("game_formats").select("*, games(name)").eq("approval_status", "pending").order("created_at"),
     supabase.from("contents").select("*").eq("approval_status", "pending").order("created_at"),
     supabase.from("error_reports").select("*").in("status", ["open", "in_progress"]).order("created_at"),
     supabase.from("game_sources").select("game_id"),
+    supabase.from("game_videos").select("*, games(name)").in("status", ["pending", "hidden", "approved"]).order("created_at", { ascending: false }),
+    supabase.from("games").select("id, name").order("name"),
   ]);
+  const vids = (st: string) => (videos.data ?? []).filter((v: any) => v.status === st);
+  const videoMeta = (v: any) => tv("meta", { game: v.games?.name ?? "", kind: tv(`kinds.${v.kind}`), channel: v.channel_name });
   const srcCount = (id: string) => (sources.data ?? []).filter((s: any) => s.game_id === id).length;
   const q = (v: unknown): string | number => (v as string | number | null) ?? "?";
 
@@ -82,6 +89,67 @@ async function Admin({ locale }: { locale: string }) {
         <div className="ow-table-wrap"><table className="ow-table"><thead><tr><th>{t("thContent")}</th><th>{t("thReview")}</th></tr></thead><tbody>
           {contents.data!.map((c: any) => (
             <ApprovalRow key={c.id} type="content" row={c} summary={c.title} extra={t("contentMeta", { tier: l.tier[c.player_tier] ?? c.player_tier, min: q(c.required_min), max: q(c.required_max), devices: (c.devices ?? []).join(",") || t("unchecked") })} />
+          ))}
+        </tbody></table></div>
+      )}
+
+      <h2 className="ow-h2">{tv("title")}</h2>
+      <VideoForm games={(allGames.data ?? []).map((g: any) => ({ id: g.id, name: g.name }))} hasApiKey={hasYoutubeApiKey()} />
+
+      <h2 className="ow-h2">{tv("queueTitle", { n: vids("pending").length })}</h2>
+      {vids("pending").length === 0 ? <EmptyState title={tv("noPending")} hint={tv("noPendingHint")} /> : (
+        <div className="ow-table-wrap"><table className="ow-table"><thead><tr><th>{tv("thVideo")}</th><th>{t("thReview")}</th></tr></thead><tbody>
+          {vids("pending").map((v: any) => (
+            <tr key={v.id}>
+              <td><strong>{v.title_ko ?? v.title_en}</strong><div className="ow-meta">{videoMeta(v)}</div><a href={v.source_url} target="_blank" rel="noopener noreferrer" className="ow-meta">{v.source_url}</a></td>
+              <td>
+                <form action={setVideoStatus} className="ow-form ow-form-tight">
+                  <input type="hidden" name="id" value={v.id} />
+                  <label className="ow-hint"><input type="checkbox" name="verified" /> {tv("verifiedLabel")}</label>
+                  {v.channel_id && <label className="ow-hint"><input type="checkbox" name="addChannel" /> {tv("addChannel")}</label>}
+                  <div className="ow-card-actions ow-actions-flush">
+                    <Button type="submit" name="action" value="approve">{tv("approve")}</Button>
+                    <Button type="submit" name="action" value="hide" variant="ghost" formNoValidate>{tv("hide")}</Button>
+                  </div>
+                </form>
+              </td>
+            </tr>
+          ))}
+        </tbody></table></div>
+      )}
+
+      <h2 className="ow-h2">{tv("hiddenTitle", { n: vids("hidden").length })}</h2>
+      {vids("hidden").length === 0 ? <EmptyState title={tv("noHidden")} hint="" /> : (
+        <div className="ow-table-wrap"><table className="ow-table"><thead><tr><th>{tv("thVideo")}</th><th>{t("thReview")}</th></tr></thead><tbody>
+          {vids("hidden").map((v: any) => (
+            <tr key={v.id}>
+              <td><strong>{v.title_ko ?? v.title_en}</strong><div className="ow-meta">{videoMeta(v)} · {v.hidden_reason ? tv(`hiddenReason.${v.hidden_reason}`) : ""} · {tv("checkedAt", { date: day(v.verified_at) })}</div><a href={v.source_url} target="_blank" rel="noopener noreferrer" className="ow-meta">{v.source_url}</a></td>
+              <td>
+                <form action={setVideoStatus} className="ow-form ow-form-tight">
+                  <input type="hidden" name="id" value={v.id} />
+                  <label className="ow-hint"><input type="checkbox" name="verified" /> {tv("verifiedLabel")}</label>
+                  <div className="ow-card-actions ow-actions-flush"><Button type="submit" name="action" value="approve">{tv("approve")}</Button></div>
+                </form>
+              </td>
+            </tr>
+          ))}
+        </tbody></table></div>
+      )}
+
+      <h2 className="ow-h2">{tv("liveTitle", { n: vids("approved").length })}</h2>
+      {vids("approved").length === 0 ? <EmptyState title={tv("noLive")} hint="" /> : (
+        <div className="ow-table-wrap"><table className="ow-table"><thead><tr><th>{tv("thVideo")}</th><th>{t("thReview")}</th></tr></thead><tbody>
+          {vids("approved").map((v: any) => (
+            <tr key={v.id}>
+              <td><strong>{v.title_ko ?? v.title_en}</strong>{v.is_featured ? <> <span className="ow-meta">· {tv("featured")}</span></> : null}<div className="ow-meta">{videoMeta(v)} · {tv("checkedAt", { date: day(v.verified_at) })}</div></td>
+              <td>
+                <form action={setVideoStatus} className="ow-card-actions ow-actions-flush">
+                  <input type="hidden" name="id" value={v.id} />
+                  <Button type="submit" name="action" value={v.is_featured ? "unfeature" : "feature"} variant="secondary">{v.is_featured ? tv("unfeature") : tv("feature")}</Button>
+                  <Button type="submit" name="action" value="hide" variant="ghost">{tv("hide")}</Button>
+                </form>
+              </td>
+            </tr>
           ))}
         </tbody></table></div>
       )}

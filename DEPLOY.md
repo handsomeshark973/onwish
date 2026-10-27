@@ -12,6 +12,8 @@
 | `ANTHROPIC_API_KEY`, `CLAUDE_MODEL` | (선택) | `ONWISH_AI=off`이면 쓰이지 않음 |
 | `AUTH_EMAIL_MODE` | 비움(= Resend 키 있으면 `resend`, 없으면 `supabase`) | 아래 3번 참고 |
 | `RESEND_API_KEY`, `AUTH_EMAIL_FROM` | (선택) | Resend로 인증 메일을 보낼 때 |
+| `CRON_SECRET` | 긴 무작위 글자 | **Sensitive로 저장.** 하루 한 번 영상 재확인(`/api/cron/video-check`, vercel.json의 crons). 없으면 그 주소는 항상 거절됨 |
+| `YOUTUBE_API_KEY` | (선택) | 영상 등록 때 채널 ID·게시일 자동 채움. 없으면 관리자가 직접 입력 |
 
 넣지 말 것: `ONWISH_SAMPLE_DATA`(개발 전용), `ONWISH_TEST_EMAIL`, `ONWISH_TEST_PASSWORD`(시험 계정)
 

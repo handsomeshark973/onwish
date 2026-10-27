@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "db:verify": "node supabase/tests/verify.mjs",
-    "test": "tsx --test src/lib/recommend/recommend.test.ts src/lib/auth.test.ts",
+    "test": "tsx --test src/lib/recommend/recommend.test.ts src/lib/auth.test.ts src/lib/youtube.test.ts",
     "seed:contents": "node --env-file=.env --import tsx supabase/seed/run-contents.ts",
     "seed:steam": "tsx supabase/seed/steam-games.ts",
     "seed:games": "node --env-file=.env --import tsx supabase/seed/run-games.ts",
