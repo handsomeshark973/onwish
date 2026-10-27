@@ -13,11 +13,12 @@ import { getContents } from "@/lib/data/contents";
 import { getGames } from "@/lib/data/games";
 import { getHomeVideos } from "@/lib/data/videos";
 import type { HomeVideo } from "@/lib/home-videos";
-import { FeaturedVideo, VideoProvider, VideoRail, type VideoItem } from "@/components/video/Video";
+import { StageBadge } from "@/components/ui/Badge";
+import { HeroFeature, VideoProvider, VideoRail, type VideoItem } from "@/components/video/Video";
 import { Link } from "@/i18n/navigation";
 import { getLabels } from "@/i18n/labels";
 import { routing } from "@/i18n/routing";
-import { isTrendStage, type PlayerTier } from "@/types/taxonomy";
+import { FLOW_STAGES, isTrendStage, type PlayerTier } from "@/types/taxonomy";
 
 // 영상 카드에 쓸 값. 날짜 줄은 현재 언어로 여기서 만들어 넘긴다(D-day는 곧 출시 영상에만).
 async function toItem({ video, game, daysToRelease: n }: HomeVideo, locale: string): Promise<VideoItem> {
@@ -39,20 +40,14 @@ async function toItem({ video, game, daysToRelease: n }: HomeVideo, locale: stri
 // 첫 화면 바로 아래 영상 구역: 대표 영상 1개 + 가로 스크롤 두 줄. 영상이 없는 묶음은 통째로 숨긴다(빈 상태를 홈에 보이지 않는다).
 async function VideoShowcase({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: "video" });
-  const { featured, upcoming, recent } = await getHomeVideos(locale);
-  if (!featured && upcoming.length === 0 && recent.length === 0) return null;
-  const [f, up, rc] = await Promise.all([
-    featured ? toItem(featured, locale) : null,
+  const { upcoming, recent } = await getHomeVideos(locale);
+  if (upcoming.length === 0 && recent.length === 0) return null;
+  const [up, rc] = await Promise.all([
     Promise.all(upcoming.map((v) => toItem(v, locale))),
     Promise.all(recent.map((v) => toItem(v, locale))),
   ]);
   return (
-    <VideoProvider>
-      {f && (
-        <section className="ow-section">
-          <FeaturedVideo item={f} />
-        </section>
-      )}
+    <>
       {rc.length > 0 && (
         <section className="ow-section">
           <SectionHead title={t("recent")} href="/radar" />
@@ -65,7 +60,23 @@ async function VideoShowcase({ locale }: { locale: string }) {
           <VideoRail label={t("upcoming")} items={up} />
         </section>
       )}
-    </VideoProvider>
+    </>
+  );
+}
+
+// 첫 화면 오른쪽: 지금의 대표 영상. 대표가 없으면 단계 흐름 배지를 놓은 장식 패널로 채운다.
+async function HeroMedia({ locale }: { locale: string }) {
+  const { featured } = await getHomeVideos(locale);
+  if (featured) return <HeroFeature item={await toItem(featured, locale)} />;
+  return (
+    <div className="ow-hero-art" aria-hidden="true">
+      {FLOW_STAGES.map((s, i) => (
+        <span key={s} className="ow-flow-step">
+          <StageBadge stage={s} tip={false} />
+          {i < FLOW_STAGES.length - 1 && <span className="ow-hero-art-sep">›</span>}
+        </span>
+      ))}
+    </div>
   );
 }
 
@@ -179,13 +190,20 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   const loading = <p className="ow-meta">…</p>;
 
   return (
-    <>
+    <VideoProvider>
       <section className="ow-hero">
-        <p className="ow-eyebrow">{SITE_NAME}</p>
-        <h1 className="ow-display">{t("hero.title")}</h1>
-        <p className="ow-lead">{t("lead")}</p>
-        <div className="ow-hero-actions">
-          <ButtonLink href="/recommend">{t("cta")}</ButtonLink>
+        <div className="ow-hero-copy">
+          <p className="ow-eyebrow ow-eyebrow-pill">{SITE_NAME}</p>
+          <h1 className="ow-display">{t.rich("hero.title", { em: (chunks) => <em>{chunks}</em> })}</h1>
+          <p className="ow-lead">{t("lead")}</p>
+          <div className="ow-hero-actions">
+            <ButtonLink href="/recommend" className="ow-btn-hero">{t("cta")}</ButtonLink>
+          </div>
+        </div>
+        <div className="ow-hero-side">
+          <Suspense fallback={<div className="ow-hero-art ow-hero-art-skeleton" aria-hidden="true" />}>
+            <HeroMedia locale={locale} />
+          </Suspense>
         </div>
       </section>
 
@@ -234,6 +252,6 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           <PickedContents locale={locale} />
         </Suspense>
       </section>
-    </>
+    </VideoProvider>
   );
 }

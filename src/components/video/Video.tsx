@@ -139,15 +139,15 @@ export function VideoCard({ item }: { item: VideoItem }) {
   );
 }
 
-export function FeaturedVideo({ item }: { item: VideoItem }) {
+// 홈 첫 화면 오른쪽의 대표 영상 카드. 클릭하기 전에는 썸네일만 보이고(iframe 없음), 누르면 그 자리에서 재생된다.
+export function HeroFeature({ item }: { item: VideoItem }) {
   const t = useTranslations("video");
   return (
-    <article className="ow-video-featured" aria-label={t("featured")}>
+    <article className="ow-hero-feature" aria-label={t("featured")}>
       <VideoPlayer item={item} large />
-      <div className="ow-video-featured-info">
+      <div className="ow-hero-feature-info">
         <p className="ow-eyebrow">{t("featured")}</p>
         <VideoInfo item={item} headingLevel={2} />
-        <p className="ow-meta">{item.title}</p>
       </div>
     </article>
   );

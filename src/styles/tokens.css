@@ -15,6 +15,8 @@
   --accent: #9a8dff;
   --on-accent: #0f0d24;
   --scrim: rgb(0 0 0 / 0.6);
+  --glow-a: rgb(154 141 255 / 0.3); /* 첫 화면 빛 번짐(강조색 계열) */
+  --glow-b: rgb(255 122 182 / 0.14); /* 첫 화면 빛 번짐(보조) */
 
   /* 어필 배지(3): 색과 글자를 항상 함께 쓴다 */
   --appeal-visual: #5db8ff;
@@ -48,6 +50,7 @@
 
   /* 글자 크기와 줄 높이(display / h1 / h2 / h3 / body / caption) */
   --fs-display: clamp(2rem, 6vw, 3.25rem);
+  --fs-hero: clamp(2.5rem, 7.5vw, 4.5rem); /* 홈 첫 화면 제목 */
   --fs-h1: clamp(1.625rem, 4vw, 2.25rem);
   --fs-h2: 1.5rem;
   --fs-h3: 1.25rem;
@@ -103,6 +106,7 @@
   /* 움직임 */
   --dur-fast: 120ms;
   --dur-base: 200ms;
+  --dur-slow: 600ms; /* 첫 화면 등장 */
   --dur-spin: 900ms;
   --name-max: 14em; /* 헤더 사용자 이름 말줄임 폭 */
 
@@ -121,6 +125,8 @@
     --accent: #5a48e8;
     --on-accent: #ffffff;
     --scrim: rgb(0 0 0 / 0.4);
+    --glow-a: rgb(90 72 232 / 0.18);
+    --glow-b: rgb(176 20 95 / 0.08);
     --appeal-visual: #0a64b8;
     --appeal-audio: #8a5300;
     --appeal-av: #b0145f;
@@ -151,6 +157,8 @@
   --accent: #5a48e8;
   --on-accent: #ffffff;
   --scrim: rgb(0 0 0 / 0.4);
+  --glow-a: rgb(90 72 232 / 0.18);
+  --glow-b: rgb(176 20 95 / 0.08);
   --appeal-visual: #0a64b8;
   --appeal-audio: #8a5300;
   --appeal-av: #b0145f;
