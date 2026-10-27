@@ -360,3 +360,14 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 /* 단계 배지 툴팁(StageBadge): 배지가 버튼이라 포커스·탭으로 열린다. 카드 전체 링크 위에서 눌리도록 z-index를 올린다 */
 .ow-tip-btn { font: inherit; font-size: var(--fs-caption); font-weight: var(--fw-bold); background: none; cursor: pointer; }
 .ow-tooltip { position: fixed; z-index: 100; max-width: 16rem; padding: var(--space-2) var(--space-3); background: var(--surface-2); color: var(--text); border: var(--bw) solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow-2); font-size: var(--fs-caption); font-weight: var(--fw-regular); line-height: var(--lh-body); }
+
+/* 홈 소개·핵심 기능. 앵커(#about, #features)로 이동할 때 고정 헤더에 제목이 가려지지 않게 한다 */
+.ow-anchor { scroll-margin-top: calc(var(--header-h) + var(--space-4)); }
+.ow-about { display: grid; gap: var(--space-4); }
+.ow-about-item { display: grid; gap: var(--space-2); align-content: start; padding: var(--space-4) var(--space-5); background: var(--surface); border: var(--bw) solid var(--line); border-top: var(--bw-strong) solid var(--line); border-radius: var(--radius-sm); }
+.ow-about-label { margin: 0; font-size: var(--fs-lg); line-height: var(--lh-heading); }
+.ow-about-body { margin: 0; color: var(--text-muted); }
+.ow-about-solution { border-color: var(--accent); }
+.ow-about-solution .ow-about-label { color: var(--accent); font-weight: var(--fw-bold); }
+.ow-about-solution .ow-about-body { color: var(--text); }
+@media (min-width: 840px) { .ow-about { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

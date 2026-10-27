@@ -204,6 +204,21 @@
     "hero": {
       "title": "Decide today's stream before you go live"
     },
+    "about": {
+      "title": "What is ONWISH?",
+      "who": {
+        "label": "Who it's for",
+        "body": "For streamers of every setup, from solo streams to big group collabs."
+      },
+      "problem": {
+        "label": "The problem",
+        "body": "Every day starts with the same question: what should I stream? You have to dig around to see which games are taking off and when to jump in, and you only find out how to make a game fun by trying it yourself."
+      },
+      "solution": {
+        "label": "How ONWISH helps",
+        "body": "ONWISH recommends content that fits your style and group size, and brings each game's popularity trend and what makes each play style fun into one place."
+      }
+    },
     "lead": "Get content ideas that fit your style and group size, and see which games are rising now and what's coming next, all in one place.",
     "cta": "Get content ideas",
     "trending": "Hot games right now",
