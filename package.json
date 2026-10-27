@@ -9,7 +9,7 @@
     "lint": "eslint",
     "db:verify": "node supabase/tests/verify.mjs",
     "db:verify:heat": "node supabase/tests/heat-stage-migration.mjs",
-    "test": "tsx --test src/lib/recommend/recommend.test.ts src/lib/auth.test.ts src/lib/youtube.test.ts src/lib/home-videos.test.ts src/types/taxonomy.test.ts src/styles/contrast.test.ts",
+    "test": "tsx --test src/lib/recommend/recommend.test.ts src/lib/auth.test.ts src/lib/youtube.test.ts src/lib/home-videos.test.ts src/lib/kst.test.ts src/types/taxonomy.test.ts src/styles/contrast.test.ts",
     "seed:contents": "node --env-file=.env --import tsx supabase/seed/run-contents.ts",
     "seed:steam": "tsx supabase/seed/steam-games.ts",
     "seed:games": "node --env-file=.env --import tsx supabase/seed/run-games.ts",

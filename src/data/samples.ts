@@ -34,7 +34,7 @@ function game(slug: string, name: string, heat: GameDetail["heatStage"], opts: P
     imageUrl: null, imageSource: null, lastCheckedAt: today.toISOString(), infoStale: false,
     isHorror: false, motionSicknessRisk: false, spoilerRisk: false, releaseBasisDate: heat === "rising" || heat === "peak" ? day(heat === "rising" ? -8 : -30) : null, officialChannelIds: [],
     formats, nextKeyDate: heat === "upcoming" ? { label: "출시 예정(예시)", date: day(12), source: "예시" } : null,
-    metricSeries, metricKind: metricSeries.length ? ("steam_ccu" as const) : null,
+    metricSeries, metricKind: metricSeries.length ? ("steam_ccu" as const) : null, staleUpcoming: false,
     keyDates: [{ label: heat === "upcoming" ? "출시 예정(예시)" : "출시(예시)", date: heat === "upcoming" ? day(12) : day(-8), source: "예시" }],
     sources: [{ title: "예시 출처", url: "https://example.com", checkedAt: today.toISOString() }],
     metrics: [], relatedContents: [], ...opts,

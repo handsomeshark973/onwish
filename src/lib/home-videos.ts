@@ -1,17 +1,12 @@
 import { MAX_RECENT_VIDEOS, MAX_UPCOMING_VIDEOS, RECENT_RELEASE_DAYS, RECENT_VIDEO_KINDS, UPCOMING_VIDEO_KINDS } from "@/config/videos";
 import type { GameSummary, GameVideo } from "@/types/domain";
+import { daysUntil } from "@/lib/kst";
 import { isTrendStage, TREND_STAGES } from "@/types/taxonomy";
 
 export interface HomeVideo { video: GameVideo; game: GameSummary; daysToRelease: number | null } // 곧 출시 영상의 D-day(날짜 미정이면 null)
 export interface HomeVideos { featured: HomeVideo | null; upcoming: HomeVideo[]; recent: HomeVideo[] }
 
-const DAY = 86400000;
-
-// 오늘부터 날짜까지 남은 일수(오늘이면 0, 지났으면 음수). 날짜는 yyyy-mm-dd, 한국 날짜 기준 비교를 위해 UTC 자정으로 맞춘다.
-export function daysUntil(date: string, now: Date): number {
-  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
-  return Math.round((Date.parse(`${date}T00:00:00Z`) - today) / DAY);
-}
+export { daysUntil };
 
 // 기존 레이더의 인기 지표(게임의 기준 지표 최근값)를 그대로 쓴다. 새 지표는 만들지 않는다. 값이 없으면 null.
 const popularity = (g: GameSummary): number | null => {
@@ -38,7 +33,8 @@ export function pickHomeVideos(videos: GameVideo[], games: GameSummary[], now = 
   });
 
   const upcoming = latestPerGame(
-    joined.filter((x) => x.game.heatStage === "upcoming" && (UPCOMING_VIDEO_KINDS as readonly string[]).includes(x.video.kind)),
+    // 출시일이 이미 지났는데 단계가 아직 곧 출시인 게임(staleUpcoming)은 홈에서 뺀다
+    joined.filter((x) => x.game.heatStage === "upcoming" && !x.game.staleUpcoming && (UPCOMING_VIDEO_KINDS as readonly string[]).includes(x.video.kind)),
   ).sort((a, b) => (a.game.nextKeyDate?.date ?? "9").localeCompare(b.game.nextKeyDate?.date ?? "9")); // 출시일이 가까운 순, 미정은 맨 뒤
 
   const recent = latestPerGame(
@@ -59,7 +55,7 @@ export function pickHomeVideos(videos: GameVideo[], games: GameSummary[], now = 
   });
 
   // 대표: 지정된 영상이 아직 곧 출시·뜨는 중·골든타임이면 그것, 아니면(식는 중 등으로 바뀌었거나 없으면) 최근 인기 신작 1위
-  const flagged = joined.find((x) => x.video.isFeatured && ["upcoming", ...TREND_STAGES].includes(x.game.heatStage ?? ""));
+  const flagged = joined.find((x) => x.video.isFeatured && !x.game.staleUpcoming && ["upcoming", ...TREND_STAGES].includes(x.game.heatStage ?? ""));
   const featured = flagged ?? recent[0] ?? null;
   const rest = (list: HomeVideo[], max: number) => list.filter((x) => x.video.id !== featured?.video.id).slice(0, max);
 

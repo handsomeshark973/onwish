@@ -16,15 +16,15 @@ test("D-day 계산", () => {
   assert.equal(daysUntil("2026-10-20", NOW), -7);
 });
 
-test("곧 나올 게임: upcoming + teaser/reveal만, 출시일 가까운 순, 미정은 뒤", () => {
+test("곧 나올 게임: upcoming + teaser/reveal/launch, 출시일 가까운 순, 미정은 뒤", () => {
   const games = [
     game("a", "upcoming", { nextKeyDate: { label: "", date: "2026-12-01", source: "" } }),
     game("b", "upcoming", { nextKeyDate: { label: "", date: "2026-11-01", source: "" } }),
     game("c", "upcoming"),
     game("d", "upcoming"),
   ];
-  const r = pickHomeVideos([video("1", "a", "teaser"), video("2", "b", "reveal"), video("3", "c", "teaser"), video("4", "d", "launch")], games, NOW);
-  assert.deepEqual(r.upcoming.map((x) => x.video.id), ["2", "1", "3"]);
+  const r = pickHomeVideos([video("1", "a", "teaser"), video("2", "b", "reveal"), video("3", "c", "teaser"), video("4", "d", "launch"), video("5", "d", "gameplay")], games, NOW);
+  assert.deepEqual(r.upcoming.map((x) => x.video.id), ["2", "1", "3", "4"]); // launch도 받고, gameplay는 받지 않는다
 });
 
 test("최근 인기 신작: rising/peak + 60일 이내 + launch, 인기 지표 높은 순", () => {
@@ -60,4 +60,32 @@ test("승인 안 된 영상·게임 없는 영상·게임당 1개 제한", () =>
     games, NOW,
   );
   assert.deepEqual(r.upcoming.map((x) => x.video.id), ["4"]);
+});
+
+test("곧 출시 게임은 teaser·reveal·launch 중 가장 최근 게시 영상 1개", () => {
+  const games = [game("a", "upcoming", { nextKeyDate: { label: "", date: "2026-11-19", source: "" } })];
+  const r = pickHomeVideos(
+    [
+      video("1", "a", "teaser", { publishedAt: "2026-05-01T00:00:00Z" }),
+      video("2", "a", "reveal", { publishedAt: "2026-08-01T00:00:00Z" }),
+      video("3", "a", "launch", { publishedAt: "2026-10-15T00:00:00Z" }),
+    ],
+    games, NOW,
+  );
+  // 대표로 올라가지 않았다면 곧 나올 줄에, 대표가 되었다면 대표 자리에 최신 영상(3) 하나만 있다
+  const shown = [...(r.featured ? [r.featured] : []), ...r.upcoming].map((x) => x.video.id);
+  assert.deepEqual(shown, ["3"]);
+});
+
+test("곧 출시 영상에 D-day가 들어온다(한국 날짜 기준 남은 일수)", () => {
+  const games = [game("a", "upcoming", { nextKeyDate: { label: "", date: "2026-11-19", source: "" } })];
+  const r = pickHomeVideos([video("1", "a", "launch")], games, NOW);
+  assert.equal(r.upcoming[0].daysToRelease, 23);
+});
+
+test("출시일이 지났는데 아직 곧 출시인 게임은 홈 영상에서 빠진다(대표 포함)", () => {
+  const games = [game("a", "upcoming", { staleUpcoming: true, nextKeyDate: null }), game("b", "upcoming", { nextKeyDate: { label: "", date: "2026-12-01", source: "" } })];
+  const r = pickHomeVideos([video("1", "a", "launch", { isFeatured: true }), video("2", "b", "teaser")], games, NOW);
+  assert.deepEqual(r.upcoming.map((x) => x.video.id), ["2"]);
+  assert.notEqual(r.featured?.video.id, "1");
 });

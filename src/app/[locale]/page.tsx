@@ -26,7 +26,7 @@ async function toItem({ video, game, daysToRelease: n }: HomeVideo, locale: stri
   if (game.heatStage === "upcoming") {
     const date = game.nextKeyDate?.date;
     if (!date || n === null) dateLabel = t("releaseTbd");
-    else dateLabel = `${t("releaseOn", { date })}${n === 0 ? ` · ${t("today")}` : n > 0 ? ` · ${t("dday", { n })}` : ""}`;
+    else dateLabel = `${date}${n === 0 ? ` · ${t("today")}` : n > 0 ? ` · ${t("dday", { n })}` : ""}`; // 예: 2026-11-19 · 출시 D-23 (한국 날짜 기준)
   } else if (game.releaseBasisDate) {
     dateLabel = t("released", { date: game.releaseBasisDate });
   }
@@ -135,7 +135,7 @@ async function TrendingGames({ locale }: { locale: string }) {
 async function UpcomingGames({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: "home" });
   const games = (await getGames(locale))
-    .filter((g) => g.heatStage === "upcoming")
+    .filter((g) => g.heatStage === "upcoming" && !g.staleUpcoming)
     .sort((a, b) => (a.nextKeyDate?.date ?? "9").localeCompare(b.nextKeyDate?.date ?? "9"));
   if (games.length === 0) return <EmptyState title={t("upcomingEmptyTitle")} hint={t("upcomingEmptyHint")} />;
   return (

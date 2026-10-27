@@ -8,7 +8,8 @@ export const MAX_UPCOMING_VIDEOS = 8;
 export const MAX_RECENT_VIDEOS = 8;
 
 // 영상 종류를 구역에 나누는 규칙
-export const UPCOMING_VIDEO_KINDS = ["teaser", "reveal"] as const;
+// 곧 출시 게임은 출시 직전에 나오는 런치 트레일러도 받는다(게임마다 가장 최근 게시 영상 1개만 올린다)
+export const UPCOMING_VIDEO_KINDS = ["teaser", "reveal", "launch"] as const;
 export const RECENT_VIDEO_KINDS = ["launch"] as const;
 
 // 영상 하나를 재확인하는 요청 사이 간격(ms). 유튜브에 한꺼번에 몰리지 않게 한다.

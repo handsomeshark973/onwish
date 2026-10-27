@@ -1,4 +1,5 @@
 import { cacheLife } from "next/cache";
+import { kstDate } from "@/lib/kst";
 import { sampleMode } from "@/data/sample-mode";
 import { SAMPLE_GAMES } from "@/data/samples";
 import type { GameDetail, GameSummary } from "@/types/domain";
@@ -25,7 +26,7 @@ export async function getGames(locale: string): Promise<GameSummary[]> {
   ]);
   if (g.error) throw new Error(`게임을 불러오지 못했습니다: ${g.error.message}`);
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = kstDate(); // 한국 날짜 기준
   return (g.data ?? []).map((row: any) => {
     const game = mapGame(row, locale);
     const points = (m.data ?? []).filter((x: any) => x.game_id === row.id).map(mapMetric);
@@ -35,6 +36,7 @@ export async function getGames(locale: string): Promise<GameSummary[]> {
       ...game,
       formats: (f.data ?? []).filter((x: any) => x.game_id === row.id).map((x: any) => mapFormat(x, locale)),
       nextKeyDate: dates.find((d) => d.date >= today) ?? null,
+      staleUpcoming: game.heatStage === "upcoming" && dates.length > 0 && dates.every((d) => d.date < today),
       metricSeries: kind ? metricSeries(points, kind) : [],
       metricKind: kind,
     };

@@ -153,6 +153,8 @@ export interface GameSummary extends Game {
   nextKeyDate: GameKeyDate | null;
   metricSeries: (number | null)[];
   metricKind: MetricKind | null; // 어떤 지표인지. 이름은 화면에서 번역한다
+  // 단계가 아직 곧 출시인데 등록된 일정이 모두 지난 게임. 홈에서는 빼고, 관리자 화면에 "단계 갱신 필요"로 띄운다.
+  staleUpcoming: boolean;
 }
 
 export interface GameDetail extends GameSummary {
