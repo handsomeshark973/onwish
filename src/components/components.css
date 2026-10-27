@@ -395,9 +395,6 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 .ow-about-item { display: grid; gap: var(--space-2); align-content: start; padding: var(--space-4) var(--space-5); background: var(--surface); border: var(--bw) solid var(--line); border-top: var(--bw-strong) solid var(--line); border-radius: var(--radius-sm); }
 .ow-about-label { margin: 0; font-size: var(--fs-lg); line-height: var(--lh-heading); }
 .ow-about-body { margin: 0; color: var(--text-muted); }
-.ow-about-solution { border-color: var(--accent); }
-.ow-about-solution .ow-about-label { color: var(--accent); font-weight: var(--fw-bold); }
-.ow-about-solution .ow-about-body { color: var(--text); }
 @media (min-width: 840px) { .ow-about { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .ow-features { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); grid-template-columns: 1fr; }
 @media (min-width: 640px) { .ow-features { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

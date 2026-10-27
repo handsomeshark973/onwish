@@ -80,7 +80,7 @@ async function HeroMedia({ locale }: { locale: string }) {
   );
 }
 
-// 사이트 소개: 누구를 위한 곳인지 → 어떤 고민이 있는지 → ONWISH가 어떻게 돕는지. 해결 항목은 강조 색과 굵은 제목, 위쪽 굵은 선으로 구분한다(색만 쓰지 않는다).
+// 사이트 소개: 누구를 위한 곳인지 → 어떤 고민이 있는지 → ONWISH가 어떻게 돕는지. 세 항목은 같은 모양으로 둔다.
 async function About({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: "home.about" });
   const items = ["who", "problem", "solution"] as const;
@@ -89,7 +89,7 @@ async function About({ locale }: { locale: string }) {
       <h2 id="about-title" className="ow-h2 ow-h2-flush">{t("title")}</h2>
       <div className="ow-about">
         {items.map((k) => (
-          <div key={k} className={k === "solution" ? "ow-about-item ow-about-solution" : "ow-about-item"}>
+          <div key={k} className="ow-about-item">
             <h3 className="ow-about-label">{t(`${k}.label`)}</h3>
             <p className="ow-about-body">{t(`${k}.body`)}</p>
           </div>
