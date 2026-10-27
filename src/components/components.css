@@ -246,12 +246,21 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 .ow-flow-step[data-empty="true"] { opacity: 0.6; }
 .ow-flow-count { color: var(--text-muted); font-size: var(--fs-caption); }
 .ow-stage-section { scroll-margin-top: calc(var(--header-h) + var(--space-4)); }
-.ow-timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); }
-.ow-timeline li { display: grid; gap: var(--space-2); }
-.ow-timeline-date { font-weight: var(--fw-bold); font-size: var(--fs-h3); color: var(--stage-upcoming); }
-.ow-timeline li { padding-bottom: var(--space-4); border-bottom: var(--bw) solid var(--line); }
-.ow-timeline li:last-child { border-bottom: 0; }
-@media (min-width: 640px) { .ow-timeline li { grid-template-columns: var(--card-rail) 1fr; align-items: start; } }
+.ow-timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-5); }
+.ow-timeline li { display: grid; gap: var(--space-3); align-items: start; }
+/* 날짜 블록: 월(작게) · 일(크게) · 연도와 요일 · 출시 D-n. 위쪽 굵은 선은 "곧 출시" 단계 색 */
+.ow-timeline-date { display: grid; justify-items: center; align-content: start; gap: var(--space-1); min-width: 6.5rem; padding: var(--space-3) var(--space-4); background: var(--surface); border: var(--bw) solid var(--line); border-top: var(--bw-strong) solid var(--stage-upcoming); border-radius: var(--radius-sm); text-align: center; }
+.ow-date-month { color: var(--stage-upcoming); font-size: var(--fs-caption); font-weight: var(--fw-bold); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; }
+.ow-date-day { font-family: var(--font-display); font-size: var(--fs-display); font-weight: var(--fw-bold); line-height: var(--lh-tight); }
+.ow-date-sub { color: var(--text-muted); font-size: var(--fs-caption); }
+.ow-date-dday { color: var(--accent); font-size: var(--fs-caption); font-weight: var(--fw-bold); }
+.ow-timeline-date-tbd .ow-date-day { color: var(--text-muted); }
+@media (max-width: 639px) {
+  /* 좁은 화면: 날짜 블록이 카드 위에서 한 줄로 */
+  .ow-timeline-date { grid-auto-flow: column; justify-self: start; align-items: baseline; gap: var(--space-2); padding: var(--space-2) var(--space-4); }
+  .ow-date-day { font-size: var(--fs-h2); }
+}
+@media (min-width: 640px) { .ow-timeline li { grid-template-columns: 6.5rem 1fr; gap: var(--space-5); } }
 
 /* 필터 시트 */
 .ow-sheet { overflow: auto; border: var(--bw) solid var(--line); border-radius: var(--radius-md); background: var(--surface); color: var(--text); padding: 0; width: min(var(--sheet-w), calc(100vw - var(--space-6))); max-height: 85svh; }

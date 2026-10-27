@@ -333,6 +333,8 @@
     "unknownTitle": "Popularity unknown",
     "unknownDesc": "We haven't confirmed how popular these are yet",
     "dateTbd": "Date TBD",
+    "dday": "Release D-{n}",
+    "today": "Release D-Day",
     "resetFilters": "Reset filters",
     "flowLabel": "Stage flow",
     "flowCount": "{n}"

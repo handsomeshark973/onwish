@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { GameCard } from "@/components/cards/GameCard";
+import { TimelineDate } from "./TimelineDate";
 import { gameCardProps } from "@/components/cards/cardProps";
 import { Button } from "@/components/ui/Button";
 import { StageBadge } from "@/components/ui/Badge";
@@ -112,8 +113,9 @@ export function RadarBrowser({ games }: { games: GameSummary[] }) {
                 <ol className="ow-timeline">
                   {list.map((g) => (
                     <li key={g.id}>
-                      <time className="ow-timeline-date" dateTime={g.nextKeyDate?.date}>{g.nextKeyDate?.date ?? t("dateTbd")}</time>
-                      <GameCard {...gameCardProps(g)} />
+                      <TimelineDate date={g.nextKeyDate?.date ?? null} />
+                      {/* 날짜는 왼쪽 날짜 블록에 있으니 카드 안의 같은 날짜 줄은 뺀다 */}
+                      <GameCard {...gameCardProps(g)} dateLabel={undefined} />
                     </li>
                   ))}
                 </ol>
