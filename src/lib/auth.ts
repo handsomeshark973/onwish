@@ -15,6 +15,8 @@ export async function getUser() {
 // 헤더에 이름을 보여 주는 용도 전용. 세션 쿠키만 읽고 Supabase에 확인을 보내지 않아 빠르다.
 // 쿠키 내용은 서버가 검증하지 않았으므로 권한 판단에는 절대 쓰지 말고, 그럴 때는 getUser()를 쓴다.
 export async function getDisplayUser() {
+  // 세션 확인은 요청마다 해야 한다. 미리 만들어 두는(prerender) 대상에서 빼지 않으면 Supabase가 쓰는 Date.now()가 오류로 보고된다(getUser와 같은 이유).
+  await connection();
   const supabase = await createClient();
   const { data } = await supabase.auth.getSession();
   return data.session?.user ?? null;
