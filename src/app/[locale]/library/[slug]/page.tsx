@@ -3,6 +3,7 @@ import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { ViewBeacon } from "@/components/ViewBeacon";
 import { ReportButton } from "@/components/report/ReportButton";
 import { AppealBadge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/Button";
@@ -92,6 +93,7 @@ async function Detail({ params }: { params: PageProps<"/[locale]/library/[slug]"
         <ButtonLink href="/recommend">{t("recommendThis")}</ButtonLink>
       </div>
       <div className="ow-mt">
+        <ViewBeacon kind="content" slug={c.slug} />
         <ReportButton targetType="content" targetId={c.id} label={c.title} loginNext={`/library/${c.slug}`} />
       </div>
     </article>

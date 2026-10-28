@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 import { aiEnabled } from "@/config/ai";
 import { FREE_AI_RECOMMENDS_PER_MONTH, GUEST_AI_DAILY_LIMIT, GUEST_AI_PER_IP_PER_DAY } from "@/config/limits";
+import { recordEvent } from "@/lib/customers/events";
 import { ensureUser } from "@/lib/guest";
 import { getGuestQuota } from "@/lib/quota";
 import { allow, clientIp, hashKey } from "@/lib/rate-limit";
@@ -39,6 +40,8 @@ export async function requestRecommendation(input: unknown, requestId: string, l
   const ensured = await ensureUser();
   if (!ensured.ok) return { status: "guest_unavailable" };
   const { user, supabase, isGuest } = ensured;
+  // 고객 유형 집계용 기록: 인원 규모와 스타일 관련 입력값만(한 줄 소개 같은 자유 입력은 넣지 않는다)
+  await recordEvent(user.id, isGuest, "recommend_requested", { tier: profile.mode, strengths: profile.strengths, usesCam: profile.usesCam, communityActivity: profile.communityActivity ?? null }, { recommend: 1 });
 
   try {
     // 입력값은 프로필로 저장해 다음 방문 때 채워 준다(본인만 접근: DB 권한 정책)
@@ -113,11 +116,13 @@ export async function savePick(pick: RecommendPick, profile: ProfileInput, sourc
   if (!p.success || JSON.stringify(pick).length > 100_000) return { status: "error" };
   const ensured = await ensureUser();
   if (!ensured.ok) return { status: "guest_unavailable" };
-  const { user, supabase } = ensured;
+  const { user, supabase, isGuest } = ensured;
   const { data, error } = await supabase
     .from("saved_recommendations")
     .insert({ user_id: user.id, source, profile_snapshot: p.data, result: pick })
     .select("id")
     .single();
-  return error || !data ? { status: "error" } : { status: "saved", id: data.id };
+  if (error || !data) return { status: "error" };
+  await recordEvent(user.id, isGuest, "recommend_saved", { mainAppeal: pick.mainAppeal, watchMode: pick.watchMode, viewerParticipation: pick.viewerParticipation, source }, { saved: 1 });
+  return { status: "saved", id: data.id };
 }

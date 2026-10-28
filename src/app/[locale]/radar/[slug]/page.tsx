@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ContentCard } from "@/components/cards/ContentCard";
+import { ViewBeacon } from "@/components/ViewBeacon";
 import { ReportButton } from "@/components/report/ReportButton";
 import { AppealBadge, StageBadge } from "@/components/ui/Badge";
 import { GameImage } from "@/components/ui/GameImage";
@@ -134,6 +135,7 @@ async function Detail({ params }: { params: PageProps<"/[locale]/radar/[slug]">[
       )}
       <p className="ow-meta">{t("lastChecked", { date: dateOnly(g.lastCheckedAt) })}</p>
       <div className="ow-mt">
+        <ViewBeacon kind="game" slug={g.slug} />
         <ReportButton targetType="game" targetId={g.id} label={name} loginNext={`/radar/${g.slug}`} />
       </div>
     </article>
