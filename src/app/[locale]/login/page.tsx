@@ -16,8 +16,9 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/login">)
 async function Login({ locale, searchParams }: { locale: string; searchParams: PageProps<"/[locale]/login">["searchParams"] }) {
   const sp = await searchParams;
   const next = safeNext(typeof sp.next === "string" ? sp.next : null);
-  // 이미 로그인한 사람이 /login에 오면 원래 가려던 곳으로 보낸다
-  if (await getUser()) nextRedirect(`/${locale}${next === "/" ? "" : next}`);
+  // 이미 로그인한 사람이 /login에 오면 원래 가려던 곳으로 보낸다(게스트는 로그인할 수 있어야 하므로 제외)
+  const current = await getUser();
+  if (current && current.is_anonymous !== true) nextRedirect(`/${locale}${next === "/" ? "" : next}`);
   const notice = sp.error === "link" ? "link" : sp.reset === "1" ? "reset" : sp.confirmed === "1" ? "confirmed" : undefined;
   return <LoginForm next={next} notice={notice} />;
 }

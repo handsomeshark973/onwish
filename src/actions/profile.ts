@@ -10,7 +10,7 @@ import { createClient } from "@/lib/supabase/server";
 // 모든 삭제는 로그인한 본인의 데이터에만 적용된다(DB 권한 정책이 한 번 더 막는다).
 export async function resetProfile() {
   const user = await getUser();
-  if (!user) redirect(`/${routing.defaultLocale}/login?next=/profile`);
+  if (!user) return;
   const supabase = await createClient();
   await supabase.from("streamer_profiles").delete().eq("user_id", user.id);
   revalidatePath("/[locale]/profile", "page");
@@ -18,7 +18,7 @@ export async function resetProfile() {
 
 export async function deleteSaved(formData: FormData) {
   const user = await getUser();
-  if (!user) redirect(`/${routing.defaultLocale}/login?next=/profile`);
+  if (!user) return;
   const id = String(formData.get("id") ?? "");
   const supabase = await createClient();
   await supabase.from("saved_recommendations").delete().eq("id", id).eq("user_id", user.id);
@@ -27,7 +27,7 @@ export async function deleteSaved(formData: FormData) {
 
 export async function deleteAllSaved() {
   const user = await getUser();
-  if (!user) redirect(`/${routing.defaultLocale}/login?next=/profile`);
+  if (!user) return;
   const supabase = await createClient();
   await supabase.from("saved_recommendations").delete().eq("user_id", user.id);
   revalidatePath("/[locale]/profile", "page");

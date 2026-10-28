@@ -68,7 +68,7 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
 
   const ready = useReady(); // 화면이 연결되기 전에 제출되어 입력값이 주소창에 붙는 것을 막는다
   const [pending, start] = useTransition();
-  const [state, setState] = useState<{ kind: "idle" } | { kind: "ok"; result: RecommendResult; profile: ProfileInput } | { kind: "login" } | { kind: "invalid"; message: string } | { kind: "error" }>({ kind: "idle" });
+  const [state, setState] = useState<{ kind: "idle" } | { kind: "ok"; result: RecommendResult; profile: ProfileInput } | { kind: "login" } | { kind: "guest" } | { kind: "invalid"; message: string } | { kind: "error" }>({ kind: "idle" });
   const [quota, setQuota] = useState<Quota>(initialQuota);
   const requestId = useRef<string | null>(null);
 
@@ -120,6 +120,7 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
           setState({ kind: "ok", result: res.result, profile });
           if (res.result.quota) setQuota(res.result.quota);
         } else if (res.status === "login_required") setState({ kind: "login" });
+        else if (res.status === "guest_unavailable") setState({ kind: "guest" });
         else if (res.status === "invalid") setState({ kind: "invalid", message: res.message });
         else setState({ kind: "error" });
       } catch {
@@ -212,6 +213,8 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
           <EmptyState title={t("idleTitle")} hint={t("idleHint")} />
         ) : state.kind === "login" ? (
           <ErrorState title={t("needLoginTitle")} hint={t("needLoginHint")} action={<Link className="ow-btn ow-btn-secondary" href="/login?next=/recommend">{t("loginCta")}</Link>} />
+        ) : state.kind === "guest" ? (
+          <ErrorState title={t("guestUnavailableTitle")} hint={t("guestUnavailableHint")} action={<Link className="ow-btn ow-btn-secondary" href="/login?next=/recommend">{t("loginCta")}</Link>} />
         ) : state.kind === "invalid" ? (
           <ErrorState title={t("invalidTitle")} hint={te.has(state.message) ? te(state.message) : te("checkInput")} />
         ) : state.kind === "error" ? (

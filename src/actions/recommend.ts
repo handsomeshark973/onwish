@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 import { aiEnabled } from "@/config/ai";
 import { FREE_AI_RECOMMENDS_PER_MONTH } from "@/config/limits";
-import { getUser } from "@/lib/auth";
+import { ensureUser } from "@/lib/guest";
 import { getContents } from "@/lib/data/contents";
 import { getGames } from "@/lib/data/games";
 import { toRow } from "@/lib/profile-db";
@@ -15,11 +15,11 @@ import { normalizeResult } from "@/lib/recommend/normalize";
 import type { RecommendPick, RecommendResult } from "@/lib/recommend/types";
 import { isLocale, routing } from "@/i18n/routing";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createClient } from "@/lib/supabase/server";
 
 export type RecommendResponse =
   | { status: "ok"; result: RecommendResult }
   | { status: "login_required" }
+  | { status: "guest_unavailable" }
   | { status: "invalid"; message: string }
   | { status: "error" };
 
@@ -27,19 +27,19 @@ const kstToday = () => new Date(Date.now() + 9 * 3600_000).toISOString().slice(0
 
 export async function requestRecommendation(input: unknown, requestId: string, localeInput: string): Promise<RecommendResponse> {
   const locale = isLocale(localeInput) ? localeInput : routing.defaultLocale;
-  const user = await getUser();
-  if (!user) return { status: "login_required" };
-
+  // 잘못된 입력으로는 게스트 세션을 만들지 않도록 입력 검사를 먼저 한다
   const parsed = profileSchema.safeParse(input);
   if (!parsed.success || !z.uuid().safeParse(requestId).success) {
     // 오류 문구는 번역 키로 돌려주고 화면(RecommendForm)이 현재 언어로 바꿔 보여 준다
     return { status: "invalid", message: parsed.success ? "badRequest" : (parsed.error.issues[0]?.message ?? "checkInput") };
   }
   const profile = parsed.data;
+  const ensured = await ensureUser();
+  if (!ensured.ok) return { status: "guest_unavailable" };
+  const { user, supabase, isGuest } = ensured;
 
   try {
     // 입력값은 프로필로 저장해 다음 방문 때 채워 준다(본인만 접근: DB 권한 정책)
-    const supabase = await createClient();
     const saved = await supabase.from("streamer_profiles").upsert(toRow(user.id, profile));
     if (saved.error) console.error("프로필 저장 실패", saved.error.message);
 
@@ -98,15 +98,15 @@ export async function requestRecommendation(input: unknown, requestId: string, l
   }
 }
 
-export type SaveResponse = { status: "saved"; id: string } | { status: "login_required" } | { status: "error" };
+export type SaveResponse = { status: "saved"; id: string } | { status: "login_required" } | { status: "guest_unavailable" } | { status: "error" };
 
 // 추천 카드 하나를 내 저장 목록에 넣는다
 export async function savePick(pick: RecommendPick, profile: ProfileInput, source: "ai" | "rule"): Promise<SaveResponse> {
-  const user = await getUser();
-  if (!user) return { status: "login_required" };
   const p = profileSchema.safeParse(profile);
   if (!p.success || JSON.stringify(pick).length > 100_000) return { status: "error" };
-  const supabase = await createClient();
+  const ensured = await ensureUser();
+  if (!ensured.ok) return { status: "guest_unavailable" };
+  const { user, supabase } = ensured;
   const { data, error } = await supabase
     .from("saved_recommendations")
     .insert({ user_id: user.id, source, profile_snapshot: p.data, result: pick })

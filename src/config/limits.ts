@@ -19,3 +19,15 @@ export const MODEL_PRICES: Record<string, { in: number; out: number }> = {
 export const FALLBACK_PRICE = { in: 10, out: 50 };
 
 export const DEFAULT_MODEL = "claude-sonnet-5-5";
+
+// ───── 게스트(로그인 없이 쓰는 방문자) ─────
+// 환경 변수로 조정할 수 있다(GUEST_AI_DAILY_LIMIT 등). 비어 있거나 숫자가 아니면 아래 기본값을 쓴다.
+const num = (v: string | undefined, d: number) => (v && Number.isFinite(Number(v)) && Number(v) >= 0 ? Math.floor(Number(v)) : d);
+// 게스트 한 명이 하루(한국 시간)에 받을 수 있는 AI 추천 횟수
+export const GUEST_AI_DAILY_LIMIT = num(process.env.GUEST_AI_DAILY_LIMIT, 3);
+// 같은 접속 주소(IP)에서 게스트가 하루에 보낼 수 있는 추천 요청 수. 게스트를 새로 만들어 한도를 피하는 것을 막는다.
+export const GUEST_AI_PER_IP_PER_DAY = num(process.env.GUEST_AI_PER_IP_PER_DAY, 30);
+// 같은 접속 주소에서 한 시간에 만들 수 있는 게스트 수
+export const GUEST_CREATES_PER_IP_PER_HOUR = num(process.env.GUEST_CREATES_PER_IP_PER_HOUR, 10);
+// 마지막 활동 후 게스트를 보관하는 날 수
+export const GUEST_TTL_DAYS = 14;

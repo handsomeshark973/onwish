@@ -451,6 +451,8 @@
     "loadingHint": "This usually takes 10–30 seconds. Please keep this tab open.",
     "idleTitle": "Your picks will show up here",
     "idleHint": "Choose your strengths and collab info, then press “Get recommendations”.",
+    "guestUnavailableTitle": "We can't start this right now",
+    "guestUnavailableHint": "Please try again in a moment, or log in.",
     "needLoginTitle": "Please log in",
     "needLoginHint": "Log in, then try again.",
     "invalidTitle": "Please check your answers",

@@ -27,9 +27,12 @@ export async function requireUser(next = "/") {
 }
 
 // 관리자 여부는 DB의 is_admin() 함수가 판단한다(app_admins 표). 화면 숨김만으로 보호하지 않는다.
+// 게스트(익명 사용자)는 서버에서 먼저 거부한다. DB의 is_admin()도 0009 이후 익명 사용자를 거부한다.
 export async function isAdmin() {
   await connection();
   const supabase = await createClient();
+  const { data: u } = await supabase.auth.getUser();
+  if (!u.user || u.user.is_anonymous === true) return false;
   const { data, error } = await supabase.rpc("is_admin");
   return !error && data === true;
 }

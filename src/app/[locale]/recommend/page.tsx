@@ -19,7 +19,6 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/recommen
 }
 
 async function Recommend({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: "recommend" });
   const user = await getUser();
   // 세션이 없는 방문자도 폼을 바로 쓴다. 게스트 세션은 추천을 받는 순간 서버 동작이 만든다(페이지를 열기만 해서는 만들지 않는다).
   if (!user) {

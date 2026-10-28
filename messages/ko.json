@@ -451,6 +451,8 @@
     "loadingHint": "보통 10~30초 걸려요. 창을 닫지 말고 기다려 주세요.",
     "idleTitle": "조건을 고르면 여기에 추천이 나와요",
     "idleHint": "강점과 합방 정보를 고른 뒤 ‘추천 받기’를 눌러 주세요.",
+    "guestUnavailableTitle": "지금은 바로 시작할 수 없어요",
+    "guestUnavailableHint": "잠시 뒤 다시 눌러 보거나 로그인해 주세요.",
     "needLoginTitle": "로그인이 필요해요",
     "needLoginHint": "로그인 후 다시 눌러 주세요.",
     "invalidTitle": "입력을 확인해 주세요",
