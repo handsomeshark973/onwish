@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import { setApproval, setReportStatus, setVideoStatus } from "@/actions/admin";
 import { VideoForm } from "@/components/admin/VideoForm";
 import { hasYoutubeApiKey } from "@/lib/youtube-api";
-import { Button } from "@/components/ui/Button";
+import { Button, ButtonLink } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/States";
 import { getLabels } from "@/i18n/labels";
 import { routing } from "@/i18n/routing";
@@ -214,6 +214,7 @@ export default async function AdminPage({ params }: PageProps<"/[locale]/admin">
   return (
     <>
       <h1 className="ow-h1">{t("title")}</h1>
+      <p><ButtonLink href="/admin/customers" variant="secondary">{t("customersLink")}</ButtonLink></p>
       <Suspense fallback={<p className="ow-meta">…</p>}>
         <Admin locale={locale} />
       </Suspense>

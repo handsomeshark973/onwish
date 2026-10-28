@@ -755,7 +755,77 @@
         "manual": "관리자가 숨김"
       },
       "checkedAt": "확인 {date}"
-    }
+    },
+    "customers": {
+      "title": "고객 현황",
+      "back": "← 관리자",
+      "overall": "전체 {all}명 · 게스트 {guests}명({gp}) · 로그인 사용자 {members}명({mp})",
+      "people": "명",
+      "new7": "최근 7일 신규",
+      "active7": "최근 7일 활동",
+      "selfShare": "본인 선택 비율",
+      "unclassified": "미분류 {n}명 (유형 아님)",
+      "period": "기간",
+      "periods": {
+        "7": "7일",
+        "30": "30일",
+        "90": "90일",
+        "all": "전체"
+      },
+      "periodNote": "기간은 아래 비교 표와 고객 목록(마지막 활동 기준)에 적용돼요. 위 카드는 항상 전체 기준이에요.",
+      "recompute": "유형 지금 다시 계산",
+      "trendTitle": "최근 30일 유형별 신규 인원",
+      "trendLabel": "신규 인원 추이",
+      "compareTitle": "유형별 비교",
+      "cmp": {
+        "users": "인원",
+        "avgRecommend": "1인당 추천 요청",
+        "avgSaved": "1인당 저장",
+        "appeal": "저장한 주 어필 비율",
+        "participation": "시청자 참여 컨텐츠 저장 비율",
+        "topGames": "많이 본 게임 TOP3",
+        "topContents": "많이 본 컨텐츠 TOP3",
+        "crewSplit": "소수 합방 {small} · 다수 합방 {large}"
+      },
+      "listTitle": "고객 목록 ({n}명)",
+      "filters": {
+        "type": "유형",
+        "source": "판정 방식",
+        "guest": "게스트 여부",
+        "all": "전체",
+        "apply": "필터 적용",
+        "reset": "초기화"
+      },
+      "source": {
+        "self": "본인 선택",
+        "inferred": "추정",
+        "none": "미판정"
+      },
+      "guestOnly": "게스트만",
+      "membersOnly": "로그인 사용자만",
+      "yes": "예",
+      "no": "아니요",
+      "csv": "CSV 내보내기",
+      "col": {
+        "id": "사용자 번호(앞 8자리)",
+        "type": "유형",
+        "source": "판정 방식",
+        "guest": "게스트",
+        "platforms": "플랫폼",
+        "experience": "경력",
+        "tier": "많이 쓴 인원 규모",
+        "recommends": "추천 수",
+        "saved": "저장 수",
+        "firstSeen": "첫 방문",
+        "lastActive": "마지막 활동"
+      },
+      "emptyTitle": "조건에 맞는 고객이 없어요",
+      "emptyHint": "필터나 기간을 바꿔 보세요.",
+      "pagination": "페이지 이동",
+      "prev": "이전",
+      "next": "다음"
+    },
+    "customersLink": "고객 현황 보기"
   },
   "privacy": {
     "title": "개인정보 처리방침",

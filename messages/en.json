@@ -755,7 +755,77 @@
         "manual": "Hidden by admin"
       },
       "checkedAt": "Checked {date}"
-    }
+    },
+    "customers": {
+      "title": "Customers",
+      "back": "← Admin",
+      "overall": "{all} total · {guests} guests ({gp}) · {members} members ({mp})",
+      "people": "",
+      "new7": "New (7 days)",
+      "active7": "Active (7 days)",
+      "selfShare": "Self-selected",
+      "unclassified": "Unclassified: {n} (not a type)",
+      "period": "Period",
+      "periods": {
+        "7": "7 days",
+        "30": "30 days",
+        "90": "90 days",
+        "all": "All time"
+      },
+      "periodNote": "The period applies to the comparison table and customer list (by last activity). The cards above always show all time.",
+      "recompute": "Recalculate types now",
+      "trendTitle": "New customers by type, last 30 days",
+      "trendLabel": "New customers trend",
+      "compareTitle": "Comparison by type",
+      "cmp": {
+        "users": "People",
+        "avgRecommend": "Recommendations per person",
+        "avgSaved": "Saves per person",
+        "appeal": "Saved main appeal share",
+        "participation": "Saved viewer-participation share",
+        "topGames": "Most viewed games (top 3)",
+        "topContents": "Most viewed content (top 3)",
+        "crewSplit": "Small collab {small} · Large collab {large}"
+      },
+      "listTitle": "Customer list ({n})",
+      "filters": {
+        "type": "Type",
+        "source": "How decided",
+        "guest": "Guest",
+        "all": "All",
+        "apply": "Apply",
+        "reset": "Reset"
+      },
+      "source": {
+        "self": "Self-selected",
+        "inferred": "Inferred",
+        "none": "Not decided"
+      },
+      "guestOnly": "Guests only",
+      "membersOnly": "Members only",
+      "yes": "Yes",
+      "no": "No",
+      "csv": "Export CSV",
+      "col": {
+        "id": "User ID (first 8)",
+        "type": "Type",
+        "source": "How decided",
+        "guest": "Guest",
+        "platforms": "Platforms",
+        "experience": "Experience",
+        "tier": "Most used size",
+        "recommends": "Recommendations",
+        "saved": "Saves",
+        "firstSeen": "First seen",
+        "lastActive": "Last active"
+      },
+      "emptyTitle": "No customers match",
+      "emptyHint": "Try changing the filters or period.",
+      "pagination": "Pagination",
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "customersLink": "View customers"
   },
   "privacy": {
     "title": "Privacy Policy",

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { notFound } from "next/navigation";
 import { isAdmin } from "@/lib/auth";
+import { refreshCustomers } from "@/lib/customers/refresh";
 import { createClient } from "@/lib/supabase/server";
 import { initialVideoStatus } from "@/lib/video-rules";
 import { extractYoutubeId, youtubeWatchUrl } from "@/lib/youtube";
@@ -132,4 +133,11 @@ export async function setVideoStatus(formData: FormData) {
     await supabase.from("game_videos").update({ is_featured: action === "feature" }).eq("id", id).eq("status", "approved");
   } else return;
   revalidatePath("/", "layout");
+}
+
+// 고객 유형 추정을 지금 다시 계산한다(평소에는 하루 한 번 크론이 한다). 관리자만.
+export async function recomputeCustomers() {
+  await guard();
+  await refreshCustomers();
+  revalidatePath("/[locale]/admin/customers", "page");
 }

@@ -434,3 +434,10 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 .ow-ctype-solo_game { color: var(--appeal-visual); }
 .ow-ctype-solo_talk { color: var(--appeal-audio); }
 .ow-ctype-crew { color: var(--appeal-av); }
+
+/* 관리자 고객 현황 */
+.ow-cust-top { display: grid; gap: var(--space-3); margin-bottom: var(--space-4); }
+.ow-cust-num { margin: 0; font-size: var(--fs-h2); font-weight: var(--fw-bold); }
+.ow-cust-unclassified { font-size: var(--fs-caption); display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.ow-cust-filters { align-items: flex-end; }
+.ow-cust-filters .ow-label { display: flex; flex-direction: column; gap: var(--space-1); }

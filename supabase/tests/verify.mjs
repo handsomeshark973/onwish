@@ -15,7 +15,7 @@ grant usage on schema auth to anon, authenticated, service_role;
 grant usage on schema public to anon, authenticated, service_role;
 insert into auth.users values ('${A}'), ('${B}');
 `);
-for (const f of ['0001_schema.sql','0002_security.sql','0003_functions.sql','0004_ai_request_result.sql','0005_translations_and_rate_limit.sql','0006_game_videos.sql','0007_heat_stage_rename.sql','0008_device_xbox.sql','0009_guest_mode.sql','0010_guest_reports_policy.sql','0011_customer_profiles.sql']) await db.exec(readFileSync(P+'/migrations/'+f,'utf8'));
+for (const f of ['0001_schema.sql','0002_security.sql','0003_functions.sql','0004_ai_request_result.sql','0005_translations_and_rate_limit.sql','0006_game_videos.sql','0007_heat_stage_rename.sql','0008_device_xbox.sql','0009_guest_mode.sql','0010_guest_reports_policy.sql','0011_customer_profiles.sql','0012_admin_customers.sql']) await db.exec(readFileSync(P+'/migrations/'+f,'utf8'));
 await db.exec(readFileSync(P+'/seed.sql','utf8'));
 await db.exec(`grant select, insert, update, delete on all tables in schema public to anon, authenticated, service_role;
 grant execute on all functions in schema public to anon, authenticated;`);
@@ -168,4 +168,40 @@ ok('유형이 있으면 solo_inferred는 true일 수 없다(제약)', await db.e
 await db.exec("delete from auth.users where id='"+C1+"'");
 r = await db.query(`select (select count(*) from customer_profiles where user_id='${C1}')::int p, (select count(*) from user_events where user_id='${C1}')::int e`);
 ok('게스트 삭제 시 고객 정보·이벤트도 함께 삭제', r.rows[0].p===0 && r.rows[0].e===0);
+// 14. 관리자 고객 현황 함수(0012): 관리자만, 칸 분류·집계·필터·정렬, 개인정보 미포함
+const K=['f1','f2','f3','f4','f5','f6'].map((x,i)=>'00000000-0000-0000-0000-0000000001'+String(i+10)); const ADM=K[5];
+await db.exec(`insert into auth.users (id, is_anonymous) values ${K.map((k,i)=>`('${k}', ${i<3})`).join(',')};
+insert into app_admins (user_id) values ('${ADM}');
+insert into customer_profiles (user_id, is_guest, customer_type, type_source, solo_inferred, recommend_count, saved_count, preferred_tier, last_active_at) values
+ ('${K[0]}', true, 'crew', 'self', false, 3, 1, 'small', now()),
+ ('${K[1]}', true, 'solo_talk', 'inferred', false, 5, 2, 'solo', now() - interval '2 days'),
+ ('${K[2]}', true, null, null, true, 2, 0, 'solo', now() - interval '40 days'),
+ ('${K[3]}', false, null, null, false, 0, 0, null, now()),
+ ('${K[4]}', false, 'solo_game', 'self', false, 1, 1, 'solo', now());
+insert into user_events (user_id, type, payload) values
+ ('${K[0]}', 'recommend_requested', '{"tier":"small"}'), ('${K[0]}', 'recommend_requested', '{"tier":"large"}'),
+ ('${K[0]}', 'recommend_saved', '{"mainAppeal":"audio","viewerParticipation":"required"}'),
+ ('${K[1]}', 'game_viewed', '{"slug":"g-a"}'), ('${K[1]}', 'game_viewed', '{"slug":"g-a"}'), ('${K[1]}', 'game_viewed', '{"slug":"g-b"}'),
+ ('${K[1]}', 'content_viewed', '{"slug":"c-a"}');`);
+const adm = async (sql) => { await db.exec(`set role authenticated; select set_config('request.jwt.claim.sub','${ADM}',false); select set_config('request.jwt.claims','{"is_anonymous":false}',false);`); try { return await db.query(sql); } finally { await db.exec('reset role'); } };
+ok('일반 사용자는 고객 현황 함수를 쓸 수 없다', typeof await rejects('authenticated', K[3], 'select * from admin_customer_summary()') === 'string' && typeof await rejects('authenticated', K[3], 'select * from admin_customer_list()') === 'string');
+await db.exec(`set role authenticated; select set_config('request.jwt.claim.sub','${ADM}',false); select set_config('request.jwt.claims','{"is_anonymous":true}',false);`);
+let gblocked=false; try { await db.query('select * from admin_customer_summary()'); } catch { gblocked=true; } await db.exec('reset role');
+ok('익명(게스트) 세션은 관리자여도 고객 현황 함수를 쓸 수 없다', gblocked);
+r = await adm('select segment, total, new_7d, active_7d, self_count, guests from admin_customer_summary() order by segment');
+const sm = Object.fromEntries(r.rows.map(x=>[x.segment,x]));
+ok('요약: 유형 3 + 미분류 2칸, 본인 선택·게스트 수', sm.crew.total===1 && sm.crew.self_count===1 && sm.crew.guests===1 && sm.solo_talk.self_count===0 && sm.solo_undecided.total===1 && sm.insufficient.total===2 && sm.solo_game.total===1, JSON.stringify(r.rows));
+ok('요약: 최근 7일 활동은 40일 전 활동을 제외', sm.solo_undecided.active_7d===0 && sm.crew.active_7d===1);
+r = await adm('select * from admin_customer_trend(30)'); ok('추이: 신규 인원 집계', r.rows.reduce((a,x)=>a+x.n,0)===6);
+r = await adm('select segment, users, recommends, saved, appeal, participation_saved, small_requests, large_requests, top_games, top_contents from admin_customer_compare(30)');
+const cm = Object.fromEntries(r.rows.map(x=>[x.segment,x]));
+ok('비교: 5칸 모두 반환, 합방 소수·다수 요청 수, 참여 컨텐츠 저장 수', r.rows.length===5 && cm.crew.small_requests===1 && cm.crew.large_requests===1 && cm.crew.participation_saved===1 && cm.crew.appeal.audio===1, JSON.stringify(cm.crew));
+ok('비교: 많이 본 게임 상위(g-a 2회 > g-b 1회), 컨텐츠', cm.solo_talk.top_games[0].slug==='g-a' && cm.solo_talk.top_games[0].n===2 && cm.solo_talk.top_games[1].slug==='g-b' && cm.solo_talk.top_contents[0].slug==='c-a');
+r = await adm("select * from admin_customer_list('crew', null, null, null, 'last_active', 'desc', 50, 0)"); ok('목록: 칸 필터', r.rows.length===1 && Number(r.rows[0].total_count)===1);
+r = await adm("select * from admin_customer_list(null, 'none', null, null)"); ok('목록: 판정 방식 필터(미판정)', r.rows.length===3);
+r = await adm("select * from admin_customer_list(null, null, false, null)"); ok('목록: 게스트 여부 필터', r.rows.length===3 && r.rows.every(x=>x.is_guest===false));
+r = await adm("select * from admin_customer_list(null, null, null, 7)"); ok('목록: 기간 필터(7일)', r.rows.length===5);
+r = await adm("select short_id, recommend_count from admin_customer_list(null, null, null, null, 'recommend', 'desc', 50, 0)"); ok('목록: 추천 수 정렬', r.rows[0].recommend_count===5 && r.rows[0].short_id.length===8);
+r = await adm("select count(*)::int n, max(total_count)::int t from admin_customer_list(null, null, null, null, 'last_active', 'desc', 2, 0)"); ok('목록: 페이지 나누기(2건씩, 전체 수 반환)', r.rows[0].n===2 && r.rows[0].t===6);
+r = await adm("select * from admin_customer_list()"); ok('목록: 이메일·전체 ID 열이 없다', !('email' in r.rows[0]) && !('user_id' in r.rows[0]));
 console.log(fails? fails+' FAILED':'ALL PASSED'); process.exit(fails?1:0);
