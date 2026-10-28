@@ -35,7 +35,7 @@ async function Profile({ locale, searchParams }: { locale: string; searchParams:
   const [profile, saved, quota] = await Promise.all([
     supabase.from("streamer_profiles").select("*").eq("user_id", user.id).maybeSingle(),
     supabase.from("saved_recommendations").select("id, source, profile_snapshot, result, created_at").order("created_at", { ascending: false }),
-    aiEnabled() ? getQuotaFor(user.id) : Promise.resolve(null),
+    aiEnabled() ? getQuotaFor(user.id, user.is_anonymous === true) : Promise.resolve(null),
   ]);
   const p = profile.data;
   const resetDate = (iso: string) => new Date(iso).toLocaleDateString(locale === "ko" ? "ko-KR" : "en-US", { timeZone: "Asia/Seoul", month: "long", day: "numeric" });
@@ -52,7 +52,7 @@ async function Profile({ locale, searchParams }: { locale: string; searchParams:
 
       {quota && (
         <p className="ow-note ow-note-block">
-          {t("quota", { n: quota.remaining, used: quota.used, limit: quota.limit, date: resetDate(quota.nextReset) })}
+          {t(quota.period === "day" ? "quotaDay" : "quota", { n: quota.remaining, used: quota.used, limit: quota.limit, date: resetDate(quota.nextReset) })}
         </p>
       )}
 

@@ -8,19 +8,20 @@ const A='00000000-0000-0000-0000-00000000000a', B='00000000-0000-0000-0000-00000
 await db.exec(`
 create role anon; create role authenticated; create role service_role;
 create schema auth;
-create table auth.users (id uuid primary key);
+create table auth.users (id uuid primary key, is_anonymous boolean not null default false, created_at timestamptz not null default now());
+create function auth.jwt() returns jsonb language sql stable as \$\$ select coalesce(nullif(current_setting('request.jwt.claims', true), ''), '{}')::jsonb \$\$;
 create function auth.uid() returns uuid language sql stable as \$\$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid \$\$;
 grant usage on schema auth to anon, authenticated, service_role;
 grant usage on schema public to anon, authenticated, service_role;
 insert into auth.users values ('${A}'), ('${B}');
 `);
-for (const f of ['0001_schema.sql','0002_security.sql','0003_functions.sql','0004_ai_request_result.sql','0005_translations_and_rate_limit.sql','0006_game_videos.sql','0007_heat_stage_rename.sql','0008_device_xbox.sql']) await db.exec(readFileSync(P+'/migrations/'+f,'utf8'));
+for (const f of ['0001_schema.sql','0002_security.sql','0003_functions.sql','0004_ai_request_result.sql','0005_translations_and_rate_limit.sql','0006_game_videos.sql','0007_heat_stage_rename.sql','0008_device_xbox.sql','0009_guest_mode.sql']) await db.exec(readFileSync(P+'/migrations/'+f,'utf8'));
 await db.exec(readFileSync(P+'/seed.sql','utf8'));
 await db.exec(`grant select, insert, update, delete on all tables in schema public to anon, authenticated, service_role;
 grant execute on all functions in schema public to anon, authenticated;`);
 // 위 grant가 execute를 열어 버리므로 0003의 revoke를 다시 적용해 실제 배포 상태와 같게 만든다
-await db.exec(`revoke all on function get_ai_quota(uuid,int), charge_ai_quota(uuid,uuid,int,int), add_ai_cost(numeric) from public, anon, authenticated;
-grant execute on function get_ai_quota(uuid,int), charge_ai_quota(uuid,uuid,int,int), add_ai_cost(numeric) to service_role;`);
+await db.exec(`revoke all on function get_ai_quota(uuid,int), charge_ai_quota(uuid,uuid,int,int), add_ai_cost(numeric), purge_expired_guests() from public, anon, authenticated;
+grant execute on function get_ai_quota(uuid,int), charge_ai_quota(uuid,uuid,int,int), add_ai_cost(numeric), purge_expired_guests() to service_role;`);
 let fails = 0;
 const ok = (name, cond, extra='') => { console.log((cond?'PASS':'FAIL')+' '+name+(extra?' '+extra:'')); if(!cond) fails++; };
 const as = async (role, uid, sql) => { await db.exec(`set role ${role}; select set_config('request.jwt.claim.sub','${uid??''}',false);`); try { return await db.query(sql); } finally { await db.exec('reset role'); } };
@@ -129,4 +130,21 @@ ok('공식 채널 허용 목록 중복 없음', r.rows[0].n===1 && r.rows[0].d==
 await db.exec("delete from auth.users where id='"+A+"'");
 const gone = await db.query("select (select count(*) from streamer_profiles)::int p, (select count(*) from ai_usage where user_id='"+A+"')::int u, (select count(*) from ai_requests where user_id='"+A+"')::int rq, (select count(*) from error_reports where reporter_id is null)::int rep");
 ok('탈퇴 시 프로필·이용량 삭제, 신고는 작성자만 비움', JSON.stringify(gone.rows[0])==='{"p":0,"u":0,"rq":0,"rep":1}', JSON.stringify(gone.rows[0]));
+// 12. 게스트 모드(0009): 게스트는 관리자가 될 수 없고, 만료된 게스트만 정리되며 데이터가 함께 지워진다
+const G1='00000000-0000-0000-0000-0000000000g1'.replace('g','a'), G2='00000000-0000-0000-0000-0000000000g2'.replace('g','b'), G3='00000000-0000-0000-0000-0000000000g3'.replace('g','c');
+await db.exec(`insert into auth.users (id, is_anonymous, created_at) values ('${G1}', true, now() - interval '30 days'), ('${G2}', true, now()), ('${G3}', false, now() - interval '30 days');
+insert into guest_activity (user_id, expires_at) values ('${G1}', now() - interval '1 day'), ('${G2}', now() + interval '10 days');
+insert into saved_recommendations (user_id, source, profile_snapshot, result) values ('${G1}', 'rule', '{}', '{}'), ('${G2}', 'rule', '{}', '{}');
+insert into app_admins (user_id) values ('${G2}');`);
+await db.exec("set role authenticated; select set_config('request.jwt.claim.sub','"+G2+"',false); select set_config('request.jwt.claims','{\"is_anonymous\":true}',false);");
+r = await db.query('select is_admin() a'); await db.exec('reset role');
+ok('게스트(익명 JWT)는 app_admins에 있어도 관리자가 아니다', r.rows[0].a===false);
+await db.exec("set role authenticated; select set_config('request.jwt.claim.sub','"+G2+"',false); select set_config('request.jwt.claims','{\"is_anonymous\":false}',false);");
+r = await db.query('select is_admin() a'); await db.exec('reset role');
+ok('같은 ID라도 익명이 아닌 JWT는 관리자 판단 유지', r.rows[0].a===true);
+ok('일반 사용자는 purge_expired_guests 실행 불가', typeof await rejects('authenticated', G2, 'select purge_expired_guests()') === 'string');
+r = await db.query('select purge_expired_guests() n');
+ok('만료된 게스트 1명만 정리(미만료 게스트·일반 계정은 유지)', r.rows[0].n===1);
+r = await db.query(`select (select count(*) from auth.users where id='${G1}')::int g1, (select count(*) from auth.users where id='${G2}')::int g2, (select count(*) from auth.users where id='${G3}')::int g3, (select count(*) from saved_recommendations where user_id='${G1}')::int s1, (select count(*) from saved_recommendations where user_id='${G2}')::int s2`);
+ok('정리된 게스트의 데이터도 함께 삭제', JSON.stringify(r.rows[0])==='{"g1":0,"g2":1,"g3":1,"s1":0,"s2":1}', JSON.stringify(r.rows[0]));
 console.log(fails? fails+' FAILED':'ALL PASSED'); process.exit(fails?1:0);

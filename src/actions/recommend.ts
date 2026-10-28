@@ -3,8 +3,10 @@
 import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 import { aiEnabled } from "@/config/ai";
-import { FREE_AI_RECOMMENDS_PER_MONTH } from "@/config/limits";
+import { FREE_AI_RECOMMENDS_PER_MONTH, GUEST_AI_DAILY_LIMIT, GUEST_AI_PER_IP_PER_DAY } from "@/config/limits";
 import { ensureUser } from "@/lib/guest";
+import { getGuestQuota } from "@/lib/quota";
+import { allow, clientIp, hashKey } from "@/lib/rate-limit";
 import { getContents } from "@/lib/data/contents";
 import { getGames } from "@/lib/data/games";
 import { toRow } from "@/lib/profile-db";
@@ -48,14 +50,19 @@ export async function requestRecommendation(input: unknown, requestId: string, l
       getContents(locale), getGames(locale),
       getTranslations({ locale, namespace: "recoServer" }), getTranslations({ locale, namespace: "format" }), getTranslations({ locale, namespace: "taxonomy" }),
     ]);
-    const limit = FREE_AI_RECOMMENDS_PER_MONTH;
+    // 게스트: 하루 한도 + 접속 주소(IP)별 하루 한도. 새 게스트를 만들어 한도를 피하는 것을 막는다.
+    // 월 한도 칸은 게스트에게 걸리지 않게 아주 크게 잡고, 하루 한도는 getQuota가 판단한다.
+    const ipBlocked = isGuest && aiEnabled() ? !(await allow(`reco:ip:${hashKey(await clientIp())}`, GUEST_AI_PER_IP_PER_DAY, 86400)) : false;
+    const limit = isGuest ? 1_000_000 : FREE_AI_RECOMMENDS_PER_MONTH;
 
     const deps: Deps = {
       tr: (k, v) => tr(k, v), tf: (k, v) => tf(k, v), pointLabel: (k) => tl(`appealPoint.${k}`),
       contents, games,
       aiConfigured: aiEnabled(),
       ask: askClaude,
+      quotaInfo: isGuest ? { limit: GUEST_AI_DAILY_LIMIT, period: "day", notice: "guest_quota" } : undefined,
       getQuota: async () => {
+        if (isGuest) return getGuestQuota(user.id, ipBlocked);
         const { data, error } = await admin.rpc("get_ai_quota", { p_user: user.id, p_limit: limit });
         if (error || !data?.[0]) throw new Error("이용량을 확인하지 못했어요");
         const r = data[0] as { used: number; remaining: number; next_reset: string };

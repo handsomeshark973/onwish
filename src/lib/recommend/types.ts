@@ -47,12 +47,12 @@ export interface RecommendPick {
   gameInfo: PickGameInfo[];
 }
 
-export type RecommendNotice = "ai_off" | "ai_failed" | "quota" | "cost_cap" | "rate_limit";
+export type RecommendNotice = "ai_off" | "ai_failed" | "quota" | "guest_quota" | "cost_cap" | "rate_limit";
 
 export interface RecommendResult {
   source: "ai" | "rule";
   summary: string;
   picks: RecommendPick[];
   notice: RecommendNotice | null;
-  quota: { used: number; remaining: number; limit: number; nextReset: string } | null;
+  quota: { used: number; remaining: number; limit: number; nextReset: string; period?: "day" | "month" } | null;
 }

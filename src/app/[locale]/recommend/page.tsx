@@ -29,7 +29,7 @@ async function Recommend({ locale }: { locale: string }) {
   const [games, row, quota] = await Promise.all([
     getGames(locale),
     supabase.from("streamer_profiles").select("*").eq("user_id", user.id).maybeSingle(),
-    aiEnabled() ? getQuotaFor(user.id) : Promise.resolve(null),
+    aiEnabled() ? getQuotaFor(user.id, user.is_anonymous === true) : Promise.resolve(null),
   ]);
   return <RecommendForm games={games.map((g) => ({ id: g.id, name: g.name }))} initial={row.data ? fromRow(row.data) : null} quota={quota} aiOn={aiEnabled()} />;
 }

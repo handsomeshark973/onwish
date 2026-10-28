@@ -16,7 +16,7 @@ import { DEVICES, TAXONOMY_KEYS, type Device, type PlayerTier } from "@/types/ta
 import { PickCard } from "./PickCard";
 
 type Member = { name: string; note: string; devices: Device[]; ownedGameIds: string[] };
-type Quota = { used: number; remaining: number; limit: number; nextReset: string } | null;
+type Quota = { used: number; remaining: number; limit: number; nextReset: string; period?: "day" | "month" } | null;
 
 const opts = (keys: readonly string[], map: Record<string, string>) => keys.map((k) => ({ value: k, label: map[k] }));
 const DEVICE_OPTIONS = DEVICES.map((d) => ({ value: d, label: d }));
@@ -41,7 +41,7 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
   const l = useLabels();
   const YES_NO = [{ value: "yes", label: common("yes") }, { value: "no", label: common("no") }];
   const resetDate = (iso: string) => new Date(iso).toLocaleDateString(locale === "ko" ? "ko-KR" : "en-US", { timeZone: "Asia/Seoul", month: "long", day: "numeric" });
-  const noticeText = (n: RecommendNotice, q: Quota) => (n === "quota" ? t("notice.quota", { date: q ? t("notice.quotaDate", { date: resetDate(q.nextReset) }) : "" }) : t(`notice.${n}`));
+  const noticeText = (n: RecommendNotice, q: Quota) => (n === "guest_quota" ? t("notice.guest_quota") : n === "quota" ? t("notice.quota", { date: q ? t("notice.quotaDate", { date: resetDate(q.nextReset) }) : "" }) : t(`notice.${n}`));
 
   const i = initial;
   const [tier, setTier] = useState<PlayerTier>(i?.mode ?? "solo");
@@ -132,7 +132,7 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
   return (
     <div className="ow-reco-layout">
       <form className="ow-form" method="post" onSubmit={submit}>
-        {aiOn && quota && <p className="ow-note">{t("quota", { n: quota.remaining, limit: quota.limit, date: resetDate(quota.nextReset) })}</p>}
+        {aiOn && quota && <p className="ow-note">{t(quota.period === "day" ? "quotaDay" : "quota", { n: quota.remaining, limit: quota.limit, date: resetDate(quota.nextReset) })}</p>}
         <Tabs label={t("formTab")} value={tier} onChange={(v) => setTier(v as PlayerTier)} tabs={TAXONOMY_KEYS.tier.map((v) => ({ value: v, label: l.tier[v] }))}>
           <div className="ow-form">
             <fieldset className="ow-field">

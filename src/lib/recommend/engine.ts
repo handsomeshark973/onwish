@@ -19,6 +19,8 @@ export interface Deps {
   aiConfigured: boolean;
   ask: Ask;
   getQuota(): Promise<{ used: number; remaining: number; nextReset: string }>;
+  /** 한도 표시값과 한도 초과 안내 종류. 비우면 월 한도(로그인 사용자). 게스트는 하루 한도. */
+  quotaInfo?: { limit: number; period: "day" | "month"; notice: "quota" | "guest_quota" };
   /** 요청을 기록한다. 이미 정상 차감된 요청이면 그때 만든 결과를 돌려준다. */
   begin(requestId: string): Promise<{ existing: RecommendResult | null }>;
   recentRequests(seconds: number): Promise<number>;
@@ -30,7 +32,7 @@ export interface Deps {
 
 const withQuota = async (deps: Deps, r: Omit<RecommendResult, "quota">): Promise<RecommendResult> => {
   const q = await deps.getQuota();
-  return { ...r, quota: { used: q.used, remaining: q.remaining, limit: FREE_AI_RECOMMENDS_PER_MONTH, nextReset: q.nextReset } };
+  return { ...r, quota: { used: q.used, remaining: q.remaining, limit: deps.quotaInfo?.limit ?? FREE_AI_RECOMMENDS_PER_MONTH, nextReset: q.nextReset, period: deps.quotaInfo?.period ?? "month" } };
 };
 
 export async function recommend(deps: Deps, profile: ProfileInput, requestId: string): Promise<RecommendResult> {
@@ -49,7 +51,7 @@ export async function recommend(deps: Deps, profile: ProfileInput, requestId: st
   if (prior.existing) return prior.existing; // 같은 요청의 재전송: 다시 부르지도, 다시 차감하지도 않는다
 
   const quota = await deps.getQuota();
-  if (quota.remaining <= 0) return basic("quota");
+  if (quota.remaining <= 0) return basic(deps.quotaInfo?.notice ?? "quota");
   if ((await deps.recentRequests(60)) > AI_REQUESTS_PER_MINUTE) return basic("rate_limit");
   if ((await deps.todayCostUsd()) >= DAILY_AI_COST_LIMIT_USD) return basic("cost_cap");
 
@@ -61,7 +63,7 @@ export async function recommend(deps: Deps, profile: ProfileInput, requestId: st
   if (run.picks.length < 3) return withQuota(deps, ai); // 0~2개는 차감하지 않는다
 
   const outcome = await deps.charge(requestId, run.picks.length);
-  if (outcome === "limit_reached") return basic("quota"); // 동시에 들어온 요청 때문에 한도를 넘겼다면 AI 결과를 내주지 않는다
+  if (outcome === "limit_reached") return basic(deps.quotaInfo?.notice ?? "quota"); // 동시에 들어온 요청 때문에 한도를 넘겼다면 AI 결과를 내주지 않는다
   const result = await withQuota(deps, ai);
   await deps.saveResult(requestId, result);
   return result;

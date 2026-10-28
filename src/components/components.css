@@ -423,7 +423,7 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 }
 
 /* 게스트 안내 배너 */
-.ow-guest-banner { background: var(--surface-2); border-bottom: 1px solid var(--border, var(--surface-2)); font-size: var(--fs-caption); }
+.ow-guest-banner { background: var(--surface-2); font-size: var(--fs-caption); }
 .ow-guest-banner-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-3); padding-block: var(--space-2); }
 .ow-guest-banner p { margin: 0; }
 .ow-guest-banner-actions { display: flex; gap: var(--space-2); }

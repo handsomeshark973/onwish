@@ -403,6 +403,7 @@
     "loginTitle": "Log in to get recommendations",
     "loginHint": "Your answers are saved to your profile and pre-filled next time. The library and Game Radar don't need a login.",
     "loginCta": "Log in",
+    "quotaDay": "You have {n} free AI recommendations left today (guests get {limit} per day). A recommendation only counts when 3 picks fit.",
     "quota": "You have {n} free AI recommendations left this month ({limit} per month, resets on {date}). A recommendation only counts when 3 picks fit.",
     "formTab": "Stream type",
     "strengths": "Strengths (pick any)",
@@ -470,7 +471,8 @@
       "ai_failed": "We couldn't generate AI picks, so here are basic picks instead. Nothing was counted. Try again in a moment.",
       "quota": "You've used all free AI recommendations this month{date}. Meanwhile, here are basic picks.",
       "quotaDate": " — they refill on {date}",
-      "cost_cap": "AI recommendations are taking a break today because of high demand. Here are basic picks; nothing was counted.",
+        "guest_quota": "You've used today's recommendations. Come back tomorrow or log in. Meanwhile, here are the basic picks.",
+    "cost_cap": "AI recommendations are taking a break today because of high demand. Here are basic picks; nothing was counted.",
       "rate_limit": "Too many requests in a short time. Try again in about a minute. Here are basic picks."
     },
     "pick": {
@@ -588,6 +590,7 @@
     "loginHint": "Only you can see your profile and saved picks.",
     "guestEmptyTitle": "Nothing saved yet",
     "guestEmptyHint": "Get a recommendation and your answers and saved picks will show up here. No login needed to start.",
+    "quotaDay": "You have {n} free AI recommendations left today ({used}/{limit} used). Resets tomorrow.",
     "quota": "You have {n} free AI recommendations left this month ({used}/{limit} used). Resets on {date}.",
     "saved": "Saved profile",
     "mode": "Stream type",
