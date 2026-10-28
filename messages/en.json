@@ -25,6 +25,9 @@
     "logout": "Log out",
     "myAccount": "My account",
     "goProfile": "Go to profile",
+    "guestName": "Guest",
+    "guestBanner": "You're browsing as a guest. Log in to keep what you've saved.",
+    "guestDismiss": "Dismiss notice",
     "loggedInAs": "Logged in as {name}",
     "theme": "Color theme"
   },

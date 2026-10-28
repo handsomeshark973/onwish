@@ -421,3 +421,9 @@ a.ow-flow-link:hover { background: var(--surface-2); }
   .ow-game-card, .ow-video-card, .ow-tier-card { transition: transform var(--dur-base), box-shadow var(--dur-base), background var(--dur-base); }
   .ow-game-card:hover, .ow-video-card:hover, .ow-tier-card:hover { transform: translateY(calc(var(--space-1) * -1)); box-shadow: var(--shadow-1); }
 }
+
+/* 게스트 안내 배너 */
+.ow-guest-banner { background: var(--surface-2); border-bottom: 1px solid var(--border, var(--surface-2)); font-size: var(--fs-caption); }
+.ow-guest-banner-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-3); padding-block: var(--space-2); }
+.ow-guest-banner p { margin: 0; }
+.ow-guest-banner-actions { display: flex; gap: var(--space-2); }

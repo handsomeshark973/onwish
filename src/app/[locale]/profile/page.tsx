@@ -40,12 +40,14 @@ async function Profile({ locale, searchParams }: { locale: string; searchParams:
   const p = profile.data;
   const resetDate = (iso: string) => new Date(iso).toLocaleDateString(locale === "ko" ? "ko-KR" : "en-US", { timeZone: "Asia/Seoul", month: "long", day: "numeric" });
   const word = t("confirmWord");
+  const isGuest = user.is_anonymous === true;
+  const tn = await getTranslations({ locale, namespace: "nav" });
 
   return (
     <>
       <div className="ow-account-head">
-        <span className="ow-avatar ow-avatar-lg" aria-hidden="true">{(user.email ?? "?").slice(0, 1).toUpperCase()}</span>
-        <p className="ow-account-email">{user.email}</p>
+        <span className="ow-avatar ow-avatar-lg" aria-hidden="true">{isGuest ? "G" : (user.email ?? "?").slice(0, 1).toUpperCase()}</span>
+        <p className="ow-account-email">{isGuest ? tn("guestName") : user.email}</p>
       </div>
 
       {quota && (
@@ -101,7 +103,7 @@ async function Profile({ locale, searchParams }: { locale: string; searchParams:
         </>
       )}
 
-      <h2 className="ow-h2">{t("withdraw")}</h2>
+      {!isGuest && <><h2 className="ow-h2">{t("withdraw")}</h2>
       <details className="ow-details ow-details-narrow">
         <summary>{t("withdrawSummary")}</summary>
         <p>{t("withdrawWarn")}</p>
@@ -116,7 +118,7 @@ async function Profile({ locale, searchParams }: { locale: string; searchParams:
           {sp.error === "delete" && <p className="ow-note" role="alert">{t("deleteError")}</p>}
           <Button type="submit" variant="ghost">{t("withdrawConfirm")}</Button>
         </form>
-      </details>
+      </details></>}
     </>
   );
 }

@@ -25,6 +25,9 @@
     "logout": "로그아웃",
     "myAccount": "내 계정",
     "goProfile": "프로필로 이동",
+    "guestName": "게스트",
+    "guestBanner": "게스트로 둘러보는 중이에요. 로그인하면 저장한 내용을 계속 쓸 수 있어요.",
+    "guestDismiss": "안내 닫기",
     "loggedInAs": "{name} 님으로 로그인됨",
     "theme": "화면 모드"
   },

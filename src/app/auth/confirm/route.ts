@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { isLocale, routing } from "@/i18n/routing";
 import { safeNext } from "@/lib/auth";
 import { RECOVERY_COOKIE } from "@/lib/auth-constants";
+import { currentGuestId, mergeGuestInto } from "@/lib/guest-merge";
 import { createClient } from "@/lib/supabase/server";
 
 const TYPES: EmailOtpType[] = ["signup", "recovery", "email", "magiclink"];
@@ -18,9 +19,11 @@ export async function GET(request: NextRequest) {
   const locale = isLocale(l) ? l : routing.defaultLocale;
 
   if (tokenHash && type && TYPES.includes(type)) {
+    const guestId = await currentGuestId(); // 세션이 바뀌기 전에 게스트인지 확인해 둔다
     const supabase = await createClient();
-    const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
+    const { data, error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
     if (!error) {
+      if (guestId && data?.user) await mergeGuestInto(guestId, data.user.id);
       const res = NextResponse.redirect(`${origin}/${locale}${next === "/" ? "" : next}`);
       if (type === "recovery") res.cookies.set(RECOVERY_COOKIE, "1", { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", path: "/", maxAge: 3600 });
       return res;

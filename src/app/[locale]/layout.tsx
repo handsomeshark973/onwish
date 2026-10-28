@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { AuthSlot } from "@/components/auth/AuthSlot";
+import { GuestNotice } from "@/components/auth/GuestNotice";
 import { LoginButton } from "@/components/auth/LoginButton";
 import { HeaderFallback } from "@/components/layout/HeaderFallback";
 import { Footer } from "@/components/layout/Footer";
@@ -79,6 +80,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
                 </Suspense>
               }
             />
+          </Suspense>
+          <Suspense fallback={null}>
+            <GuestNotice />
           </Suspense>
           <main id="main" className="ow-main">
             <div className="ow-container">{children}</div>

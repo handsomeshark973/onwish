@@ -5,6 +5,7 @@ import { isLocale, routing, type Locale } from "@/i18n/routing";
 import { safeNext } from "@/lib/auth";
 import { RECOVERY_COOKIE } from "@/lib/auth-constants";
 import { forgotSchema, loginSchema, resetSchema, signupSchema, toFieldErrors, type FieldErrors } from "@/lib/auth-validation";
+import { currentGuestId, mergeGuestInto } from "@/lib/guest-merge";
 import { mailMode, renderMail, sendMail } from "@/lib/mailer";
 import { siteOrigin } from "@/lib/origin";
 import { allow, clear, clientIp, hashKey } from "@/lib/rate-limit";
@@ -34,8 +35,9 @@ export async function loginAction(input: unknown, localeInput: string, nextInput
   // "로그인 상태 유지"를 끄면 세션 쿠키(브라우저를 닫으면 사라짐)로 저장한다
   const store = await cookies();
   store.set(REMEMBER_COOKIE, remember ? "1" : "0", { httpOnly: true, sameSite: "lax", secure: prod, path: "/", ...(remember ? { maxAge: 60 * 60 * 24 * 400 } : {}) });
+  const guestId = await currentGuestId(); // 로그인하면 세션이 바뀌므로 그 전에 게스트인지 확인해 둔다
   const supabase = await createClient({ remember });
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data: signedIn, error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) {
     if (error.code === "email_not_confirmed") return { ok: false, error: "emailNotConfirmed" };
     if (error.status === 429) return { ok: false, error: "rateLimited" };
@@ -43,6 +45,7 @@ export async function loginAction(input: unknown, localeInput: string, nextInput
     return { ok: false, error: error.code === "invalid_credentials" || error.status === 400 ? "invalidCredentials" : "generic" };
   }
   await clear(emailKey);
+  if (guestId && signedIn.user) await mergeGuestInto(guestId, signedIn.user.id); // 게스트로 저장한 프로필·추천을 이 계정으로 합친다
   return { ok: true, next: safeNext(nextInput) };
 }
 
