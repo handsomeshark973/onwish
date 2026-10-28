@@ -25,7 +25,7 @@
 .ow-panel-label { margin: 0 0 var(--space-2); font-size: var(--fs-caption); font-weight: var(--fw-bold); color: var(--text-muted); letter-spacing: var(--ls-wide); padding: var(--space-3) var(--space-4) 0; }
 .ow-util .ow-panel-label { display: none; }
 .ow-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
-.ow-nav a { display: block; padding: var(--space-3) var(--space-4); border-radius: var(--radius-sm); text-decoration: none; color: var(--text-muted); font-weight: var(--fw-semibold); }
+.ow-nav a { display: block; white-space: nowrap; padding: var(--space-3) var(--space-4); border-radius: var(--radius-sm); text-decoration: none; color: var(--text-muted); font-weight: var(--fw-semibold); }
 .ow-nav a:hover { color: var(--text); background: var(--surface); }
 .ow-nav a:focus-visible { background: var(--surface); }
 .ow-nav a[aria-current="page"] { color: var(--text); font-weight: var(--fw-bold); background: var(--surface); }
@@ -49,7 +49,7 @@
 
 /* 계정 */
 .ow-btn.ow-btn-sm { min-height: var(--control-sm); padding: 0 var(--space-4); font-size: var(--fs-caption); }
-.ow-user { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.ow-user { display: flex; align-items: center; gap: var(--space-3); flex-wrap: nowrap; white-space: nowrap; } /* 영어처럼 글자가 길어도 [이름]과 [로그인/로그아웃]이 한 줄에 머문다 */
 .ow-user form { margin: 0; }
 .ow-user-link { display: inline-flex; align-items: center; gap: var(--space-2); text-decoration: none; min-height: var(--control-sm); }
 .ow-account-head { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
@@ -59,9 +59,12 @@
 .ow-facts-flush { margin: 0; }
 .ow-details-narrow { max-width: var(--form-w); }
 .ow-avatar { width: var(--avatar); height: var(--avatar); border-radius: var(--radius-pill); display: grid; place-items: center; background: var(--surface-2); border: var(--bw) solid var(--line); font-weight: var(--fw-bold); font-size: var(--fs-caption); }
+/* 좁은 화면(한 줄 헤더 아래)에서는 게스트 표시 대신 [로그인]만 보여 로고·언어·메뉴와 한 줄에 맞춘다. 프로필은 메뉴에서 열 수 있고, 게스트임은 안내 배너가 알려 준다 */
+@media (max-width: 1039px) { .ow-user-guest { display: none; } }
 .ow-user-name { max-width: var(--name-max); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-@media (min-width: 900px) {
+/* 한 줄 헤더는 1040px부터. 영어는 메뉴 글자가 길어서 그보다 좁으면 한 줄에 다 들어가지 않는다(햄버거 메뉴로 보인다) */
+@media (min-width: 1040px) {
   .ow-menu-btn { display: none; }
   .ow-panel { display: flex; flex: 1; align-items: center; }
   .ow-logo { order: 0; }
@@ -69,8 +72,8 @@
   .ow-panel-label, .ow-nav .ow-panel-label, .ow-util-theme .ow-panel-label { display: none; }
   .ow-util-theme { display: block; width: auto; padding-right: 0; }
   .ow-nav ul { flex-direction: row; gap: var(--space-1); }
-  .ow-nav a { padding: var(--space-2) var(--space-3); }
-  .ow-util { order: 0; display: flex; align-items: center; gap: var(--space-4); margin: 0 0 0 auto; padding-left: var(--space-5); border-left: var(--bw) solid var(--line); }
+  .ow-nav a { padding: var(--space-2); }
+  .ow-util { order: 0; display: flex; align-items: center; gap: var(--space-4); margin: 0 0 0 auto; padding-left: var(--space-5); border-left: var(--bw) solid var(--line); white-space: nowrap; }
   .ow-util-block { order: 0; }
 }
 

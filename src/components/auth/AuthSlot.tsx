@@ -13,7 +13,7 @@ export async function AuthSlot() {
   if (user.is_anonymous === true) {
     return (
       <div className="ow-user">
-        <Link href="/profile" className="ow-user-link" aria-label={`${t("goProfile")}: ${t("guestName")}`}>
+        <Link href="/profile" className="ow-user-link ow-user-guest" aria-label={`${t("goProfile")}: ${t("guestName")}`}>
           <span className="ow-avatar" aria-hidden="true">G</span>
           <span className="ow-user-name">{t("guestName")}</span>
         </Link>
