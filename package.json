@@ -13,6 +13,7 @@
     "seed:contents": "node --env-file=.env --import tsx supabase/seed/run-contents.ts",
     "seed:steam": "tsx supabase/seed/steam-games.ts",
     "seed:games": "node --env-file=.env --import tsx supabase/seed/run-games.ts",
+    "seed:demo-customers": "node --env-file=.env --import tsx supabase/seed/demo-customers.ts",
     "seed:test-account": "node --env-file=.env --import tsx supabase/seed/test-account.ts",
     "test:auth": "node --env-file=.env --import tsx supabase/tests/auth-flow.ts",
     "tokens:check": "tsx scripts/tokens-check.ts"
