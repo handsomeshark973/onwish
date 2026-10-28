@@ -6,6 +6,7 @@
 1. **Supabase 대시보드 → Authentication → Sign In / Providers → Anonymous Sign-Ins 를 켠다.** (끄면 게스트가 만들어지지 않고 추천 화면에 "지금은 바로 시작할 수 없어요"가 나옵니다.)
 2. SQL 편집기에서 `supabase/migrations/0009_guest_mode.sql` 실행.
    - `guest_activity` 표(활동·만료일), `purge_expired_guests()` 함수, 게스트를 관리자에서 제외하는 `is_admin()` 보강이 들어 있습니다.
+2-1. `supabase/migrations/0010_guest_reports_policy.sql` 실행(게스트가 오류 신고를 DB에 직접 넣지 못하게 막음. 배포 전후 어느 쪽에 해도 됩니다).
 3. Vercel에 배포. `vercel.json`에 `/api/cron/guest-cleanup`(매일 04:30 한국 시간)이 추가되어 있고, 기존 `CRON_SECRET`을 그대로 씁니다.
 4. (선택) Vercel 환경 변수로 한도 조정: `GUEST_AI_DAILY_LIMIT`(기본 3), `GUEST_AI_PER_IP_PER_DAY`(기본 30), `GUEST_CREATES_PER_IP_PER_HOUR`(기본 10).
 
@@ -14,7 +15,7 @@
 - 1번을 안 켜면 게스트 생성이 실패합니다.
 
 ## 되돌리기
-`supabase/migrations-down/0009_guest_mode.down.sql`
+`supabase/migrations-down/0010_guest_reports_policy.down.sql`, `0009_guest_mode.down.sql` (이 순서)
 
 ## 확인용 SQL
 ```sql
