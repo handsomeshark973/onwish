@@ -155,6 +155,24 @@
       "simultaneous": "Everyone plays at once",
       "rotation": "Take turns",
       "league": "Team league"
+    },
+    "customerType": {
+      "solo_game": "Game-focused solo",
+      "solo_talk": "Chat-focused solo",
+      "crew": "Collab crew",
+      "solo_undecided": "Solo (style undecided)",
+      "insufficient": "Not enough data"
+    },
+    "platform": {
+      "soop": "SOOP",
+      "chzzk": "CHZZK",
+      "youtube": "YouTube",
+      "other": "Other"
+    },
+    "experience": {
+      "under_6m": "Under 6 months",
+      "6m_2y": "6 months–2 years",
+      "over_2y": "Over 2 years"
     }
   },
   "format": {
@@ -471,8 +489,8 @@
       "ai_failed": "We couldn't generate AI picks, so here are basic picks instead. Nothing was counted. Try again in a moment.",
       "quota": "You've used all free AI recommendations this month{date}. Meanwhile, here are basic picks.",
       "quotaDate": " — they refill on {date}",
-        "guest_quota": "You've used today's recommendations. Come back tomorrow or log in. Meanwhile, here are the basic picks.",
-    "cost_cap": "AI recommendations are taking a break today because of high demand. Here are basic picks; nothing was counted.",
+      "guest_quota": "You've used today's recommendations. Come back tomorrow or log in. Meanwhile, here are the basic picks.",
+      "cost_cap": "AI recommendations are taking a break today because of high demand. Here are basic picks; nothing was counted.",
       "rate_limit": "Too many requests in a short time. Try again in about a minute. Here are basic picks."
     },
     "pick": {
@@ -488,6 +506,23 @@
       "needsPurchase": "Some members don't own this game — purchase needed",
       "allOwn": "All members own it",
       "noParticipation": "Runs without viewer participation"
+    },
+    "customer": {
+      "question": "How do you usually stream?",
+      "choice": {
+        "solo_game": "Solo, mostly gameplay",
+        "solo_talk": "Solo, mostly chatting with viewers",
+        "crew": "Collabs with others"
+      },
+      "hint": "You can skip this. You can change it anytime.",
+      "later": "Maybe later",
+      "compact": "You haven't picked how you stream yet.",
+      "choose": "Choose",
+      "more": "Tell us your platform and experience (optional)",
+      "platforms": "Where you mainly stream (pick any)",
+      "experience": "Streaming experience",
+      "saved": "Saved.",
+      "saveError": "Couldn't save. You can still get recommendations."
     }
   },
   "report": {

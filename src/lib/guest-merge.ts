@@ -26,6 +26,10 @@ export async function mergeGuestInto(guestId: string, userId: string): Promise<v
     const existing = await admin.from("streamer_profiles").select("user_id").eq("user_id", userId).maybeSingle();
     if (!existing.data) await admin.from("streamer_profiles").update({ user_id: userId }).eq("user_id", guestId);
     await admin.from("saved_recommendations").update({ user_id: userId }).eq("user_id", guestId);
+    // 고객 유형 기록: 계정에 아직 없으면 게스트의 것을 넘기고, 행동 기록은 모두 계정으로 옮긴다(집계 숫자는 다음 계산에서 다시 맞춘다)
+    const cp = await admin.from("customer_profiles").select("user_id").eq("user_id", userId).maybeSingle();
+    if (!cp.data) await admin.from("customer_profiles").update({ user_id: userId, is_guest: false }).eq("user_id", guestId);
+    await admin.from("user_events").update({ user_id: userId }).eq("user_id", guestId);
     await admin.auth.admin.deleteUser(guestId); // 남은 기록(이용 횟수 등)은 on delete cascade로 함께 지워진다
   } catch (e) {
     console.error("[guest] 게스트 데이터 이전 실패", e instanceof Error ? e.message : e);

@@ -427,3 +427,10 @@ a.ow-flow-link:hover { background: var(--surface-2); }
 .ow-guest-banner-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-3); padding-block: var(--space-2); }
 .ow-guest-banner p { margin: 0; }
 .ow-guest-banner-actions { display: flex; gap: var(--space-2); }
+
+/* 고객 유형 질문·배지 */
+.ow-ctype-compact { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.ow-ctype .ow-details { margin-top: var(--space-3); }
+.ow-ctype-solo_game { color: var(--appeal-visual); }
+.ow-ctype-solo_talk { color: var(--appeal-audio); }
+.ow-ctype-crew { color: var(--appeal-av); }

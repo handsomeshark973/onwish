@@ -13,6 +13,7 @@ import { useReady } from "@/lib/use-ready";
 import type { ProfileInput } from "@/lib/recommend/schema";
 import type { RecommendNotice, RecommendResult } from "@/lib/recommend/types";
 import { DEVICES, TAXONOMY_KEYS, type Device, type PlayerTier } from "@/types/taxonomy";
+import { CustomerTypeQuestion, type CustomerInit } from "./CustomerTypeQuestion";
 import { PickCard } from "./PickCard";
 
 type Member = { name: string; note: string; devices: Device[]; ownedGameIds: string[] };
@@ -33,7 +34,7 @@ function Single({ label, options, value, onChange }: { label: string; options: {
   );
 }
 
-export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { games: { id: string; name: string }[]; initial: Partial<ProfileInput> | null; quota: Quota; aiOn: boolean }) {
+export function RecommendForm({ games, initial, quota: initialQuota, aiOn, customer }: { games: { id: string; name: string }[]; initial: Partial<ProfileInput> | null; quota: Quota; aiOn: boolean; customer: CustomerInit }) {
   const t = useTranslations("recommend");
   const common = useTranslations("common");
   const te = useTranslations("recoErrors");
@@ -133,6 +134,7 @@ export function RecommendForm({ games, initial, quota: initialQuota, aiOn }: { g
     <div className="ow-reco-layout">
       <form className="ow-form" method="post" onSubmit={submit}>
         {aiOn && quota && <p className="ow-note">{t(quota.period === "day" ? "quotaDay" : "quota", { n: quota.remaining, limit: quota.limit, date: resetDate(quota.nextReset) })}</p>}
+        <CustomerTypeQuestion initial={customer} />
         <Tabs label={t("formTab")} value={tier} onChange={(v) => setTier(v as PlayerTier)} tabs={TAXONOMY_KEYS.tier.map((v) => ({ value: v, label: l.tier[v] }))}>
           <div className="ow-form">
             <fieldset className="ow-field">

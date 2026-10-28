@@ -3,6 +3,8 @@ import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import type { CustomerType, Experience, Platform } from "@/config/customerTypes";
+import type { CustomerInit } from "@/components/recommend/CustomerTypeQuestion";
 import { RecommendForm } from "@/components/recommend/RecommendForm";
 import { aiEnabled } from "@/config/ai";
 import { routing } from "@/i18n/routing";
@@ -18,20 +20,30 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/recommen
   return { title: t("title") };
 }
 
+// 본인이 고른 값만 폼에 채운다(행동으로 추정한 유형은 "내 선택"이 아니므로 비워 둔다)
+function customerInit(r: { customer_type: string | null; platforms: string[] | null; streaming_experience: string | null; type_source: string | null } | null): CustomerInit {
+  return {
+    customerType: r?.type_source === "self" ? (r.customer_type as CustomerType) : null,
+    platforms: (r?.platforms ?? []) as Platform[],
+    experience: (r?.streaming_experience ?? null) as Experience | null,
+  };
+}
+
 async function Recommend({ locale }: { locale: string }) {
   const user = await getUser();
   // 세션이 없는 방문자도 폼을 바로 쓴다. 게스트 세션은 추천을 받는 순간 서버 동작이 만든다(페이지를 열기만 해서는 만들지 않는다).
   if (!user) {
     const games = await getGames(locale);
-    return <RecommendForm games={games.map((g) => ({ id: g.id, name: g.name }))} initial={null} quota={null} aiOn={aiEnabled()} />;
+    return <RecommendForm games={games.map((g) => ({ id: g.id, name: g.name }))} initial={null} quota={null} aiOn={aiEnabled()} customer={{ customerType: null, platforms: [], experience: null }} />;
   }
   const supabase = await createClient();
-  const [games, row, quota] = await Promise.all([
+  const [games, row, cust, quota] = await Promise.all([
     getGames(locale),
     supabase.from("streamer_profiles").select("*").eq("user_id", user.id).maybeSingle(),
+    supabase.from("customer_profiles").select("customer_type, platforms, streaming_experience, type_source").eq("user_id", user.id).maybeSingle(),
     aiEnabled() ? getQuotaFor(user.id, user.is_anonymous === true) : Promise.resolve(null),
   ]);
-  return <RecommendForm games={games.map((g) => ({ id: g.id, name: g.name }))} initial={row.data ? fromRow(row.data) : null} quota={quota} aiOn={aiEnabled()} />;
+  return <RecommendForm games={games.map((g) => ({ id: g.id, name: g.name }))} initial={row.data ? fromRow(row.data) : null} quota={quota} aiOn={aiEnabled()} customer={customerInit(cust.data)} />;
 }
 
 export default async function RecommendPage({ params }: PageProps<"/[locale]/recommend">) {

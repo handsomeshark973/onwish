@@ -35,7 +35,7 @@ export default async function DevRecommend({ params }: PageProps<"/[locale]/dev/
         {picks.map((p, i) => <PickCard key={i} pick={p} profile={profile} source="rule" />)}
       </div>
       <h2 className="ow-h2">입력 폼</h2>
-      <RecommendForm games={SAMPLE_GAMES.map((g) => ({ id: g.id, name: g.name }))} initial={null} quota={{ used: 2, remaining: 3, limit: 5, nextReset: "2026-10-31T15:00:00+00:00" }} aiOn />
+      <RecommendForm games={SAMPLE_GAMES.map((g) => ({ id: g.id, name: g.name }))} initial={null} quota={{ used: 2, remaining: 3, limit: 5, nextReset: "2026-10-31T15:00:00+00:00" }} aiOn customer={{ customerType: null, platforms: [], experience: null }} />
     </>
   );
 }

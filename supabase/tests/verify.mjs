@@ -15,13 +15,13 @@ grant usage on schema auth to anon, authenticated, service_role;
 grant usage on schema public to anon, authenticated, service_role;
 insert into auth.users values ('${A}'), ('${B}');
 `);
-for (const f of ['0001_schema.sql','0002_security.sql','0003_functions.sql','0004_ai_request_result.sql','0005_translations_and_rate_limit.sql','0006_game_videos.sql','0007_heat_stage_rename.sql','0008_device_xbox.sql','0009_guest_mode.sql','0010_guest_reports_policy.sql']) await db.exec(readFileSync(P+'/migrations/'+f,'utf8'));
+for (const f of ['0001_schema.sql','0002_security.sql','0003_functions.sql','0004_ai_request_result.sql','0005_translations_and_rate_limit.sql','0006_game_videos.sql','0007_heat_stage_rename.sql','0008_device_xbox.sql','0009_guest_mode.sql','0010_guest_reports_policy.sql','0011_customer_profiles.sql']) await db.exec(readFileSync(P+'/migrations/'+f,'utf8'));
 await db.exec(readFileSync(P+'/seed.sql','utf8'));
 await db.exec(`grant select, insert, update, delete on all tables in schema public to anon, authenticated, service_role;
 grant execute on all functions in schema public to anon, authenticated;`);
 // 위 grant가 execute를 열어 버리므로 0003의 revoke를 다시 적용해 실제 배포 상태와 같게 만든다
-await db.exec(`revoke all on function get_ai_quota(uuid,int), charge_ai_quota(uuid,uuid,int,int), add_ai_cost(numeric), purge_expired_guests() from public, anon, authenticated;
-grant execute on function get_ai_quota(uuid,int), charge_ai_quota(uuid,uuid,int,int), add_ai_cost(numeric), purge_expired_guests() to service_role;`);
+await db.exec(`revoke all on function get_ai_quota(uuid,int), charge_ai_quota(uuid,uuid,int,int), add_ai_cost(numeric), purge_expired_guests(), customer_touch(uuid,boolean,int,int) from public, anon, authenticated;
+grant execute on function get_ai_quota(uuid,int), charge_ai_quota(uuid,uuid,int,int), add_ai_cost(numeric), purge_expired_guests(), customer_touch(uuid,boolean,int,int) to service_role;`);
 let fails = 0;
 const ok = (name, cond, extra='') => { console.log((cond?'PASS':'FAIL')+' '+name+(extra?' '+extra:'')); if(!cond) fails++; };
 const as = async (role, uid, sql) => { await db.exec(`set role ${role}; select set_config('request.jwt.claim.sub','${uid??''}',false);`); try { return await db.query(sql); } finally { await db.exec('reset role'); } };
@@ -151,4 +151,21 @@ await db.exec(`insert into auth.users (id, is_anonymous) values ('${'00000000-00
 await db.exec("set role authenticated; select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-0000000000d1',false); select set_config('request.jwt.claims','{\"is_anonymous\":true}',false);");
 let blocked = false; try { await db.query("insert into error_reports (reporter_id, target_type, message) values ('00000000-0000-0000-0000-0000000000d1','content','x')"); } catch { blocked = true; } await db.exec('reset role');
 ok('게스트는 오류 신고를 DB에 직접 넣을 수 없다(0010)', blocked);
+// 13. 고객 유형(0011): 본인 것만 읽기, 쓰기는 서버만, 이벤트는 관리자만, 게스트 삭제 시 함께 삭제, 유형·출처 일관성
+const C1='00000000-0000-0000-0000-0000000000e1', C2='00000000-0000-0000-0000-0000000000e2';
+await db.exec(`insert into auth.users (id, is_anonymous) values ('${C1}', true), ('${C2}', false)`);
+await db.exec(`select customer_touch('${C1}', true, 1, 0); select customer_touch('${C1}', true, 1, 1); select customer_touch('${C2}', false, 0, 0);
+insert into user_events (user_id, type, payload) values ('${C1}', 'recommend_requested', '{"tier":"solo"}');`);
+r = await db.query(`select recommend_count rc, saved_count sc from customer_profiles where user_id='${C1}'`);
+ok('customer_touch: 추천·저장 수 누적', r.rows[0].rc===2 && r.rows[0].sc===1, JSON.stringify(r.rows[0]));
+r = await as('authenticated', C2, 'select count(*)::int n from customer_profiles'); ok('일반 사용자는 본인 고객 정보만 읽는다', r.rows[0].n===1);
+r = await as('authenticated', C2, 'select count(*)::int n from user_events'); ok('일반 사용자는 이벤트를 읽지 못한다', r.rows[0].n===0);
+ok('일반 사용자는 고객 정보를 직접 고칠 수 없다', (await as('authenticated', C2, "update customer_profiles set customer_type='crew', type_source='self' where user_id='"+C2+"' returning 1")).rows.length===0);
+ok('일반 사용자는 이벤트를 직접 넣을 수 없다', typeof await rejects('authenticated', C2, "insert into user_events (user_id, type) values ('"+C2+"','game_viewed')") === 'string');
+ok('일반 사용자는 customer_touch 실행 불가', typeof await rejects('authenticated', C2, "select customer_touch('"+C2+"', false, 1, 0)") === 'string');
+ok('유형과 판정 방식은 함께 있어야 한다(제약)', await db.exec("update customer_profiles set customer_type='crew' where user_id='"+C2+"'").then(()=>false,()=>true));
+ok('유형이 있으면 solo_inferred는 true일 수 없다(제약)', await db.exec("update customer_profiles set customer_type='crew', type_source='self', solo_inferred=true where user_id='"+C2+"'").then(()=>false,()=>true));
+await db.exec("delete from auth.users where id='"+C1+"'");
+r = await db.query(`select (select count(*) from customer_profiles where user_id='${C1}')::int p, (select count(*) from user_events where user_id='${C1}')::int e`);
+ok('게스트 삭제 시 고객 정보·이벤트도 함께 삭제', r.rows[0].p===0 && r.rows[0].e===0);
 console.log(fails? fails+' FAILED':'ALL PASSED'); process.exit(fails?1:0);
