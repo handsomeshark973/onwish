@@ -4,8 +4,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { RecommendForm } from "@/components/recommend/RecommendForm";
-import { ButtonLink } from "@/components/ui/Button";
-import { EmptyState } from "@/components/ui/States";
 import { aiEnabled } from "@/config/ai";
 import { routing } from "@/i18n/routing";
 import { getUser } from "@/lib/auth";
@@ -23,8 +21,10 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/recommen
 async function Recommend({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: "recommend" });
   const user = await getUser();
+  // 세션이 없는 방문자도 폼을 바로 쓴다. 게스트 세션은 추천을 받는 순간 서버 동작이 만든다(페이지를 열기만 해서는 만들지 않는다).
   if (!user) {
-    return <EmptyState title={t("loginTitle")} hint={t("loginHint")} action={<ButtonLink href="/login?next=/recommend">{t("loginCta")}</ButtonLink>} />;
+    const games = await getGames(locale);
+    return <RecommendForm games={games.map((g) => ({ id: g.id, name: g.name }))} initial={null} quota={null} aiOn={aiEnabled()} />;
   }
   const supabase = await createClient();
   const [games, row, quota] = await Promise.all([

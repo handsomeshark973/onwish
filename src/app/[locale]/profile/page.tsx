@@ -28,7 +28,7 @@ async function Profile({ locale, searchParams }: { locale: string; searchParams:
   const sp = await searchParams;
   const user = await getUser();
   if (!user) {
-    return <EmptyState title={t("loginTitle")} hint={t("loginHint")} action={<ButtonLink href="/login?next=/profile">{(await getTranslations({ locale, namespace: "nav" }))("login")}</ButtonLink>} />;
+    return <EmptyState title={t("guestEmptyTitle")} hint={t("guestEmptyHint")} action={<ButtonLink href="/recommend">{t("getReco")}</ButtonLink>} />;
   }
 
   const supabase = await createClient();

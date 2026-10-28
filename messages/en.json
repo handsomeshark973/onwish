@@ -581,6 +581,8 @@
     "title": "Streamer profile",
     "loginTitle": "Log in to see your profile and saved picks",
     "loginHint": "Only you can see your profile and saved picks.",
+    "guestEmptyTitle": "Nothing saved yet",
+    "guestEmptyHint": "Get a recommendation and your answers and saved picks will show up here. No login needed to start.",
     "quota": "You have {n} free AI recommendations left this month ({used}/{limit} used). Resets on {date}.",
     "saved": "Saved profile",
     "mode": "Stream type",
